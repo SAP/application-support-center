@@ -1,0 +1,338 @@
+<mvc:View displayBlock="true" controllerName="asc.admin.controller.app.EditApp" height="100%" 
+	xmlns="sap.uxap" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns:m="sap.m" 
+	xmlns:f="sap.f" 
+	xmlns:l="sap.ui.layout" 
+	xmlns:core="sap.ui.core" 
+	xmlns:u="sap.ui.unified"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:c="sap.suite.ui.microchart">
+
+	<ObjectPageLayout id="idObjectPageLayout" showTitleInHeaderContent="false" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="false" isChildPage="false" upperCaseAnchorBar="false" showAnchorBar="false" showFooter="true">
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle>
+				<expandedHeading>
+					<m:Title text="{apps>app_name}" wrapping="true" class="sapUiSmallMarginEnd"/>
+				</expandedHeading>
+
+				<expandedContent>
+					<m:Label text="ID {apps>app_id}"/>
+				</expandedContent>
+
+				<snappedHeading>
+					<m:FlexBox wrap="Wrap" fitContainer="true" justifyContent="Center" alignContent="Center" alignItems="Center" class="sapUiTinyMarginEnd">
+						<f:Avatar id="idAvatarAppIconSmall" displaySize="S" displayShape="Square" class="sapUiSmallMarginEnd"/>
+						<m:Title text="{apps>app_name}" wrapping="true" class="sapUiTinyMarginEnd"/>
+					</m:FlexBox>
+				</snappedHeading>
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+
+		<headerContent>
+			<m:FlexBox justifyContent="SpaceBetween">
+				<m:VBox justifyContent="Start" class="sapUiNoneMargin">
+					<f:Avatar id="idAvatarAppIconBig" press="onAvatarAppIconPress" displaySize="L" displayShape="Square" class="sapUiNoMarginBegin sapUiMediumMarginTop sapUiMediumMarginEnd sapUiNoneMarginBottom" />
+					<m:Link text="Upload from file" press="onAvatarAppIconPress" />
+					<m:Link text="Sync with Jamf" press="onAvatarJamfSyncPress" visible="{= ${apps>bundle_id} !== '' }" />
+					<u:FileUploader id="idFileUploaderAppIcon" change="onAppIconSelect" buttonOnly="true" buttonText=" " sameFilenameAllowed="true" fileType="png" visible="true" enabled="true" class="asc_hide_upload" />
+				</m:VBox>
+				<m:VBox justifyContent="Start" class="sapUiMediumMargin">
+					<m:ObjectStatus title="Technology"/>
+					<m:HBox>
+						<m:Image src="./resources/images/{= ${apps>technology}  === 'iOS' ? 'apple_icon.png' : 'android_icon.png' }" densityAware="true" width="30px" class="sapUiTinyMarginTopBottom sapUiNoMarginBegin sapUiTinyMarginEnd" />
+						<m:Text class="sapUiTinyMarginTop sapUiTinyMarginLeft adminHeaderText" text="{apps>technology}"/>
+					</m:HBox>
+				</m:VBox>
+				<m:VBox justifyContent="Start" class="sapUiMediumMargin">
+					<m:ObjectStatus title="Status"/>
+					<m:ObjectStatus text="{apps>status}" state="{= ${apps>status}  === 'Active' ? 'Success' : 'Error' }" class="sapUiTinyMarginTop adminHeaderText" />
+				</m:VBox>
+				<m:VBox justifyContent="Start" class="sapUiMediumMargin">
+					<m:ObjectStatus title="Category"/>
+					<m:Text class="sapUiTinyMarginTop adminHeaderText" text="{apps>category}" />
+				</m:VBox>
+				<m:VBox justifyContent="Start" class="sapUiMediumMargin" visible="{= ${apps>usage_tracking_id} !== null }">
+					<m:ObjectStatus title="App Usage"/>
+					<c:ComparisonMicroChart id="idChartAppUsage" size="S" press="press" class="sapUiSmallMarginTop" data="{path: 'app_usage>/'}" colorPalette="sapUiChartPaletteQualitativeHue1, sapUiChartPaletteQualitativeHue2, sapUiChartPaletteQualitativeHue3">
+						<c:data>
+							<c:ComparisonMicroChartData	title="{ path: 'app_usage>moment', formatter: '.formatter.momentDateMonthName' }" value="{app_usage>usages}" />
+						</c:data>
+					</c:ComparisonMicroChart>
+				</m:VBox>
+				<m:VBox justifyContent="Start" class="sapUiMediumMargin" visible="{= ${apps>usage_tracking_id} !== null }">
+					<m:ObjectStatus title="Active Devices"/>
+					<c:ComparisonMicroChart id="idChartAppDevices" size="S" press="press" class="sapUiSmallMarginTop" data="{path: 'app_usage>/'}" colorPalette="sapUiChartPaletteQualitativeHue1, sapUiChartPaletteQualitativeHue2, sapUiChartPaletteQualitativeHue3">
+						<c:data>
+							<c:ComparisonMicroChartData	title="{ path: 'app_usage>moment', formatter: '.formatter.momentDateMonthName' }" value="{app_usage>activeDevices}" />
+						</c:data>
+					</c:ComparisonMicroChart>
+				</m:VBox>
+			</m:FlexBox>
+		</headerContent>
+
+		<sections>
+			<ObjectPageSection title="General Information" titleUppercase="false">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<form:SimpleForm id="idFormEditApp" editable="true" layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2">
+								<form:content>
+									<core:Title text="Header Details" />									
+									<m:Label text="App Name" />
+									<m:Input id="idInputAppName" value="{apps>app_name}" valueStateText="Name must not be empty. Maximum 10 characters." required="true" liveChange="validateControl" />
+
+									<m:Label text="Status" labelFor="status"/>
+									<m:Select id="idSelectStatus" selectedKey="{apps>status}" items="{
+													path: 'options>/app_status',
+													sorter: { path: 'value' }
+												}">
+										<core:Item key="{options>key}" text="{options>value}" />
+									</m:Select>
+
+									<m:Label text="Technology" labelFor="technology"/>
+									<m:Select id="idSelectTechnology" selectedKey="{apps>technology}" items="{
+													path: 'options>/app_technology',
+													sorter: { path: 'value' }
+												}">
+										<core:Item key="{options>key}" text="{options>value}" />
+									</m:Select>
+
+									<m:Label text="Category" labelFor="category"/>
+									<m:Select id="idSelectCategory" selectedKey="{apps>category}" items="{
+													path: 'options>/app_category',
+													sorter: { path: 'value' }
+												}">
+										<core:Item key="{options>key}" text="{options>value}" />
+									</m:Select>
+
+									<m:Label text="Bundle ID" labelFor="bundle_id"/>
+									<m:Input id="idInputBundleId" value="{apps>bundle_id}" />
+
+									<m:Label text="Git URL" labelFor="git_url"/>
+									<m:Input id="idInputGitURL" value="{apps>git_url}" />
+
+									<core:Title text="Operation Details" />
+									<m:Label text="Go Live Date" labelFor="go_live"/>
+									<m:DatePicker id="idDatePickerGoLive" value="{apps>go_live}" displayFormat="MM/dd/yyyy" valueFormat="MM/dd/yyyy" />
+
+									<m:Label text="Retired Date" labelFor="retired"/>
+									<m:DatePicker id="idDatePickerRetired" value="{apps>retired}" displayFormat="MM/dd/yyyy" valueFormat="MM/dd/yyyy" />
+
+									<!-- SAP Specific Code -->
+									<m:Label text="Usage Tracking ID" labelFor="usage_tracking_id"/>
+									<m:Input id="idInputUsageTracking" value="{apps>usage_tracking_id}" liveChange="validateControl" />
+
+									<m:Label text="Feedback Service ID" labelFor="feedback_service_id"/>
+									<m:Input id="idInputFeedbackServiceId" value="{apps>feedback_service_id}" />
+									<!-- SAP Specific Code -->
+
+									<m:Label text="Comments" labelFor="notes"/>
+									<m:TextArea id="idTextNotes" value="{apps>notes}" rows="4" />
+								</form:content>
+							</form:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+
+					<ObjectPageSubSection>
+						<l:VerticalLayout class="">
+							<m:OverflowToolbar>
+								<m:Label text="Contacts" class="sapUxAPObjectPageSectionTitle"/>
+								<m:ToolbarSpacer/>
+								<m:Button id="idButtonAddContact" text="Add Contact" type="Transparent" press="onAddContactPress"/>
+								<m:Button id="idButtonRemoveContact" text="Remove" type="Transparent" press="onRemoveContactPress" visible="{=${app_contacts>/}.length > 0}"/>
+							</m:OverflowToolbar>
+							<m:Table id="idTableContacts" items="{path : 'app_contacts>/'}" mode="MultiSelect" growing="true" growingThreshold="10" growingScrollToLoad="false">
+								<m:columns>
+									<m:Column>
+										<m:Text text="Full Name" />
+									</m:Column>
+									<m:Column>
+										<m:Text text="Role" />
+									</m:Column>
+									<m:Column>
+										<m:Text text="User ID" />
+									</m:Column>
+									<m:Column>
+										<m:Text text="Email" />
+									</m:Column>
+								</m:columns>
+								<m:items>
+									<m:ColumnListItem type="Navigation" press="onEditContactPress">
+										<m:cells>
+											<m:ObjectIdentifier text="{app_contacts>first_name} {app_contacts>last_name}" />
+											<m:ObjectIdentifier text="{app_contacts>role}" />
+											<m:ObjectIdentifier text="{app_contacts>external_id}" />
+											<m:Link text="{app_contacts>email}" target="_blank" href="mailto:{app_contacts>email}"></m:Link>
+										</m:cells>
+									</m:ColumnListItem>
+								</m:items>
+							</m:Table>
+						</l:VerticalLayout>
+					</ObjectPageSubSection>
+
+					<ObjectPageSubSection>
+						<l:VerticalLayout class="">
+							<m:OverflowToolbar>
+								<m:Label text="Keywords" class="sapUxAPObjectPageSectionTitle"/>
+								<m:ToolbarSpacer/>
+								<m:Button id="idButtonAddKeyword" text="Add Keyword" type="Transparent" press="onAddKeywordPress" />
+								<m:Button id="idButtonRemoveKeyword" text="Remove" type="Transparent" press="onRemoveKeywordPress"  visible="{=${app_keywords>/}.length > 0}"/>
+							</m:OverflowToolbar>
+							<m:Table id="idTableKeywords" items="{path : 'app_keywords>/'}" mode="MultiSelect" growing="true" growingThreshold="10" growingScrollToLoad="false">
+								<m:columns>
+									<m:Column>
+										<m:Text text="Keywords" width="150px" />
+									</m:Column>
+									<m:Column>
+										<m:Text text="Description" />
+									</m:Column>
+								</m:columns>
+								<m:items>
+									<m:ColumnListItem type="Navigation" press="onEditKeywordPress">
+										<m:cells>
+											<m:ObjectIdentifier text="{app_keywords>setting_value}" />
+											<m:ObjectIdentifier text="{app_keywords>description}" />
+										</m:cells>
+									</m:ColumnListItem>
+								</m:items>
+							</m:Table>
+						</l:VerticalLayout>
+					</ObjectPageSubSection>
+
+
+					<ObjectPageSubSection>
+						<l:VerticalLayout class="">
+							<m:OverflowToolbar>
+								<m:Label text="Release Notes" class="sapUxAPObjectPageSectionTitle"/>
+								<m:ToolbarSpacer/>
+								<m:Button id="idButtonAddRelease" text="Add Release Note" type="Transparent" press="onAddReleasePress"/>
+								<m:Button id="idButtonRemoveRelease" text="Remove" type="Transparent" press="onRemoveReleasePress" visible="{=${app_releases>/}.length > 0}"/>
+							</m:OverflowToolbar>
+							<m:Table id="idTableReleases" items="{path : 'app_releases>/'}" mode="MultiSelect" growing="true" growingThreshold="10" growingScrollToLoad="false">
+								<m:columns>
+									<m:Column width="150px">
+										<m:Text text="Version" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Release Date" />
+									</m:Column>
+									<m:Column width="200px">
+										<m:Text text="Description" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Visible" />
+									</m:Column>
+								</m:columns>
+								<m:items>
+									<m:ColumnListItem type="Navigation" press="onEditReleasePress">
+										<m:cells>
+											<m:ObjectIdentifier text="{app_releases>version}" />
+											<m:ObjectIdentifier text="{ path: 'app_releases>release_date', formatter: '.formatter.momentShortDate' }" />
+											<m:FormattedText htmlText="{
+												path: 'app_releases>description',
+												formatter: '.formatter.stripAndTruncateHTML'
+											}" />
+											<m:ObjectIdentifier text="{= ${app_releases>visible} === true ? 'Yes' : 'No' }" />
+										</m:cells>
+									</m:ColumnListItem>
+								</m:items>
+							</m:Table>
+						</l:VerticalLayout>
+					</ObjectPageSubSection>
+
+
+
+
+					<ObjectPageSubSection>
+						<l:VerticalLayout class="">
+							<m:OverflowToolbar>
+								<m:Label text="Help" class="sapUxAPObjectPageSectionTitle"/>
+								<m:ToolbarSpacer/>
+								<m:Button id="idButtonAddHelp" text="Add Help" type="Transparent" press="onAddHelpPress"/>
+								<m:Button id="idButtonRemoveHelp" text="Remove" type="Transparent" press="onRemoveHelpPress" visible="{=${app_help>/}.length > 0}"/>
+							</m:OverflowToolbar>
+							<m:Table id="idTableHelp" items="{path : 'app_help>/'}" mode="MultiSelect" growing="true" growingThreshold="10" growingScrollToLoad="false">
+								<m:columns>
+									<m:Column width="150px">
+										<m:Text text="Title" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Sort Order" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Visible" />
+									</m:Column>
+								</m:columns>
+								<m:items>
+									<m:ColumnListItem type="Navigation" press="onEditHelpPress">
+										<m:cells>
+											<m:ObjectIdentifier text="{app_help>title}" />
+											<m:ObjectIdentifier text="{app_help>sort_order}" />
+											<m:ObjectIdentifier text="{= ${app_help>visible} === true ? 'Yes' : 'No' }" />
+										</m:cells>
+									</m:ColumnListItem>
+								</m:items>
+							</m:Table>
+						</l:VerticalLayout>
+					</ObjectPageSubSection>
+
+
+					<ObjectPageSubSection>
+						<l:VerticalLayout class="">
+							<m:OverflowToolbar>
+								<m:Label text="Announcements" class="sapUxAPObjectPageSectionTitle"/>
+								<m:ToolbarSpacer/>
+								<m:Button id="idButtonAddAnnouncement" text="Add Announcement" type="Transparent" press="onAddAnnouncementPress"/>
+								<m:Button id="idButtonRemoveAnnoucement" text="Remove" type="Transparent" press="onRemoveAnnouncementPress" visible="{=${app_announcements>/}.length > 0}"/>
+							</m:OverflowToolbar>
+							<m:Table id="idTableAnnouncements" items="{path : 'app_announcements>/'}" mode="MultiSelect" growing="true" growingThreshold="10" growingScrollToLoad="false">
+								<m:columns>
+									<m:Column width="150px">
+										<m:Text text="Title" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Sort Order" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Visible" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Created On" />
+									</m:Column>
+								</m:columns>
+								<m:items>
+									<m:ColumnListItem type="Navigation" press="onEditAnnouncementPress">
+										<m:cells>
+											<m:ObjectIdentifier text="{app_announcements>title}" />
+											<m:ObjectIdentifier text="{app_announcements>sort_order}" />
+											<m:ObjectIdentifier text="{= ${app_announcements>visible} === true ? 'Yes' : 'No' }" />
+											<m:ObjectIdentifier text="{ path: 'app_announcements>created', formatter: '.formatter.momentShortDate' }" />
+										</m:cells>
+									</m:ColumnListItem>
+								</m:items>
+							</m:Table>
+						</l:VerticalLayout>
+					</ObjectPageSubSection>
+
+
+				</subSections>
+			</ObjectPageSection>
+
+		</sections>
+		<footer>
+			<m:OverflowToolbar>
+				<m:ToolbarSpacer/>
+				<m:Button id="idButtonSave" type="Emphasized" press="onValidate" text="Save" enabled="true" />
+				<m:Button id="idButtonCancel" type="Transparent" press="onCancelPress" text="Cancel" />
+			</m:OverflowToolbar>
+		</footer>
+	</ObjectPageLayout>
+
+
+</mvc:View>
+
+<!--
+
+	
+-->

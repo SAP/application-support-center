@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Integration tests for Application Support Center</title>
+
+	<script id="sap-ui-bootstrap"
+		src="https://sapui5.hana.ondemand.com/1.74.1/resources/sap-ui-core.js"
+		data-sap-ui-async="true"
+		data-sap-ui-resourceroots='{
+			"asc.admin": "../../"
+		}'>
+	</script>
+		
+		<script src="opaTests.qunit.js"></script>
+		
+		<script>
+			jQuery.sap.require("sap.ui.qunit.qunit-2-css");
+			jQuery.sap.require("sap.ui.thirdparty.qunit-2");
+			jQuery.sap.require("sap.ui.qunit.qunit-junit");
+			jQuery.sap.require("sap.ui.qunit.qunit-coverage");
+	</script>
+
+</head>
+<body>
+	<div id="qunit"></div>
+	<div id="qunit-fixture"></div>
+</body>
+</html>

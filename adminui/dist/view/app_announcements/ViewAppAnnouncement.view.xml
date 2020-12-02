@@ -1,0 +1,48 @@
+<mvc:View displayBlock="true" controllerName="asc.admin.controller.app_announcements.ViewAppAnnouncement" height="100%" 
+	xmlns="sap.uxap" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns:m="sap.m" 
+	xmlns:f="sap.f" 
+	xmlns:l="sap.ui.layout" 
+	xmlns:core="sap.ui.core" 
+	xmlns:form="sap.ui.layout.form">
+
+	<f:DynamicPage toggleHeaderOnTitleClick="false">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
+						<m:Title id="idTitle" text="Announcement Page" wrapping="true" class="sapUiTinyMarginEnd"/>
+					</m:FlexBox>
+				</f:heading>
+
+				<f:navigationActions>
+					<m:OverflowToolbarButton id="idButtonOpenFullScreen" type="Transparent" icon="sap-icon://full-screen" press="onFullScreenPress" tooltip="Enter Full Screen Mode" visible="{= ${layout>/layout} !== 'EndColumnFullScreen' }"/>
+					<m:OverflowToolbarButton id="idButtonCloseFullScreen" type="Transparent" icon="sap-icon://exit-full-screen" press="onExitFullScreenPress" tooltip="Exit Full Screen Mode" visible="{= ${layout>/layout} === 'EndColumnFullScreen' }"/>
+					<m:OverflowToolbarButton id="idButtonClose" type="Transparent" icon="sap-icon://decline" press="onClosePress" tooltip="Close column" visible="{= ${layout>/layout} !== 'EndColumnFullScreen'}"/>
+				</f:navigationActions>
+
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<l:VerticalLayout id="idVerticalLayout" class="" width="100%">
+				<form:SimpleForm id="idFormViewAnnouncement" editable="true" layout="ColumnLayout" columnsM="1" columnsL="1" columnsXL="1">
+									<form:content>
+										<m:Label text="Visible" />
+										<m:Text text="{= ${app_announcements>visible} === true ? 'Yes' : 'No' }"/>
+										
+										<m:Label text="Title" />
+										<m:Text id="idTextTitle" text="{app_announcements>title}" />
+
+										<m:Label text="Sort Order" />
+										<m:Text id="idTextSortOrder" text="{app_announcements>sort_order}" />
+
+										<m:Label text="Description" />
+									</form:content>
+								</form:SimpleForm>
+								<m:Label text="Description:" class="formattedTextPadding" />
+								<m:FormattedText htmlText="{app_announcements>description}"  class="formattedTextPadding" />
+			</l:VerticalLayout>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>

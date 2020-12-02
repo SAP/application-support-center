@@ -1,0 +1,59 @@
+<mvc:View displayBlock="true" controllerName="asc.admin.controller.app.AppList" height="100%" 
+	xmlns="sap.uxap" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns:m="sap.m" 
+	>
+
+	<m:Page
+		title="Applications"
+		floatingFooter="true"
+		showFooter="{= ${user>/role} === 'admin'}">
+			<m:Table id="idTableApps" inset="false" items="{
+						path: 'apps>/',
+						sorter: {
+							path: 'app_name'
+						}
+					}" class="sapFDynamicPageAlignContent" width="auto">
+				<m:headerToolbar>
+					<m:Toolbar>
+						<m:SearchField search="onSearch" id="idSearchField" />
+						<m:OverflowToolbarButton icon="sap-icon://filter" type="Transparent" press="onFilterPress"/>
+					</m:Toolbar>
+				</m:headerToolbar>
+				<m:infoToolbar>
+					<m:OverflowToolbar id="idFilterBar" visible="{= ${apps>status} === 'Retired'}">
+						<m:Text id="idFilterLabel" />
+						<m:ToolbarSpacer/>
+						<m:Button icon="sap-icon://sys-cancel" type="Transparent" press="onClearFilters" />
+					</m:OverflowToolbar>
+				</m:infoToolbar>
+				<m:columns>
+					<m:Column width="14em" />
+					<m:Column hAlign="End" />
+				</m:columns>
+				<m:items>
+					<m:ColumnListItem type="Navigation" press="onListItemPress">
+						<m:cells>
+							<m:VBox>
+								<m:ObjectIdentifier title="{apps>app_name}" class="sapUiTinyMargin" />
+								<m:ObjectStatus text="{apps>technology}" class="sapUiTinyMargin" />
+							</m:VBox>
+							<m:VBox>
+								<m:ObjectStatus text="{apps>status}" class="sapUiTinyMargin" state="Error" visible="{= ${apps>status} === 'Retired' || ${apps>status} === 'Inactive' }" />
+							</m:VBox>
+						</m:cells>
+					</m:ColumnListItem>
+				</m:items>
+			</m:Table>
+		
+
+		<!-- DynamicPage Footer -->
+		<m:footer>
+			<m:OverflowToolbar>
+				<m:Button id="idButtonManageContacts" text="Manage Contacts" type="Transparent" press="onManageContactPress" />
+				<m:ToolbarSpacer/>
+				<m:Button id="idButtonAddNewApplication" text="Add New Application" type="Transparent" press="onAddAppPress" />
+			</m:OverflowToolbar>
+		</m:footer>
+	</m:Page>
+</mvc:View>

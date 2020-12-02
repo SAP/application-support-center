@@ -1,0 +1,1443 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Application Service Center API
+  description: Application Service Center API
+  externalDocs:
+    description: Find out more
+    url: https://github.wdf.sap.corp/ApplicationServices/admin_v2
+servers:
+  - url: /api/v1
+paths:
+  # User
+  /users/me:
+    get:
+      summary: Get the logged in user and associated role assigned
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  # Apps
+  /myapps:
+    get:
+      summary: List all apps I am an appOwner or appDeveloper of
+      tags:
+        - Apps
+      responses:
+        '200':
+          description: A array of Apps
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Apps"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /apps:
+    get:
+      summary: List all apps
+      tags:
+        - Apps
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          required: false
+          description: The category of apps to return
+      responses:
+        '200':
+          description: A array of Apps
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Apps"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a App
+      tags:
+        - Apps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/App'
+      responses:
+        '201':
+          description: Standard create response
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /apps/{app_id}:
+    parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: The id of the app to retrieve
+        schema:
+          type: integer
+    get:
+      summary: Info for a specific app
+      tags:
+        - Apps
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/App"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Update a specific app
+      tags:
+        - Apps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/App'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete a specific app
+      tags:
+        - Apps
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  # App Bulk Data
+  /apps/{app_id}/bulkdata:
+    parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: The id of the app
+        schema:
+          type: integer
+    get:
+      summary: All Data Help Release Notes Contacts and Announcements intended for integration scenarios to reduce the amount of API calls
+      tags:
+        - Apps
+      responses:
+        '200':
+          description: An array of the apps relevant data
+          content: 
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  # App Secure Token
+  /apps/{app_id}/token:
+    parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: The id of the app
+        schema:
+          type: integer
+    get:
+      summary: Get the secure token for a specific app
+      tags:
+        - Apps
+      responses:
+        '200':
+          description: The token for a specific app
+          content:
+            application/json:    
+              schema:
+                $ref: "#/definitions/inBody"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+  # App Help
+  /apps/{app_id}/help:
+    parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: The id of the app
+        schema:
+          type: integer
+    get:
+      summary: Get all help for a specific app
+      tags:
+        - App Help
+      responses:
+        '200':
+          description: A array of Help articles for a specific app
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/HelpList"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a help article for a app
+      tags:
+        - App Help
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Help'
+      responses:
+        '201':
+          description: Standard create response
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /apps/{app_id}/help/{help_id}:
+    parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: The id of the app
+        schema:
+          type: integer
+      - name: help_id
+        in: path
+        required: true
+        description: The id of the article to delete
+        schema:
+          type: integer
+    get:
+      summary: Get a specific help article
+      tags:
+        - App Help
+      responses:
+        '200':
+          description: A Help article for a specific app
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/HelpList"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Update a specific help article
+      tags:
+        - App Help
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Help'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete a specific help article
+      tags:
+        - App Help
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+  # App Keywords
+  /apps/{app_id}/keywords:
+      parameters:
+        - name: app_id
+          in: path
+          required: true
+          description: The id of the app
+          schema:
+            type: integer
+      get:
+        summary: Get all keywords for a specific app
+        tags:
+          - App Keywords
+        responses:
+          '200':
+            description: A array of keywords for a specific app
+            content:
+              application/json:    
+                schema:
+                  $ref: "#/components/schemas/KeywordsList"
+          default:
+            description: unexpected error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      post:
+        summary: Create a app keyword
+        tags:
+          - App Keywords
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Keywords'
+        responses:
+          '201':
+            description: Standard create response
+            content:
+              application/json:    
+                schema:
+                  $ref: "#/components/schemas/Standard"
+          default:
+            description: Error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      
+  /apps/{app_id}/keyword/{keyword_id}:
+      parameters:
+        - name: app_id
+          in: path
+          required: true
+          description: The id of the app
+          schema:
+            type: integer
+        - name: keyword_id
+          in: path
+          required: true
+          description: The id of the keyword
+          schema:
+            type: integer
+      put:
+        summary: Update a specific keyword
+        tags:
+          - App Keywords
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Keywords'
+        responses:
+          '200':
+            description: Expected response to a valid request
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Standard"
+          default:
+            description: Error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      delete:
+        summary: Delete a specific keyword
+        tags:
+          - App Keywords
+        responses:
+          '200':
+            description: Expected response to a valid request
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Standard"
+          default:
+            description: Error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+
+
+  # App Announcements
+  /apps/{app_id}/announcements:
+    parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: The id of the app
+        schema:
+          type: integer
+    get:
+      summary: Get all announcements for a specific app
+      tags:
+        - App Announcements
+      responses:
+        '200':
+          description: A array of announcements articles for a specific app
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/AnnouncementsList"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a announcements article for a app
+      tags:
+        - App Announcements
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Announcements'
+      responses:
+        '201':
+          description: Standard create response
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /apps/{app_id}/announcements/{announcement_id}:
+    parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: The id of the app
+        schema:
+          type: integer
+      - name: announcement_id
+        in: path
+        required: true
+        description: The id of the announcements article to delete
+        schema:
+          type: integer
+    get:
+      summary: Get a a specific announcement for a app
+      tags:
+        - App Announcements
+      responses:
+        '200':
+          description: A announcement for a specific app
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/AnnouncementsList"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Update a specific announcements article
+      tags:
+        - App Announcements
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Announcements'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete a specific announcements article
+      tags:
+        - App Announcements
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+  # App Contacts
+  /apps/{app_id}/contacts:
+    parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: The id of the app
+        schema:
+          type: integer
+    get:
+      summary: Get all contacts for a specific app
+      tags:
+        - App Contacts
+      responses:
+        '200':
+          description: A array of contacts for a specific app
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Contacts"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Add a contact to a app
+      tags:
+        - App Contacts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppContact'
+      responses:
+        '201':
+          description: Standard create response
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /apps/{app_id}/contacts/{contact_id}:
+    parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: The id of the app
+        schema:
+          type: integer
+      - name: contact_id
+        in: path
+        required: true
+        description: The id of the contact to remove
+        schema:
+          type: integer
+    delete:
+      summary: Remove a contact from a app
+      tags:
+        - App Contacts
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /download/contacts:
+    parameters:
+      - name: role
+        in: query
+        required: true
+        description: The role of the contacts to download (AppOwner or Developer)
+        schema:
+          type: string
+    get:
+      summary: Get all contacts
+      tags:
+        - App Contacts
+      responses:
+        '200':
+          description: A array of contacts
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Contacts"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /download/app/contacts:
+    get:
+      summary: Get all apps and the associated contacts
+      tags:
+        - App Contacts
+      responses:
+        '200':
+          description: A array of apps
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/App"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  #App Releases
+  /apps/{app_id}/releases:
+    parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: The id of the app
+        schema:
+          type: integer
+    get:
+      summary: Get all releases for a specific app
+      tags:
+        - App Releases
+      responses:
+        '200':
+          description: A array of releases for a specific app
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Releases"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a release for a app
+      tags:
+        - App Releases
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Release'
+      responses:
+        '201':
+          description: Standard create response
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /apps/{app_id}/releases/{release_id}:
+    parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: The id of the app
+        schema:
+          type: integer
+      - name: release_id
+        in: path
+        required: true
+        description: The id of the release to delete
+        schema:
+          type: integer
+    get:
+      summary: Get a specific release for a specific app
+      tags:
+        - App Releases
+      responses:
+        '200':
+          description: A specific release for a specific app
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Release"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Update a specific release
+      tags:
+        - App Releases
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Release'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete a release
+      tags:
+        - App Releases
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+                
+  # Contacts
+  /contacts:
+    get:
+      summary: List all contacts
+      tags:
+        - Contacts
+      responses:
+        '200':
+          description: A array of Contact
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Contacts"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a contact
+      tags:
+        - Contacts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '201':
+          description: Standard create response
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+                
+  /contacts/{contact_id}:
+    parameters:
+      - name: contact_id
+        in: path
+        required: true
+        description: The id of the contact to be updated
+        schema:
+          type: integer
+    put:
+      summary: Update a specific contact
+      tags:
+        - Contacts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete a specific contact
+      tags:
+        - Contacts
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /contacts/{contact_id}/apps:
+    parameters:
+      - name: contact_id
+        in: path
+        required: true
+        description: The id of the contact
+        schema:
+          type: integer
+    get:
+      summary: Get all apps for a specific contact
+      tags:
+        - Contacts
+      responses:
+        '200':
+          description: A array of apps for a specific contact
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Apps"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  # Settings
+  /settings:
+    get:
+      summary: List all app settings
+      tags:
+        - Settings
+      responses:
+        '200':
+          description: A array of settings
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Settings"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /settings/{setting_name}:
+    get:
+      summary: Info for a specific setting
+      tags:
+        - Settings
+      parameters:
+        - name: setting_name
+          in: path
+          required: true
+          description: The name of the setting to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Setting"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+  # User Settings
+  /user_settings:
+    post:
+      summary: Create a user setting
+      tags:
+        - User Settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSetting'
+      responses:
+        '201':
+          description: Standard create response
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /user_settings/{external_id}:
+    get:
+      summary: List all user settings
+      tags:
+        - User Settings
+      parameters:
+        - name: external_id
+          in: path
+          required: true
+          description: The id of the application user
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A array of users settings
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/UserSettings"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /user_settings/{external_id}/{setting_name}:
+    parameters:
+      - name: external_id
+        in: path
+        required: true
+        description: The id of the application user to be updated
+        schema:
+          type: string
+      - name: setting_name
+        in: path
+        required: true
+        description: The setting name to be updated
+        schema:
+          type: string
+    put:
+      summary: Update a specific user setting
+      tags:
+        - User Settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSetting'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete a specific user setting
+      tags:
+        - User Settings
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  # Notifications
+  /notifications:
+    get:
+      summary: List all application notifications
+      tags:
+        - Notifications
+      responses:
+        '200':
+          description: A array of Notifications
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Notifications"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a notification
+      tags:
+        - Notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '201':
+          description: Standard create response
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /notifications/{notification_id}:
+    delete:
+      summary: Delete a specific notification
+      tags:
+        - Notifications
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Standard"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /dashboard:
+    get:
+      summary: Get all relevant stats for dashboard screen
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: A array of datasets
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/App"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+#This will require that all API's use the key
+security:
+  - ApiKeyAuth: []
+
+# Components/Schemas
+components:
+  #API Key Configuration
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: query
+      name: access_token
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+    
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        role:
+          type: string
+        userId:
+          type: string
+
+    App:
+      type: object
+      required:
+        - app_name
+      properties:
+        app_id:
+          type: integer
+          format: int64
+        app_name:
+          type: string
+        category:
+          type: string
+        etag:
+          type: string
+        status:
+          type: string
+        created:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        notes:
+          type: string
+        monitoring_url:
+          type: string
+        go_live:
+          type: string
+          format: date-time
+        retired:
+          type: string
+          format: date-time
+      example:
+        app_name: 'SAP Relay'
+        category: 'iOS'
+        status: 'Active'
+        notes: 'v2 of our popular messaging app'
+        monitoring_url: 'https://'
+        go_live: '2019-01-01 00:00:10'
+    Apps:
+      type: array
+      items:
+        $ref: "#/components/schemas/App"
+
+    AppContact:
+      type: object
+      required:
+        - contact_id
+        - role
+      properties:
+        app_id:
+          type: integer
+          format: int64
+        contact_id:
+          type: integer
+          format: int64
+        role:
+          type: string
+      example:
+        contact_id: 1
+        role: 'App Contact'
+    AppContactList:
+      type: array
+      items:
+        $ref: "#/components/schemas/AppContact"
+        
+    Keywords:
+      type: object
+      required:
+        - keyword
+        - description
+      properties:
+        app_id:
+          type: integer
+          format: int64
+        keyword:
+          type: string
+        description:
+          type: string
+        created:
+          type: string
+          format: date-time
+      example:
+        keyword: 'Jamf Version'
+        description: 'v1.0.3'
+    KeywordsList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Keywords"
+
+    Help:
+      type: object
+      required:
+        - title
+        - description
+      properties:
+        app_id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        created:
+          type: string
+          format: date-time
+      example:
+        title: 'How to create a new direct chat in Relay'
+        description: '1. Click on the New Chat icon\n2. Enter the chat name\n3. Enter a chat description'
+    HelpList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Help"
+
+    Announcements:
+      type: object
+      required:
+        - title
+        - description
+      properties:
+        app_id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        created:
+          type: string
+          format: date-time
+      example:
+        title: Relay will be in maintenance mode on 10th December
+        description: Due to some infrastructure changes, Relay will be unavailable for +- 3 hours on 10th December at 3:00pm CET until 6:00pm CET.
+    AnnouncementsList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Announcements"
+
+    Release:
+      type: object
+      required:
+        - title
+        - description
+      properties:
+        app_id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        created:
+          type: string
+          format: date-time
+      example:
+        title: 'v1.0.2 Released'
+        description: 'We have just released v1.0.2 of SAP Relay.\n This new version includes ....'
+    Releases:
+      type: array
+      items:
+        $ref: "#/components/schemas/Release"
+
+    Contact:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - external_id
+      properties:
+        contact_id:
+          type: integer
+          format: int64
+        first_name:
+          type: string
+        last_name:
+          type: string
+        external_id:
+          type: string
+      example:
+        first_name: 'Mike'
+        last_name: 'Smith'
+        external_id: 'i847772'
+    Contacts:
+      type: array
+      items:
+        $ref: "#/components/schemas/Contact"
+
+    Setting:
+      type: object
+      properties:
+        setting_id:
+          type: integer
+          format: int64
+        setting_name:
+          type: string
+        setting_value:
+          type: string
+    Settings:
+      type: array
+      items:
+        $ref: "#/components/schemas/Setting"
+    
+    UserSetting:
+      type: object
+      properties:
+        external_id:
+          type: string
+        setting_name:
+          type: string
+        setting_value:
+          type: string
+    UserSettings:
+      type: array
+      items:
+        $ref: "#/components/schemas/UserSetting"
+    
+    Notification:
+      type: object
+      required:
+        - notification_date
+        - notification_text        
+      properties:
+        notification_date:
+          type: date-time
+        notification_text:
+          type: string
+    Notifications:
+      type: array
+      items:
+        $ref: "#/components/schemas/Notification"
+
+    #Defaults
+    Standard:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    Error:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: string

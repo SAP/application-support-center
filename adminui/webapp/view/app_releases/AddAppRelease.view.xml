@@ -1,0 +1,47 @@
+<mvc:View displayBlock="true" controllerName="asc.admin.controller.app_releases.AddAppRelease" height="100%" 
+	xmlns="sap.uxap" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns:m="sap.m" 
+	xmlns:f="sap.f" 
+	xmlns:l="sap.ui.layout" 
+	xmlns:core="sap.ui.core" 
+	xmlns:form="sap.ui.layout.form">
+
+	<f:DynamicPage toggleHeaderOnTitleClick="false">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<m:Title id="idTitle" text="New Release Page" wrapping="true" class="sapUiTinyMarginEnd"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<l:VerticalLayout id="idVerticalLayout" class="" width="100%">
+				<form:SimpleForm id="idFormAdd" editable="true" layout="ColumnLayout" columnsM="1" columnsL="1" columnsXL="1">
+					<form:content>
+						<m:Toolbar class="asc_bottom_border">
+							<m:Label text="Details" class="sapUxAPObjectPageSectionTitle"/>
+							<m:ToolbarSpacer/>
+							<m:Button id="idButtonSave" text="Save" type="Emphasized" press="onValidate" />
+							<m:Button id="idButtonCancel" text="Cancel" type="Transparent" press="onCancelPress" />
+						</m:Toolbar>
+
+						<m:Label text="" />
+						<m:CheckBox id="idCheckBoxVisible" text="Visible" selected="{app_release>/visible}"/>
+						<m:Label text="App version" />
+						<m:Input id="idInputAppVersion" value="{app_release>/version}" required="true" liveChange="validateControl" />
+
+						<m:Label text="Release Date" labelFor="releasedate"/>
+						<m:DatePicker id="idDatePicker" value="{app_release>/release_date}" displayFormat="MM/dd/yyyy" required="true" valueFormat="MM/dd/yyyy" />
+
+						<!-- This is here to show that you need to save first before uploading a release -->
+						<m:Label visible="{= ${selected_app>/technology} === 'iOS' }"  text="Jamf File" />
+						<m:Text visible="{= ${selected_app>/technology} === 'iOS' }" text="Please save the release before uploading a IPA"/>
+
+					</form:content>
+				</form:SimpleForm>
+				<m:Label text="Description"  class="formattedTextPadding"/>
+			</l:VerticalLayout>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>

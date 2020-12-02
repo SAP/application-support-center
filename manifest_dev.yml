@@ -1,0 +1,49 @@
+applications:
+- name: asc_adminui
+  path: adminui/dist
+  buildpacks: [staticfile_buildpack]
+  memory: 512M
+  services:
+    - asc_uaa
+
+- name: asc_portalui
+  path: portalui/webapp
+  buildpacks: [staticfile_buildpack]
+  memory: 512M
+  services:
+    - asc_uaa
+
+- name: asc_server
+  path: server
+  buildpacks: [nodejs_buildpack]
+  memory: 1024M
+  services:
+    - asc_uaa
+    - asc_storage
+
+- name: asc_router
+  path: router
+  buildpacks: [nodejs_buildpack]
+  memory: 512M
+  env: 
+    destinations: >
+      [
+        {
+          "name":"asc_apidest",
+          "url":"https://ascserver.cfapps.sap.hana.ondemand.com",
+          "forwardAuthToken": true
+        },
+        {
+          "name":"asc_adminuidest",
+          "url":"https://ascadminui.cfapps.sap.hana.ondemand.com",
+          "forwardAuthToken": true
+        },
+        {
+          "name":"asc_portaluidest",
+          "url":"https://ascportalui.cfapps.sap.hana.ondemand.com",
+          "forwardAuthToken": true
+        }
+      ]
+  services:
+    - asc_uaa
+    - asc_al

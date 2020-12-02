@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Application Support Center</title>
+    <meta name="keywords" content="SAP, application, help, center, in-app, support, help, cms, portal">
+    <link rel="icon" href="img/favicon/favicon.png">
+    <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">
+
+    <link href='https://fonts.googleapis.com/css?family=Raleway:300,400,600,700,900' rel='stylesheet' type='text/css'>
+    <link href="css/icons/elegant.css" rel='stylesheet' type='text/css'>
+    <link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" id="theme-change">
+</head>
+
+
+<body id="body" class="page-loading">
+    <div id="preloader">
+        <div id="loading"></div>
+    </div>
+    <nav id="mainmenu" class="navbar navbar-fixed-top main-menu head-menu auto-height" role="navigation">
+        <div class="container">
+            <div class="logo-cont">
+                <a class="navbar-brand" href="index.html">
+                    <img src="img/asc-logo.png">
+                </a>
+            </div>
+
+            <div class="buttons-cont">
+                <a type="button" class="btn btn-success" href="developers.html">Developers</a>
+                <a type="button" class="btn btn-success" href="appowners.html">App Owners</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="developer">
+        <h2 class="anim-fade-up">
+            Application Owner Guide<br />
+        </h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <img src="img/asc_content.png" height="100%" class="anim-from-right" alt>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="developer-cont bg-grey">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="anim-from-left">Admin console</h3>
+                        <h4>First time user? </h4>
+                        <ul>
+                            <li>TO REQUEST ACCESS email <a
+                                    href="mailto:DL_55A6CA597BCF842464000002@exchange.sap.corp?Subject=ASC%20Permissions%20Needed">DL
+                                    ApplicationServices Admin</a></p></li>
+                        </ul>
+                        <h4 class="anim-from-left">New Application</h4>
+                        <ul>
+                            <li>Open the admin console <a href="../admin/index.html" target="_blank">here</a> and select
+                                    Manage Applications</li>
+                            <li>Click on New Application</li>
+                            <li>Fill in App Name and Save</li>
+                            <li>For adding to Jamf complete the <a
+                                    href="https://jam4.sapjam.com/articles/vZxXYC0tuqVQmAeTn9N8YM?_lightbox=true"
+                                    target=_new>help form.</a>
+                        </ul>
+                        <br />
+                        <h4 class="anim-from-left">Enter Items</h4>
+                        <ul>
+                            <li>Click Edit on your application and add Contacts, Keywords, Releases, Help or
+                                Announcements</li>
+                            <li>To add a new IPA, you need to create a new Release. Once the release is saved you will
+                                be able to upload to Jamf.</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 about-img">
+                        <img src="img/asc-cms.png" class="anim-from-right" alt>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="developer-cont">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Support Center</h3>
+                        <p>If using the iOS feedback service. Feedback is inserted into the backend and can be viewed
+                            and responded to via the <a
+                                href="https://sap-it-cloud-sapitcf-feedback-feedback-approuter.cfapps.eu10.hana.ondemand.com/cp.portal/site">Fiori
+                                Feedback Admin Tool</a>.</p>
+                        <p>If using ASC SDK see below for setting up the link for feedback</p>
+                        <ul>
+                            <li>Click on the edit on your application
+                            <li>Scroll down to the <b>Support and Feedback</b> Section
+                            <li>Select from Feedback dropdown
+                                <ul>
+                                    <li>Email - enter email address - best to use a <a
+                                            href="https://profiles.wdf.sap.corp/" target=_new>DL List</a>
+                                        <p>If using a Distribution List, in your email right click on
+                                            as if viewing the members, then click on the envelope. This will give you
+                                            the real outlook name for your support email.
+                                            It will look something like DL_548F39BCFD84A03077000005@exchange.sap.corp.
+                                        </p>
+                                        <p>Note: If you leave the email blank then the "Send Feedback" link will NOT
+                                            show.</p>
+                                    <li>Ticket Category
+                                        <ul>
+                                            <li>For ITDirect enter something like IMIS_PEQP_MOBIL (category for mobile
+                                                apps)
+                                            <li>For Unified Ticketing enter something like ZINE/SRIS_APPL_ADVICE or
+                                                ZGCR/null.
+                                                <br>You must have a "/" to separate the process type and category.
+                                        </ul>
+                                    <li>Email/Ticket Body - will display body in email or in ticket description<br>
+                                        <ul>
+                                            <li>In an email this is the body of the email
+                                            <li>In a ITDirect or Unified ticket this is the subject and description
+                                        </ul>
+                                </ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript" src="js/jquery_1.11.1.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+
+</html>

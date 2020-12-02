@@ -1,0 +1,18 @@
+.DS_Store
+npm-debug.log
+node_modules
+test_old
+old
+.env
+server/resources/app_icons/*
+server/resources/app_ipas/*
+git_commit.sh
+git_build_push.sh
+notes.md
+.vscode
+
+# editors
+.idea
+*.swp
+*.iml
+

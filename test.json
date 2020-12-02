@@ -1,0 +1,81 @@
+{
+ "VCAP_SERVICES": {
+  "application-logs": [
+   {
+    "binding_name": null,
+    "credentials": {
+     "metrics_collector_client_id": "59d0e93a-5978-43e3-9e4d-6227011e09d9",
+     "metrics_collector_client_secret": "ZmY0MTQ0OGUtMzJiOC00YTM2LTk2NmItMWY0NDVmODdmZGQ5L2FzY19yb3V0ZXJfdC9kMDMzNDk2Ni0wZWIzLTRkMDktYWY0OS02NjdkMmI1MzFkZDYvYXNjLXYyLzNiZDFlMGEzLTEyY2EtNGM1OS04NDNjLWFjMWZlOTFmZjVlOS9TQVBfSVRfQ2xvdWRfc2FwaXRjZnQvMDVjMmM2NDctZWI2MC00MGI0LWI4YmItNjUxMmEwZWZkNjYyL2FwcGxpY2F0aW9uLWxvZ3MvM2U0NjZmYzYtODMzZS00MzBhLWE1YTEtYjlhYTIzMTk1MGM4L2xpdGUvOTA0NWZmYTUtY2U4My00ZjcxLTgzMjQtNTljNTYxOWQxYjQzL2FzY19hbF90L2I2ZmI2MWExMWUyZGRlNmQyNzgyOWEyNzc2ODU5NzcwMDhkNjg2MzFiZDE4N2U1MTY5MzQyN2MyYmY4NjFjZjQ",
+     "metrics_collector_url": "https://metrics-collector.cf.eu10.hana.ondemand.com/"
+    },
+    "instance_name": "asc_al_t",
+    "label": "application-logs",
+    "name": "asc_al_t",
+    "plan": "lite",
+    "provider": null,
+    "syslog_drain_url": null,
+    "tags": [],
+    "volume_mounts": []
+   }
+  ],
+  "xsuaa": [
+   {
+    "binding_name": null,
+    "credentials": {
+     "apiurl": "https://api.authentication.eu10.hana.ondemand.com",
+     "clientid": "sb-asc!t2750",
+     "clientsecret": "2ZksG6L7IMthhqU8Pa0hBv2mjv4=",
+     "identityzone": "sapitcft",
+     "identityzoneid": "0529bd63-bc0c-4c68-843e-47eb2c17e97a",
+     "sburl": "https://internal-xsuaa.authentication.eu10.hana.ondemand.com",
+     "subaccountid": "0529bd63-bc0c-4c68-843e-47eb2c17e97a",
+     "tenantid": "0529bd63-bc0c-4c68-843e-47eb2c17e97a",
+     "tenantmode": "dedicated",
+     "uaadomain": "authentication.eu10.hana.ondemand.com",
+     "url": "https://sapitcft.authentication.eu10.hana.ondemand.com",
+     "verificationkey": "-----BEGIN PUBLIC KEY-----MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAwThn6OO9kj0bchkOGkqYBnV1dQ3zU/xtj7Kj7nDd8nyRMcEWCtVzrzjzhiisRhlrzlRIEY82wRAZNGKMnw7cvCwNixcfcDJnjzgr2pJ+5/yDZUc0IXXyIWPZD+XdL+0EogC3d4+fqyvg/BF/F0t2hKHWr/UTXE6zrGhBKaL0d8rKfYd6olGWigFd+3+24CKI14zWVxUBtC+P9Fhngc9DRzkXqhxOK/EKn0HzSgotf5duq6Tmk9DCNM4sLW4+ERc6xzrgbeEexakabvax/Az9WZ4qhwgw+fwIhKIC7WLwCEJaRsW4m7NKkv+eJR2LKYesuQ9SVAJ3EXV86RwdnH4uAv7lQHsKURPVAQBlranSqyQu0EXs2N9OlWTxe+FyNkIvyZvoLrZl/CdlYc8AKxRm5rn2/88nkrYQ0XZSrnICM5FRWgVF2hn5KfZGwtBN85/D4Yck6B3ocMfyX7e4URUm9lRPQFUJGTXaZnEIge0R159HUwhTN1HvyXrs6uT1ZZmW+c3p47dw1+LmUf/hIf8zd+uvHQjIeHEJqxjqfyA8yqAFKRHKVFrwnwdMHIsRap2EKBhHMfeVf0P2th5C9MggYoGCvdIaIUgMBX3TtCdvGrcWML7hnyS2zkrlA8SoKJnRcRF2KxWKs355FhpHpzqyZflO5l98+O8wOsFjGpL9d0ECAwEAAQ==-----END PUBLIC KEY-----",
+     "xsappname": "asc!t2750",
+     "zoneid": "0529bd63-bc0c-4c68-843e-47eb2c17e97a"
+    },
+    "instance_name": "asc_uaa_t",
+    "label": "xsuaa",
+    "name": "asc_uaa_t",
+    "plan": "application",
+    "provider": null,
+    "syslog_drain_url": null,
+    "tags": [
+     "xsuaa"
+    ],
+    "volume_mounts": []
+   }
+  ]
+ }
+},
+{
+ "VCAP_APPLICATION": {
+  "application_id": "ff41448e-32b8-4a36-966b-1f445f87fdd9",
+  "application_name": "asc_router_t",
+  "application_uris": [
+   "ascroutert.cfapps.eu10.hana.ondemand.com"
+  ],
+  "application_version": "8d7a7786-4f68-403b-a1a7-94f5e7f0ce85",
+  "cf_api": "https://api.cf.eu10.hana.ondemand.com",
+  "limits": {
+   "disk": 1024,
+   "fds": 16384,
+   "mem": 512
+  },
+  "name": "asc_router_t",
+  "organization_id": "3bd1e0a3-12ca-4c59-843c-ac1fe91ff5e9",
+  "organization_name": "SAP_IT_Cloud_sapitcft",
+  "process_id": "ff41448e-32b8-4a36-966b-1f445f87fdd9",
+  "process_type": "web",
+  "space_id": "d0334966-0eb3-4d09-af49-667d2b531dd6",
+  "space_name": "asc-v2",
+  "uris": [
+   "ascroutert.cfapps.eu10.hana.ondemand.com"
+  ],
+  "users": null,
+  "version": "8d7a7786-4f68-403b-a1a7-94f5e7f0ce85"
+ }
+},

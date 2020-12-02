@@ -1,0 +1,39 @@
+<mvc:View displayBlock="true" controllerName="asc.admin.controller.home.Home" height="100%" 
+	xmlns="sap.uxap" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns:m="sap.m" 
+	xmlns:f="sap.f" 
+	xmlns:card="sap.f.cards" 
+	xmlns:l="sap.ui.layout" 
+	xmlns:core="sap.ui.core" 
+	xmlns:form="sap.ui.layout.form" 
+	xmlns:tnt="sap.tnt">
+	
+	<m:Panel width="auto" class="sapUiResponsiveMargin" accessibleRole="Region">
+		<m:headerToolbar>
+			<m:OverflowToolbar height="3rem">
+				<m:Title text=""/>
+			</m:OverflowToolbar>
+		</m:headerToolbar>
+		<m:content>
+			<m:Table id="idTableNotifications" inset="false" items="{
+							path: 'notifications>/'
+						}" class="sapFDynamicPageAlignContent" width="auto">
+				<m:columns>
+					<m:Column>
+						<m:Text text="Important Notifications" />
+					</m:Column>
+				</m:columns>
+				<m:items>
+					<m:ColumnListItem>
+						<m:cells>
+							<m:VBox>
+								<m:FormattedText htmlText="{path: 'notifications>notification_date', formatter: '.formatter.momentShortDate'} - {notifications>notification_text}" />
+							</m:VBox>
+						</m:cells>
+					</m:ColumnListItem>
+				</m:items>
+			</m:Table>
+		</m:content>
+	</m:Panel>
+</mvc:View>

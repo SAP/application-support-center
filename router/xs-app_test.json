@@ -1,0 +1,45 @@
+{
+    "welcomeFile": "index.html",
+    "logout": {
+        "logoutPage": "/logged_out.html",
+    	"logoutEndpoint": "/do/logout"
+    },
+    "authenticationMethod": "route",
+    "routes": [
+        {
+            "source": "^/api/v1",
+            "target": "/api/v1",
+            "destination": "asc_apidest_t",
+            "csrfProtection": false,
+            "authenticationType": "none"
+        },{
+            "source": "^/admin/(.*)$",
+            "target": "$1",
+            "destination": "asc_adminuidest_t",
+            "scope": {
+                "GET": ["$XSAPPNAME.ViewAllApps", "$XSAPPNAME.ViewMyApps"]
+            }
+        },{
+            "source": "^/portal/(.*)",
+            "target": "$1",
+            "destination": "asc_portaluidest_t"
+        },{
+            "source": "^/serverresources",
+            "target": "/serverresources",
+            "destination": "asc_apidest_t",
+            "csrfProtection": false
+        },{
+            "source": "^/logged_out.html$",
+            "localDir": "public",
+            "authenticationType": "none"
+        },{
+            "source": "^/asc_ui5_lib.js$",
+            "localDir": "public",
+            "authenticationType": "none"
+        },{
+            "source": "^/(.*)$",
+            "localDir": "webapp",
+            "authenticationType": "xsuaa"
+        }
+    ]
+}

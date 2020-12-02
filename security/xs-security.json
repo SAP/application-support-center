@@ -1,0 +1,53 @@
+{
+    "xsappname": "asc",
+    "tenant-mode": "dedicated",
+    "oauth2-configuration": {
+        "allowedproviders": ["accounts.sap.com", "accounts400.sap.com"],
+        "redirect-uris": ["https://appsupport.services.sap/login/callback", "https://appsupport.services.sap/**", "https://ascrouter.cfapps.sap.hana.ondemand.com/**", "https://ascrouter.cfapps.eu10.hana.ondemand.com/**", "https://ascroutert.cfapps.eu10.hana.ondemand.com/**"]
+    },
+    "scopes": [
+        {
+            "name": "$XSAPPNAME.ViewAllApps",
+            "description": "Display All Apps"
+        },
+        {
+            "name": "$XSAPPNAME.ViewMyApps",
+            "description": "Display My Apps"
+        },
+        {
+            "name": "$XSAPPNAME.UpdateMyApps",
+            "description": "Update My App Records"
+        },
+        {
+            "name": "$XSAPPNAME.UpdateAllApps",
+            "description": "Update All App Records"
+        }
+    ],
+    "role-templates": [
+        {
+            "name": "asc_v2_ViewOnly",
+            "description": "View all records",
+            "scope-references": [
+                "$XSAPPNAME.ViewAllApps"
+            ]
+        },
+        {
+            "name": "asc_v2_AppOwner",
+            "description": "View all records",
+            "scope-references": [
+                "$XSAPPNAME.ViewMyApps",
+                "$XSAPPNAME.UpdateMyApps"
+            ]
+        },
+        {
+            "name": "asc_v2_Admin",
+            "description": "Admin access to all records",
+            "scope-references": [
+                "$XSAPPNAME.ViewMyApps",
+                "$XSAPPNAME.UpdateMyApps",
+                "$XSAPPNAME.ViewAllApps",
+                "$XSAPPNAME.UpdateAllApps"
+            ]
+        }
+    ]
+}

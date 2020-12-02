@@ -1,0 +1,78 @@
+.adminHeaderText {
+    font-size: 120%;
+    padding-top: 8px;
+}
+
+.adminToolbarSearch {
+    padding-top: 0rem;
+}
+
+.asc_required > div:first-child > div:first-child:after {
+    color: red;
+    content: " *";
+}
+
+.asc_hide_upload {
+    width: 0px;
+    height: 0px;
+    overflow: hidden;
+}
+
+.asc_popover_seperator > div {
+    border-bottom: 1px solid #d9d9d9 !important;
+}
+
+.asc_bottom_shadow {
+    box-shadow: 0 0 0.25rem 0 rgba(0,0,0,0.15), inset 0 -0.0625rem 0 0 #d9d9d9;
+}
+
+.asc_bottom_border {
+    border-bottom: 1px solid #d9d9d9 !important;
+}
+
+.asc_form_table {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.formattedTextPadding {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.asc_no_top_padding {
+    padding-top: 0;
+}
+
+#__page1-content, #__page1-contentFitContainer {
+    
+}
+
+.sapMTB-Info-CTX.sapMTB {
+    background-color: #354a5f;
+}
+
+/* Ugly hack to keep the menu button from compressing */
+#__button0 {
+    width: auto !important;
+}
+
+.asc_small_button {
+    width: 300px !important;
+}
+
+.sideNavigation {
+    height: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+
+	-webkit-box-direction: normal;
+	-webkit-box-orient: vertical;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+
+	max-width: 15rem;
+}

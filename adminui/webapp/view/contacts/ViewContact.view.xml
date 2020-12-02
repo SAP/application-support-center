@@ -1,0 +1,42 @@
+<mvc:View displayBlock="true" controllerName="asc.admin.controller.contacts.ViewContact" height="100%" 
+	xmlns="sap.uxap" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns:m="sap.m" 
+	xmlns:f="sap.f" 
+	xmlns:l="sap.ui.layout" 
+	xmlns:core="sap.ui.core" 
+	xmlns:form="sap.ui.layout.form">
+
+	<f:DynamicPage toggleHeaderOnTitleClick="false">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
+						<m:Title id="idTitle" text="Contact Page" wrapping="true" class="sapUiTinyMarginEnd"/>
+					</m:FlexBox>
+				</f:heading>
+
+				<f:navigationActions>
+					<m:OverflowToolbarButton id="idButtonClose" type="Transparent" icon="sap-icon://decline" press="onClosePress" tooltip="Close column" visible="{= ${layout>/layout} !== 'EndColumnFullScreen'}"/>
+				</f:navigationActions>
+
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<l:VerticalLayout id="idVerticalLayout" class="" width="100%">
+				<form:SimpleForm id="idFormViewContact" editable="true" layout="ColumnLayout" columnsM="1" columnsL="1" columnsXL="1">
+					<form:content>
+						<m:Label text="User ID" />
+						<m:Text id="idTextUserId" text="{contacts>external_id}" />
+						<m:Label text="First name" />
+						<m:Text id="idTextFirstname" text="{contacts>first_name}" />
+						<m:Label text="Last name" />
+						<m:Text id="idTextLastname" text="{contacts>last_name}" />
+						<m:Label text="Email" />
+						<m:Text id="idTextEmail" text="{contacts>email}" />
+					</form:content>
+				</form:SimpleForm>
+			</l:VerticalLayout>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>
