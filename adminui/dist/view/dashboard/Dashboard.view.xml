@@ -1,0 +1,178 @@
+<mvc:View displayBlock="true" controllerName="asc.admin.controller.dashboard.Dashboard" height="100%"
+	xmlns="sap.uxap"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:m="sap.m"
+	xmlns:f="sap.f"
+	xmlns:card="sap.f.cards"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:w="sap.ui.integration.widgets"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+	<f:GridContainer id="grd" class="sapUiSmallMargin" inlineBlockLayout="true">
+		<f:layout>
+				<f:GridContainerSettings columns="12" />
+			</f:layout>
+
+		<f:Card class="sapUiSmallMargin">
+			<f:layoutData>
+					<f:GridContainerItemLayoutData columns="12" />
+			</f:layoutData>
+			<f:header>
+				<card:Header title="Important Notifications" subtitle="" />
+			</f:header>
+			<f:content>
+				<m:List items="{path: 'notifications>/'}">
+					<m:CustomListItem>
+						<m:HBox alignItems="Center" justifyContent="SpaceBetween">
+							<m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+								<m:FormattedText htmlText="{path: 'notifications>notification_date', formatter: '.formatter.momentShortDate'} - {notifications>notification_text}" />
+							</m:VBox>
+						</m:HBox>
+					</m:CustomListItem>
+				</m:List>
+			</f:content>
+		</f:Card>
+
+		<f:Card class="sapUiSmallMargin">
+			<f:layoutData>
+					<f:GridContainerItemLayoutData columns="4" />
+			</f:layoutData>
+			<f:header>
+				<card:Header title="Release Updates" subtitle="App updates in the last 60 days" />
+			</f:header>
+			<f:content>
+				<m:List showSeparators="None" items="{path: 'dashboard_stats>/recent_releases'}">
+					<m:CustomListItem>
+						<m:HBox alignItems="Center" justifyContent="SpaceBetween">
+							<m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+								<m:Link app:app_id="{dashboard_stats>app_id}" text="{dashboard_stats>app_name}" press="onOpenAppURL" />
+								<m:Text text="{dashboard_stats>version}"/>
+							</m:VBox>
+							<m:ObjectStatus class="sapUiTinyMargin" text="{
+													path: 'dashboard_stats>created',
+													formatter: '.formatter.momentTimeAgo'
+												}"/>
+						</m:HBox>
+					</m:CustomListItem>
+				</m:List>
+			</f:content>
+		</f:Card>
+		
+		<f:Card class="sapUiSmallMargin">
+			<f:layoutData>
+					<f:GridContainerItemLayoutData columns="4" />
+			</f:layoutData>
+			<f:header>
+				<card:Header title="New Applications" subtitle="Applications added to ASC in the last 30 days"/>
+			</f:header>
+			<f:content>
+				<m:List showSeparators="None" items="{path: 'dashboard_stats>/new_apps'}">
+					<m:CustomListItem>
+						<m:HBox alignItems="Center" justifyContent="SpaceBetween">
+							<m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+								<m:Link app:app_id="{dashboard_stats>app_id}" text="{dashboard_stats>app_name}" press="onOpenAppURL" />
+								<m:Text text="{
+													path: 'dashboard_stats>created',
+													formatter: '.formatter.momentTimeAgo'
+												}" />
+							</m:VBox>
+							<m:ObjectStatus class="sapUiTinyMargin" text="{dashboard_stats>technology}"/>
+						</m:HBox>
+					</m:CustomListItem>
+				</m:List>
+			</f:content>
+		</f:Card>
+
+
+
+		<f:Card class="sapUiSmallMargin">
+			<f:layoutData>
+					<f:GridContainerItemLayoutData columns="4" />
+			</f:layoutData>
+			<f:header>
+				<card:Header title="Go Live" subtitle="Last 5 applications to go live"/>
+			</f:header>
+			<f:content>
+				<m:List showSeparators="None" items="{path: 'dashboard_stats>/recent_golive'}">
+					<m:CustomListItem>
+						<m:HBox alignItems="Center" justifyContent="SpaceBetween">
+							<m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+								<m:Link app:app_id="{dashboard_stats>app_id}" text="{dashboard_stats>app_name}" press="onOpenAppURL" />
+
+							</m:VBox>
+							<m:ObjectStatus class="sapUiTinyMargin" text="{
+													path: 'dashboard_stats>go_live',
+													formatter: '.formatter.momentTimeAgo'
+												}"/>
+						</m:HBox>
+					</m:CustomListItem>
+				</m:List>
+			</f:content>
+		</f:Card>
+
+
+		<f:Card class="sapUiSmallMargin">
+			<f:layoutData>
+					<f:GridContainerItemLayoutData columns="6" />
+			</f:layoutData>
+			<f:header>
+				<card:Header title="Data Downloads" subtitle="Bulk data download from ASC for reporting"/>
+			</f:header>
+			<f:content>
+				<m:List showSeparators="None">
+					<m:CustomListItem>
+						<m:HBox alignItems="Center" justifyContent="SpaceBetween">
+							<m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+								<m:Link text="Apps and their Contacts" press="onDownloadAppContacts" />
+							</m:VBox>
+						</m:HBox>
+						<m:HBox alignItems="Center" justifyContent="SpaceBetween">
+							<m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+								<m:Link text="App Owners" press="onDownloadAppOwners" />
+							</m:VBox>
+						</m:HBox>
+						<m:HBox alignItems="Center" justifyContent="SpaceBetween">
+							<m:VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+								<m:Link text="App Developers" press="onDownloadAppDevelopers" />
+							</m:VBox>
+						</m:HBox>
+					</m:CustomListItem>
+				</m:List>
+			</f:content>
+		</f:Card>
+
+		<f:Card class="sapUiSmallMargin" height="350px">
+			<f:layoutData>
+					<f:GridContainerItemLayoutData columns="6" />
+			</f:layoutData>
+			<f:header>
+				<card:Header title="App releases by month" subtitle="Over the past 12 months"  />
+			</f:header>
+			<f:content>
+					<viz:VizFrame id="idVizFrame" vizProperties="{ title: {text : ' ', visible : true}}" uiConfig="{applicationSet:'fiori'}" height='100%' width="100%" vizType='line' legendVisible="false">
+						<viz:dataset>
+							<viz.data:FlattenedDataset data="{dashboard_stats>/releases_bymonth}">
+								<viz.data:dimensions>
+									<viz.data:DimensionDefinition name="Month" value="{dashboard_stats>dt}" />
+								</viz.data:dimensions>
+								<viz.data:measures>
+									<viz.data:MeasureDefinition name="Releases" value="{dashboard_stats>count}" />
+								</viz.data:measures>
+							</viz.data:FlattenedDataset>
+						</viz:dataset>
+
+						<viz:feeds>
+							<viz.feeds:FeedItem uid="primaryValues" type="Measure" values="Releases" />
+							<viz.feeds:FeedItem uid="axisLabels" type="Dimension" values="Month" />
+						</viz:feeds>
+					</viz:VizFrame>
+			</f:content>
+		</f:Card>
+
+	</f:GridContainer>
+</mvc:View>

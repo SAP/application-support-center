@@ -1,0 +1,20 @@
+.body {
+  font-family: "72","72full",Arial,Helvetica,sans-serif;
+  font-size: 1rem;
+}
+
+.navbar {
+  background-color: #354a5f;
+  padding-left: 2.3rem;
+  height: 2.75rem;
+  
+}
+
+.navbar-brand {
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.btn {
+  text-align: left;
+}

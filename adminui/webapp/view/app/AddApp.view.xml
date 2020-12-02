@@ -1,0 +1,109 @@
+<mvc:View displayBlock="true" controllerName="asc.admin.controller.app.AddApp" height="100%" 
+	xmlns="sap.uxap" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns:m="sap.m" 
+	xmlns:f="sap.f" 
+	xmlns:l="sap.ui.layout" 
+	xmlns:core="sap.ui.core" 
+	xmlns:form="sap.ui.layout.form">
+
+	<ObjectPageLayout id="idObjectPageLayout" showTitleInHeaderContent="false" alwaysShowContentHeader="false" preserveHeaderStateOnScroll="false" headerContentPinnable="false" isChildPage="false" upperCaseAnchorBar="false" showAnchorBar="false" showFooter="true">
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle class="asc_bottom_shadow">
+				<expandedHeading>
+					<m:Title text="New Application" wrapping="true" class="sapUiSmallMarginEnd"/>
+				</expandedHeading>
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+
+		<headerContent>
+
+		</headerContent>
+
+		<sections>
+			<ObjectPageSection title="General Information" titleUppercase="false">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<form:SimpleForm editable="true" layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2" id="idFormAddApp">
+								<form:content>
+									<core:Title text="Header Details" />
+									<m:Label text="App Name" />
+									<m:Input id="idInputAppName" value="{app>/app_name}" valueStateText="Name must not be empty. Maximum 10 characters." required="true" liveChange="validateControl" />
+
+									<m:Label text="Status" labelFor="app_status"/>
+									<m:Select id="idSelectStatus" selectedKey="{app>/status}" items="{
+													path: 'options>/app_status',
+													sorter: { path: 'value' }
+												}"
+												forceSelection="false"
+												required="true">
+										<core:Item key="{options>key}" text="{options>value}" />
+									</m:Select>
+
+									<m:Label text="Technology" labelFor="app_technology"/>
+									<m:Select id="idSelectTechnology" selectedKey="{app>/technology}" items="{
+													path: 'options>/app_technology',
+													sorter: { path: 'value' }
+												}"
+												forceSelection="false"
+												required="true">
+										<core:Item key="{options>key}" text="{options>value}" />
+									</m:Select>
+
+									<m:Label text="Category" labelFor="category"/>
+									<m:Select id="idSelectCategory" selectedKey="{app>/category}" items="{
+													path: 'options>/app_category',
+													sorter: { path: 'value' }
+												}"
+												forceSelection="false"
+												required="true">
+										<core:Item key="{options>key}" text="{options>value}" />
+									</m:Select>
+
+									<m:Label text="Bundle ID" labelFor="bundle_id"/>
+									<m:Input id="idInputBundleId" value="{app>/bundle_id}" />
+
+									<m:Label text="Git URL" labelFor="git_url"/>
+									<m:Input id="idInputGitURL" value="{app>/git_url}" />
+
+									<core:Title text="Operation Details" />
+									<m:Label text="Go Live Date" labelFor="golive"/>
+									<m:DatePicker id="idDatePickerGoLive" value="{app>/go_live}" displayFormat="MM/dd/yyyy" valueFormat="MM/dd/yyyy" />
+
+									<m:Label text="Retired Date" labelFor="retired"/>
+									<m:DatePicker id="idDatePickerRetired" value="{app>/retired}" displayFormat="MM/dd/yyyy" valueFormat="MM/dd/yyyy" />
+
+									<m:Label text="Usage Tracking ID" labelFor="usage_tracking_id"/>
+									<m:Input id="idInputUsageTrackingId" value="{app>/usage_tracking_id}" liveChange="validateControl" />
+
+									<m:Label text="Feedback Service ID" labelFor="feedback_service_id"/>
+									<m:Input id="idInputFeedbackServiceId" value="{app>/feedback_service_id}" />
+
+									<m:Label text="Comments" labelFor="app_comments"/>
+									<m:TextArea id="idTextNotes" value="{app>/notes}" rows="4" />
+								</form:content>
+							</form:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+
+				</subSections>
+			</ObjectPageSection>
+
+		</sections>
+		<footer>
+			<m:OverflowToolbar>
+				<m:ToolbarSpacer/>
+				<m:Button id="idButtonSave" type="Emphasized" press="onValidate" text="Save" enabled="true" />
+				<m:Button id="idButtonCancel" type="Transparent" press="onCancelPress" text="Cancel" />
+			</m:OverflowToolbar>
+		</footer>
+	</ObjectPageLayout>
+
+
+</mvc:View>
+
+<!--
+
+	
+-->

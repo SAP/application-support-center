@@ -1,0 +1,8 @@
+specVersion: '1.0'
+metadata:
+  name: asc.admin
+type: application
+resources:
+  configuration:
+    paths:
+      src: src

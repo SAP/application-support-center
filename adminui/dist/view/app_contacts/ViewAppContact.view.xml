@@ -1,0 +1,47 @@
+<mvc:View displayBlock="true" controllerName="asc.admin.controller.app_contacts.ViewAppContact" height="100%" 
+	xmlns="sap.uxap" 
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns:m="sap.m" 
+	xmlns:f="sap.f" 
+	xmlns:l="sap.ui.layout" 
+	xmlns:core="sap.ui.core" 
+	xmlns:form="sap.ui.layout.form">
+
+	<f:DynamicPage toggleHeaderOnTitleClick="false">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
+						<m:Title id="idTitle" text="Contact Page" wrapping="true" class="sapUiTinyMarginEnd"/>
+					</m:FlexBox>
+				</f:heading>
+
+				<f:navigationActions>
+					<m:OverflowToolbarButton id="idButtonOpenFullScreen" type="Transparent" icon="sap-icon://full-screen" press="onFullScreenPress" tooltip="Enter Full Screen Mode" visible="{= ${layout>/layout} !== 'EndColumnFullScreen' }"/>
+					<m:OverflowToolbarButton id="idButtonCloseFullScreen" type="Transparent" icon="sap-icon://exit-full-screen" press="onExitFullScreenPress" tooltip="Exit Full Screen Mode" visible="{= ${layout>/layout} === 'EndColumnFullScreen' }"/>
+					<m:OverflowToolbarButton id="idButtonClose" type="Transparent" icon="sap-icon://decline" press="onClosePress" tooltip="Close column" visible="{= ${layout>/layout} !== 'EndColumnFullScreen'}"/>
+				</f:navigationActions>
+
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<l:VerticalLayout id="idVerticalLayout" class="" width="100%">
+				<form:SimpleForm id="idFormViewContact" editable="true" layout="ColumnLayout" columnsM="1" columnsL="1" columnsXL="1">
+									<form:content>
+										<m:Label text="First Name" />
+										<m:Text id="idTextFirstname" text="{app_contacts>first_name}" />
+										<m:Label text="Last Name" />
+										<m:Text id="idTextLastname" text="{app_contacts>last_name}" />
+										<m:Label text="Email" />
+										<m:Text id="idTextEmail" text="{app_contacts>email}" />
+										<m:Label text="User ID" />
+										<m:Text id="idTextExternalId" text="{app_contacts>external_id}" />
+
+										<m:Label text="Role" />
+										<m:Text id="idTextRole" text="{app_contacts>role}" />
+									</form:content>
+								</form:SimpleForm>
+			</l:VerticalLayout>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>
