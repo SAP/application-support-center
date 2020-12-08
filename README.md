@@ -6,11 +6,11 @@ application support center is a management platform for mobile and web applicati
 
 ## Features
 
-- Central application management: ASC acts as a central management portal for all of your applications. Store a list of application owners, developers, source code links, and application details in one place.
-- In-app Help: ASC provides a Mobile SDK, UI5 SDK, Web SDK, Web Portal and API's sharing help, release notes, and details about each application for your end-users. This provides the opportunity for self-service before they contact support.
-- Developers: ASC is simple to integrate in applications and reduces the need to recompile and deploy when help, release notes, announcements or support contacts change. Our drop-in SDK's provide content syncing and are available for Android, iOS, UI5 and HTML based applications with just a few lines of code.
-- Application Owners: ASC provides a central location to store application details and the ability to update in-app support content without needing to get developers involved.
-- Consistency: ASC provides a consistent look and feel across all your apps and platforms giving your users a familiar experience when it's needed.
+- Central application management: Application support center acts as a central management portal for all of your applications. Store a list of application owners, developers, source code links, and application details in one place.
+- In-app Help: Application support center provides a Mobile SDK, UI5 SDK, Web SDK, Web Portal and API's sharing help, release notes, and details about each application for your end-users. This provides the opportunity for self-service before they contact support.
+- Developers: Application support center is simple to integrate in applications and reduces the need to recompile and deploy when help, release notes, announcements or support contacts change. Our drop-in SDK's provide content syncing and are available for Android, iOS, UI5 and HTML based applications with just a few lines of code.
+- Application Owners: Application support center provides a central location to store application details and the ability to update in-app support content without needing to get developers involved.
+- Consistency: Application support center provides a consistent look and feel across all your apps and platforms giving your users a familiar experience when it's needed.
 
 ## Components
 
@@ -20,12 +20,12 @@ application support center is a management platform for mobile and web applicati
 - Server/API
 
 - Portal UI
-- ASC SAPUI5 SDK
+- Application support center SAPUI5 SDK
 
 Other Components:
 
-- <a href="https://" target="_blank">ASC iOS SDK</a>
-- <a href="https://" target="_blank">ASC Android SDK</a>
+- <a href="https://" target="_blank">Application support center iOS SDK</a>
+- <a href="https://" target="_blank">Application support center Android SDK</a>
 
 ## Requirements
 
@@ -38,4 +38,17 @@ The Administration UI uses OpenUI5
 
 ## Wiki
 
-Please see our wiki pages for details on local or cloud based deployment options, component overview and other details related to the project.
+Please see our <a href="../../wiki">wiki pages</a> for details on local or cloud based deployment options, component overview and other details related to the project.
+
+## Contact Us
+
+```
+Paul Aschmann <paul.aschmann@sap.com>
+Marcy Gray <marcy.gray@sap.com>
+```
+
+## License
+
+Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+This file is licensed under the Apache Software License, v. 2 except as noted
+otherwise in the <a href="LICENSE">LICENSE file</a>

@@ -1,1 +1,0 @@
-sap.ui.define(["../BaseController"],function(e){return e.extend("asc.admin.controller.home.Home",{onInit:function(){this.oRouter=this.getOwnerComponent().getRouter()}})},true);
