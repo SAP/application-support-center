@@ -1,6 +1,6 @@
 ![Overview](resources/github_header.png)
 
-Application Support Center (ASC) is a management platform for mobile and web applications. It provides an administration portal storing application details and a central knowledge base for help, release notes, and important announcements. These knowledge articles are available in your applications through the included SDK providing in-app help and support to your end-users.
+application support center is a management platform for mobile and web applications. It provides an administration portal storing application details and a central knowledge base for help, release notes, and important announcements. These knowledge articles are available in your applications through the included SDK providing in-app help and support to your end-users.
 
 ![Development Lifecycle](resources/lifecycle.png)
 

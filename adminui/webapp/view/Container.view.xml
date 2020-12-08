@@ -6,7 +6,7 @@
 	height="100%">
 	<m:Page>
 		<m:customHeader>
-			<ShellBar title="Application Support Center"
+			<ShellBar title="application support center"
 				showMenuButton="false"
 				menuButtonPressed="onMenuPress"
 				homeIcon=""
