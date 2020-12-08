@@ -24,8 +24,8 @@ application support center is a management platform for mobile and web applicati
 
 Other Components:
 
-- <a href="https://" target="_blank">Application support center iOS SDK</a>
-- <a href="https://" target="_blank">Application support center Android SDK</a>
+- <a href="https://" target="_blank">Application support center iOS SDK</a> (Coming soon)
+- <a href="https://" target="_blank">Application support center Android SDK</a> (Coming soon)
 
 ## Requirements
 
