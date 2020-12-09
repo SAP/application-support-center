@@ -9,9 +9,11 @@ server/resources/app_ipas/*
 git_commit.sh
 git_build_push.sh
 notes.md
-.vscode
+adminui/dist/*
+adminui/dist
 
 # editors
+.vscode
 .idea
 *.swp
 *.iml

@@ -5,8 +5,6 @@ sap.ui.define([
 
 	// Get relevant server URL based on deployment
 	var serverUrl = "";
-	//serverUrl = "http://localhost:5001";
-	//serverUrl = "https://ascrouter.cfapps.us10.hana.ondemand.com";
 
 	return BaseAPI.extend("asc.admin.util.API", {
 
