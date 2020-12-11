@@ -3,6 +3,6 @@ Upstream-Name: application support center
 Upstream-Contact: Paul Aschmann <paul.aschmann@sap.com>
 Source: https://github.com/SAP/application-support-center
 
-Files: adminui/* portalui/* resources/* router/* security/* server/* .gitignore README.md manifest_dev.yml manifest_test.yml manifest_prod.yml start_application.sh
+Files: *
 Copyright: 2020 SAP SE or an SAP affiliate company and application support center contributors
 License: Apache-2.0
