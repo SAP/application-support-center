@@ -168,10 +168,10 @@ sap.ui.define([
 						}
 					}
 				}
+
+				// filter binding
+				this.getView().byId("idTableApps").getBinding("items").filter(filters);
 			}
 		}
-
-		// Service Responses //
-
 	});
 }, true);

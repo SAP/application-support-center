@@ -1,5 +1,5 @@
-<mvc:View displayBlock="true" controllerName="asc.admin.controller.dashboard.Dashboard" height="100%"
-	xmlns="sap.uxap"
+<mvc:View 
+	controllerName="asc.admin.controller.dashboard.Dashboard"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:m="sap.m"
 	xmlns:f="sap.f"
@@ -10,8 +10,12 @@
 	xmlns:w="sap.ui.integration.widgets"
 	xmlns:viz="sap.viz.ui5.controls"
 	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
-    xmlns:viz.data="sap.viz.ui5.data"
-	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  xmlns:viz.data="sap.viz.ui5.data"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	displayBlock="true"
+	height="100%">
+
+	<m:Page>
 
 	<f:GridContainer id="grd" class="sapUiSmallMargin" inlineBlockLayout="true">
 		<f:layout>
@@ -40,7 +44,7 @@
 
 		<f:Card class="sapUiSmallMargin">
 			<f:layoutData>
-					<f:GridContainerItemLayoutData columns="4" />
+					<f:GridContainerItemLayoutData columns="3" />
 			</f:layoutData>
 			<f:header>
 				<card:Header title="Release Updates" subtitle="App updates in the last 60 days" />
@@ -55,7 +59,7 @@
 							</m:VBox>
 							<m:ObjectStatus class="sapUiTinyMargin" text="{
 													path: 'dashboard_stats>created',
-													formatter: '.formatter.momentTimeAgo'
+													formatter: '.formatter.momentShortDate'
 												}"/>
 						</m:HBox>
 					</m:CustomListItem>
@@ -65,7 +69,7 @@
 		
 		<f:Card class="sapUiSmallMargin">
 			<f:layoutData>
-					<f:GridContainerItemLayoutData columns="4" />
+					<f:GridContainerItemLayoutData columns="3" />
 			</f:layoutData>
 			<f:header>
 				<card:Header title="New Applications" subtitle="Applications added to ASC in the last 30 days"/>
@@ -92,7 +96,7 @@
 
 		<f:Card class="sapUiSmallMargin">
 			<f:layoutData>
-					<f:GridContainerItemLayoutData columns="4" />
+					<f:GridContainerItemLayoutData columns="3" />
 			</f:layoutData>
 			<f:header>
 				<card:Header title="Go Live" subtitle="Last 5 applications to go live"/>
@@ -109,6 +113,26 @@
 													path: 'dashboard_stats>go_live',
 													formatter: '.formatter.momentTimeAgo'
 												}"/>
+						</m:HBox>
+					</m:CustomListItem>
+				</m:List>
+			</f:content>
+		</f:Card>
+
+
+		<f:Card class="sapUiSmallMargin">
+			<f:layoutData>
+					<f:GridContainerItemLayoutData columns="3" />
+			</f:layoutData>
+			<f:header>
+				<card:Header title="Deployments" subtitle="Application deployments by Year"/>
+			</f:header>
+			<f:content>
+				<m:List showSeparators="None" items="{path: 'dashboard_stats>/deployments_by_year'}">
+					<m:CustomListItem>
+							<m:HBox class="sapUiSmallMargin" alignItems="Center" justifyContent="SpaceBetween">
+								<m:Text text="{dashboard_stats>to_char}:" />
+								<m:Text text="{dashboard_stats>count}" />
 						</m:HBox>
 					</m:CustomListItem>
 				</m:List>
@@ -175,4 +199,6 @@
 		</f:Card>
 
 	</f:GridContainer>
+
+</m:Page>
 </mvc:View>

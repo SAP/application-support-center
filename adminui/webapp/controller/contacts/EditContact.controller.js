@@ -15,8 +15,8 @@ sap.ui.define([
 
 			this.contactDetail = this.getView().getModel("contacts").oData[this._contact];
 
-			if (this.contactdetail && this.contactdetail.contact_id) {
-				this.api.getContactApps(this.contactdetail.contact_id)
+			if (this.contactDetail && this.contactDetail.contact_id) {
+				this.api.getContactApps(this.contactDetail.contact_id)
 				.done(this.onGetContactAppsDone.bind(this))
 				.fail(this.onHTTPFail.bind(this));
 			}

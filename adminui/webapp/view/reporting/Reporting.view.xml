@@ -29,6 +29,7 @@
 							<Select id="sReportName" change="onSelectReportChange">
 								<core:Item key="" text="Report name"/>
 								<core:Item key="all_apps" text="Get All Apps"/>
+								<core:Item key="app_contacts" text="Get App Contacts"/>
 							</Select>
 							<Button text="Export to Excel" type="Transparent" press="onDataExport" />
 						</FlexBox>
