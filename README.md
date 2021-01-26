@@ -50,5 +50,7 @@ Marcy Gray <marcy.gray@sap.com>
 ## License
 
 Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
-This file is licensed under the Apache Software License, v. 2 except as noted
-otherwise in the <a href="LICENSE">LICENSE file</a>
+This file is licensed under the Apache Software License, v2.0 except as noted
+otherwise in the <a href="LICENSE">LICENSE file</a>. Detailed information including 
+third-party components and their licensing/copyright information is available via 
+the <a href="https://api.reuse.software/info/github.com/SAP/application-support-center">REUSE</a> tool.
