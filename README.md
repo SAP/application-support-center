@@ -24,12 +24,12 @@ application support center is a management platform for mobile and web applicati
 
 Other Components:
 
-- <a href="https://" target="_blank">Application support center iOS SDK</a> (Coming soon)
+- <a href="https://github.com/SAP/application-support-center/tree/main/SDK/iOS/iOS%20Demo%20App" target="_blank">Application support center Demo App and iOS SDK</a>
 - <a href="https://" target="_blank">Application support center Android SDK</a> (Coming soon)
 
 ## Requirements
 
-- <a href="https://www.nodejs.org" target="_blank">Node.js (13.x.x +)</a>
+- <a href="https://www.nodejs.org" target="_blank">Node.js</a>
 - <a href="https://www.postgresql.org" target="_blank">Postgres</a>
 
 The Server/API uses Node.js/Express and Postgres for persistence
