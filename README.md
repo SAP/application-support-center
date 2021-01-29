@@ -1,6 +1,6 @@
 ![Overview](resources/github_header.png)
 
-application support center is a management platform for mobile and web applications. It provides an administration portal storing application details and a central knowledge base for help, release notes, and important announcements. These knowledge articles are available in your applications through the included SDK providing in-app help and support to your end-users.
+application support center is a application management tool for mobile and web applications. It provides an administration portal storing application details and a central knowledge base for help, release notes, and important announcements. These knowledge articles are available in your applications through the included SDK providing in-app help and support to your end-users.
 
 ![Development Lifecycle](resources/lifecycle.png)
 
@@ -21,10 +21,10 @@ application support center is a management platform for mobile and web applicati
 
 - Portal UI
 - Application support center SAPUI5 SDK
+- <a href="https://github.com/SAP/application-support-center/tree/main/SDK/iOS/iOS%20Demo%20App" target="_blank">Application support center Demo App and iOS SDK</a>
 
 Other Components:
 
-- <a href="https://github.com/SAP/application-support-center/tree/main/SDK/iOS/iOS%20Demo%20App" target="_blank">Application support center Demo App and iOS SDK</a>
 - <a href="https://" target="_blank">Application support center Android SDK</a> (Coming soon)
 
 ## Requirements

@@ -2,17 +2,14 @@
 
 ![iOS Demo App](resources/asc_ios_demo_app.png)
 
-This is a simple but complete iOS app which includes the iOS SDK to test the functionality of the iOS SDK. If configured correctly, the app will display the help pages, app contacts announcements and release notes from the admin panel.
+This is a simple but complete iOS app which includes the asc SDK to demonstrate the integration between the app and server. If configured correctly, the app will display the help pages, app contacts announcements and release notes from the admin panel.
 
 ## Components
 
 Component included in this repo:
 
+- <a href='https://github.com/SAP/application-support-center'>asc Core</a>
 - asc iOS Demo App & SDK
-
-Other Components:
-
-- asc Core
 
 ## Installation
 
