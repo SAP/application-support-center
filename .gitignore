@@ -11,6 +11,9 @@ git_build_push.sh
 notes.md
 adminui/dist/*
 adminui/dist
+manifest_prod.yml
+manifest_dev.yml
+manifest_test.yml
 
 # editors
 .vscode
