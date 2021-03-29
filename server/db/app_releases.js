@@ -27,6 +27,7 @@ function createAppRelease(req, res, next) {
   db.one('insert into app_releases(version, release_date, description, visible, app_id) values ($1, $2, $3, $4, $5) returning *', [req.body.version, req.body.release_date, req.body.description, req.body.visible, req.params.app_id])
     .then((data) => {
       apps.updateContentVersion(req.params.app_id);
+      apps.sendNotifications(data.release_id);
       res.status(201).json({
         status: 'success', message: 'Inserted', lastID: data.release_id, data: data
       });

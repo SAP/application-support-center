@@ -19,6 +19,8 @@ global.asc.test_jamf_password = process.env.test_jamf_password || '';
 global.asc.server_port = process.env.PORT || '5001';
 global.asc.server_url = process.env.URL || 'http://localhost';
 global.asc.environment = process.env.npm_lifecycle_event;
+global.asc.prod_slack_webhook_url = process.env.prod_slack_webhook_url || '';
+global.asc.dev_slack_webhook_url = process.env.dev_slack_webhook_url || '';
 
 // SAP Specific Code
 global.asc.tracking_bearer_token = process.env.tracking_bearer_token;
