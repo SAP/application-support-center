@@ -81,11 +81,11 @@ function sendNotifications(releaseId) {
                 type: 'button',
                 text: {
                   type: 'plain_text',
-                  text: 'View in ASC',
+                  text: 'View',
                   emoji: true
                 },
-                value: 'View in ASC',
-                url: 'https://appsupport.services.sap/admin/index.html',
+                value: 'View',
+                url: 'https://appsupport.services.sap/portal/index.html?appid=' + data.app_id,
                 action_id: 'button-action'
               }
             }
