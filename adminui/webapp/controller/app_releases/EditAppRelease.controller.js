@@ -127,8 +127,9 @@ sap.ui.define([
 				var jamf_id = that.getView().byId("idTextReleaseJamfAppID").getText();
 				var version = that.getView().byId("idInputAppVersion").getValue();
 				var app_id = that._appDetail.app_id;
+				var release_id = that._app_release_detail.release_id;
 
-				that.api.postJamfAppIPA(jamf_id, form, app_id, version, that.sJamfSystem)
+				that.api.postJamfAppIPA(jamf_id, form, app_id, version, that.sJamfSystem, release_id)
 					.done(that.onPostJamfAppIPA.bind(that))
 					.fail(that.onGetJamfAppInfoFail.bind(that));
 			}, 500);

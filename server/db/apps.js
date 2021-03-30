@@ -46,7 +46,7 @@ function getAllApps(req, res, next) {
     });
 }
 
-function sendNotifications(releaseId) {
+function sendNotifications(releaseId, systemId) {
   // Sends notification to external systems if configured in the .env file
   var slackUrl = '';
   if (global.asc.environment === 'dev') {
@@ -54,7 +54,6 @@ function sendNotifications(releaseId) {
   } else {
     slackUrl = global.asc.prod_slack_webhook_url;
   }
-  console.log(slackUrl)
   if (slackUrl !== '') {
     db.one('select * from app_releases inner join apps on app_releases.app_id = apps.app_id where release_id = $1', releaseId)
       .then((data) => {
@@ -64,7 +63,7 @@ function sendNotifications(releaseId) {
               type: 'header',
               text: {
                 type: 'plain_text',
-                text: 'New release: ' + data.app_name + ': ' + data.technology + ' - ' + data.version,
+                text: 'New release pushed to Jamf (' + systemId + '): ' + data.app_name + ' (' + data.technology + ') ' + data.version,
                 emoji: true
               }
             },

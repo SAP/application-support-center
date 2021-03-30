@@ -399,9 +399,9 @@ sap.ui.define([
 			});
 		},
 
-		postJamfAppIPA: function (sJamfAppId, formData, appId, version, system) {
+		postJamfAppIPA: function (sJamfAppId, formData, appId, version, system, release_id) {
 			return $.ajax({
-				url: serverUrl + "/api/v1/jamf/" + sJamfAppId + "/ipa?app_id=" + appId + "&version=" + version + "&system=" + system,
+				url: serverUrl + "/api/v1/jamf/" + sJamfAppId + "/ipa?app_id=" + appId + "&version=" + version + "&system=" + system + "&release_id=" + release_id,
 				data: formData,
 				contentType: false,
 				processData: false,

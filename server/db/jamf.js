@@ -6,6 +6,8 @@ module.exports = {
 
 const logger = require('../util/logger');
 const request = require('request');
+const apps = require('./apps');
+
 var multer = require('multer');
 var fs = require('fs');
 
@@ -135,6 +137,13 @@ function postJamfAppIPA(req, res, next) {
                 res.status(500, '{"error" : ' + error + '}');
               }
               try {
+                apps.sendNotifications(req.query.release_id, req.query.system);
+              } catch (err1) {
+                console.log('Unable to post to slack: ' + err1);
+              }
+
+              try {
+                // Success
                 res.status(200).json(body);
               } catch (bodyErr) {
                 logger.winston.error(bodyErr);
