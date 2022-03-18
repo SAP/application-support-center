@@ -1,6 +1,5 @@
 .DS_Store
 npm-debug.log
-node_modules
 resources/app_icons
 resources/app_ipas
 test

@@ -3,7 +3,8 @@ module.exports = {
   getLoggedInUser,
   validateBearerToken,
   checkACL,
-  denyBearerToken
+  denyBearerToken,
+  getAuthInfo
 };
 
 const db = require('../db/db');
@@ -30,6 +31,24 @@ function checkACL(req, res, next) {
   } else {
     next();
   }
+}
+
+function getAuthInfo(req, res, next) {
+  var jwt = req.header('authorization');
+  jwt = jwt.substring('Bearer '.length);
+
+  xssec.createSecurityContext(jwt, xsenv.getServices({ uaa: { tag: 'xsuaa' } }).uaa, (error, securityContext) => {
+    var info;
+    try {
+      info = {
+        user: req.user,
+        roles: req.authInfo.getScopes()
+      };
+    } catch (err) {
+      console.log(err);
+    }
+    res.status(200).json(info);
+  });
 }
 
 function getRole(req) {

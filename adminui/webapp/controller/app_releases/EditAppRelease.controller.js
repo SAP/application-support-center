@@ -128,8 +128,9 @@ sap.ui.define([
 				var version = that.getView().byId("idInputAppVersion").getValue();
 				var app_id = that._appDetail.app_id;
 				var release_id = that._app_release_detail.release_id;
+				var bundle_id = that.getView().byId("idTextReleaseBundleID").getText();
 
-				that.api.postJamfAppIPA(jamf_id, form, app_id, version, that.sJamfSystem, release_id)
+				that.api.postJamfAppIPA(jamf_id, form, app_id, version, that.sJamfSystem, release_id, bundle_id)
 					.done(that.onPostJamfAppIPA.bind(that))
 					.fail(that.onGetJamfAppInfoFail.bind(that));
 			}, 500);
@@ -159,9 +160,13 @@ sap.ui.define([
 			}
 		},
 
-		onGetJamfAppInfoFail: function () {
-			this.clearForm();
-			this.onToast("IPA File not uploaded, please try again");
+		onGetJamfAppInfoFail: function (oData) {
+			try {
+				var response = JSON.parse(oData.responseText);
+				this.onToast(response.error);
+			} catch (err) {
+				this.onToast("IPA File not uploaded, please try again");
+			}
 		},
 
 		onPostJamfAppIPA: function(oData) {

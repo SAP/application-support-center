@@ -24,6 +24,10 @@ sap.ui.define([
 				this.byId("idDatePickerRetired").setDateValue(new Date(this._appDetail.retired));
 			}
 
+			if (this._appDetail.expiration_date && this._appDetail.expiration_date !== "") {
+				this.byId("idDatePickerProfileExpiration").setDateValue(new Date(this._appDetail.expiration_date));
+			}
+
 			if (this._appDetail && this.getOwnerComponent().getModel("selected_app") == undefined) {
 				this.onGetAppHelp(this._appDetail.app_id);
 				this.onGetAppReleases(this._appDetail.app_id);

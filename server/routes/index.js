@@ -18,6 +18,7 @@ const auth = require('../db/auth');
 
 // authentication js
 router.get('/users/me', auth.denyBearerToken, auth.getLoggedInUser);
+router.get('/users/myroles', auth.getAuthInfo);
 
 // Routes: Jamf
 router.post('/jamf/:bundle_id/info', jamf.postJamfAppinfo);

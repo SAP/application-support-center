@@ -127,6 +127,9 @@
 									<m:Input id="idInputFeedbackServiceId" value="{apps>feedback_service_id}" />
 									<!-- SAP Specific Code -->
 
+									<m:Label text="Profile Expiration Date" labelFor="expiration_date"/>
+									<m:DatePicker id="idDatePickerProfileExpiration" value="{apps>expiration_date}" displayFormat="MM/dd/yyyy" valueFormat="MM/dd/yyyy" />
+
 									<m:Label text="Comments" labelFor="notes"/>
 									<m:TextArea id="idTextNotes" value="{apps>notes}" rows="4" />
 								</form:content>

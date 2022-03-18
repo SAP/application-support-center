@@ -204,7 +204,8 @@ function updateApp(req, res, next) {
     bundle_id = $11,
     content_id = now(),
     feedback_service_id = $13,
-    git_url = $14
+    git_url = $14,
+    expiration_date = $15
     where app_id = $12`,
   [
     req.body.app_name,
@@ -220,7 +221,8 @@ function updateApp(req, res, next) {
     req.body.bundle_id,
     req.params.app_id,
     req.body.feedback_service_id,
-    req.body.git_url
+    req.body.git_url,
+    req.body.expiration_date
   ])
     .then((data) => {
       res.status(200).json({ status: 'success', message: 'Updated', data: data });

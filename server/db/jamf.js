@@ -7,6 +7,8 @@ module.exports = {
 const logger = require('../util/logger');
 const request = require('request');
 const apps = require('./apps');
+const db = require('./db');
+const AppInfoParser = require('app-info-parser');
 
 var multer = require('multer');
 var fs = require('fs');
@@ -15,9 +17,9 @@ function putJamfAppName(req, res, next) {
   logger.winston.info('Jamf.putJamfAppName');
   var sURL;
   if (req.query.system === 'prod') {
-    sURL = 'https://' + global.asc.prod_jamf_username + ':' + global.asc.prod_jamf_password + '@' + global.asc.prod_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
+    //sURL = 'https://' + global.asc.prod_jamf_username + ':' + global.asc.prod_jamf_password + '@' + global.asc.prod_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
   } else if (req.query.system === 'test') {
-    sURL = 'https://' + global.asc.test_jamf_username + ':' + global.asc.test_jamf_password + '@' + global.asc.test_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
+    //sURL = 'https://' + global.asc.test_jamf_username + ':' + global.asc.test_jamf_password + '@' + global.asc.test_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
   }
   if (sURL) {
     request({
@@ -90,6 +92,7 @@ function postJamfAppIPA(req, res, next) {
     var directory = global.asc.resources_dir + 'app_ipas';
     var sDate = Date.now();
     var sFilename = 'release_' + req.query.version + '_' + sDate + '.ipa';
+    var ipaInfo = {};
 
     var storage = multer.diskStorage({
       destination: directory,
@@ -103,7 +106,7 @@ function postJamfAppIPA(req, res, next) {
     }).single('file');
 
     // eslint-disable-next-line consistent-return
-    upload(req, res, (err) => {
+    upload(req, res, async (err) => {
       if (err) {
         logger.winston.error(err);
         return res.status(422).send({
@@ -111,7 +114,22 @@ function postJamfAppIPA(req, res, next) {
         });
       }
 
-      if (req.file !== undefined && req.file.path !== undefined) {
+      try {
+        // Lets inspect the uploaded IPA, we will check the bundle ID matches the ASC Bundle ID, and also pull the info.plist data
+        const parser = new AppInfoParser(req.file.path);
+        ipaInfo = await parser.parse();
+
+        // Remove to reduce unneccesary data being saved to DB
+        ipaInfo.mobileProvision.DeveloperCertificates = '(Removed for storage by ASC)';
+        ipaInfo.mobileProvision['DER-Encoded-Profile'] = '(Removed for storage by ASC)';
+        ipaInfo.icon = '';
+      } catch (parseErr) {
+        console.log(parseErr);
+      }
+
+      if (ipaInfo.CFBundleIdentifier !== req.query.bundle_id) {
+        res.status(400).json({ error: 'The uploaded file bundle ID does not match the Jamf Bundle ID, are you sure the file you are uploading is correct? The file was not uploaded' });
+      } else if (req.file !== undefined && req.file.path !== undefined) {
         // File uploaded to temp storage OK, lets push it to Jamf
         try {
           var sURL;
@@ -143,6 +161,15 @@ function postJamfAppIPA(req, res, next) {
               }
 
               try {
+                db.none('update app_releases set file_metadata = $1 where release_id = $2', [req.query.system + ' upload on ' + new Date() + '\n\n' + JSON.stringify(ipaInfo), req.query.release_id]);
+                if (req.query.system === 'prod') {
+                  db.none('update apps set expiration_date = $1 where app_id = $2', [ipaInfo.mobileProvision.ExpirationDate, req.query.app_id]);
+                }
+              } catch (dbUpdateErr) {
+                console.log(dbUpdateErr);
+              }
+
+              try {
                 // Success
                 res.status(200).json(body);
               } catch (bodyErr) {
@@ -151,7 +178,7 @@ function postJamfAppIPA(req, res, next) {
               }
             });
           } else {
-            return res.status(500).json('{"error" : "No system specified" }');
+            return res.status(500).json({ error: 'No system specified' });
           }
         } catch (uploadErr) {
           return res.status(400).json({ error: 'Unable to upload to Jamf' });

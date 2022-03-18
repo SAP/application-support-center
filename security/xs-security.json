@@ -2,8 +2,13 @@
     "xsappname": "asc",
     "tenant-mode": "dedicated",
     "oauth2-configuration": {
-        "allowedproviders": ["accounts.sap.com", "accounts400.sap.com"],
-        "redirect-uris": ["https://appsupport.services.sap/login/callback", "https://appsupport.services.sap/**", "https://ascrouter.cfapps.sap.hana.ondemand.com/**", "https://ascrouter.cfapps.eu10.hana.ondemand.com/**", "https://ascroutert.cfapps.eu10.hana.ondemand.com/**"]
+        "redirect-uris": [
+            "https://appsupport.services.sap/login/callback",
+            "https://appsupport.services.sap/**",
+            "https://*.cfapps.eu10.hana.ondemand.com/**",
+            "https://*.eu10.applicationstudio.cloud.sap",
+            "https://*.eu10.applicationstudio.cloud.sap/**"
+        ]
     },
     "scopes": [
         {

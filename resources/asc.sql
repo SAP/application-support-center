@@ -18,7 +18,8 @@ create table apps
 	jamf_id varchar,
 	bundle_id varchar,
 	feedback_service_id varchar,
-	git_url varchar
+	git_url varchar,
+	expiration_date timestamp
 );
 
 create unique index apps_app_id_uindex
@@ -67,7 +68,8 @@ create table app_releases
 	release_date timestamp,
 	sort_order integer,
 	visible boolean,
-	created timestamp default now()
+	created timestamp default now(),
+	file_metadata text
 );
 
 create unique index app_releases_release_id_uindex

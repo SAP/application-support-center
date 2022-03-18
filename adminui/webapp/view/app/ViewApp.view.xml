@@ -105,7 +105,11 @@
 										
 									<m:Label text="Feedback Service ID" visible="{= ${apps>feedback_service_id} !== null }" />
 									<m:Link id="idLinkFeedbackServiceId" visible="{= ${apps>feedback_service_id} !== null }" text="{apps>feedback_service_id}" press="onOpenFeedbackServicePress" />
+
 									<!-- SAP Specific Code -->
+
+									<m:Label text="Profile Expiration Date" visible="{= ${apps>expiration_date} !== null }" />
+									<m:Text text="{ path: 'apps>expiration_date', formatter: '.formatter.momentShortDate' }" visible="{= ${apps>expiration_date} !== null }" />
 
 									<core:Title text="" />
 									

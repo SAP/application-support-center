@@ -22,7 +22,7 @@ sap.ui.define([], function () {
 		},
 
 		momentTimeAgo: function (sDate) {
-			return moment.utc(sDate, "YY-MM-DD").fromNow();
+			return moment.utc(sDate, "YYYY-MM-DD HH:mm").fromNow();
 		},
 
 		momentShortDate: function (sDate) {

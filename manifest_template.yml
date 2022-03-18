@@ -20,6 +20,7 @@ applications:
   services:
     - asc_uaa
     - asc_storage
+    - asc_db
 
 - name: asc_router
   path: router
