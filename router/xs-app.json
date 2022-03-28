@@ -9,24 +9,24 @@
         {
             "source": "^/api/v1",
             "target": "/api/v1",
-            "destination": "asc_apidest_p",
+            "destination": "asc_apidest_d",
             "csrfProtection": false,
             "authenticationType": "none"
         },{
             "source": "^/admin/(.*)$",
             "target": "$1",
-            "destination": "asc_adminuidest_p",
+            "destination": "asc_adminuidest_d",
             "scope": {
                 "GET": ["$XSAPPNAME.ViewAllApps", "$XSAPPNAME.ViewMyApps"]
             }
         },{
             "source": "^/portal/(.*)",
             "target": "$1",
-            "destination": "asc_portaluidest_p"
+            "destination": "asc_portaluidest_d"
         },{
             "source": "^/serverresources",
             "target": "/serverresources",
-            "destination": "asc_apidest_p",
+            "destination": "asc_apidest_d",
             "csrfProtection": false
         },{
             "source": "^/logged_out.html$",
