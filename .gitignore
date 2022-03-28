@@ -14,6 +14,7 @@ adminui/dist
 manifest_prod.yml
 manifest_dev.yml
 manifest_test.yml
+router/xs-app_*
 
 # editors
 .vscode
