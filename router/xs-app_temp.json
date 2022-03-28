@@ -10,7 +10,8 @@
             "source": "^/api/v1",
             "target": "/api/v1",
             "destination": "asc_apidest_p",
-            "csrfProtection": false
+            "csrfProtection": false,
+            "authenticationType": "none"
         },{
             "source": "^/admin/(.*)$",
             "target": "$1",

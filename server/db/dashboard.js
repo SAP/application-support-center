@@ -1,5 +1,6 @@
 module.exports = {
-  getAllStats
+  getAllStats,
+  getAllReleases
 };
 
 const db = require('./db');
@@ -24,5 +25,17 @@ function getAllStats(req, res, next) {
       oData.releases_bymonth = data[3];
       oData.deployments_by_year = data[4];
       res.status(200).json(oData);
+    });
+}
+
+function getAllReleases(req, res, next) {
+  logger.winston.info('Dashboard.getAllReleases');
+  db.any('select app_name, status, category, technology, version, release_date, app_id, bundle_id from apps inner join app_releases using (app_id) order by release_date desc limit 100')
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+      logger.winston.error('getAllReleases: ' + err);
+      res.status(400).json({ data: err });
     });
 }

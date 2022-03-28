@@ -27,6 +27,7 @@ router.put('/jamf/:bundle_id/appname', jamf.putJamfAppName);
 
 // Routes: Dashboard
 router.get('/dashboard', auth.denyBearerToken, dashboard.getAllStats);
+router.get('/dashboard/releases', dashboard.getAllReleases);
 
 // Routes: Reports
 router.get('/reports', auth.denyBearerToken, reports.getReportData);
