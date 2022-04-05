@@ -118,7 +118,10 @@ function loadAppData(oData) {
 	$("#appStatus").html(oData.status);
 	$("#technology").html(oData.technology);
 	$("#storeCategory").html(oData.category);
-
+	
+	if (oData.expiration_date && oData.expiration_date != null  && oData.expiration_date != "null" ) {
+		$("#goExpirationDate").html(moment(oData.expiration_date).format('L'));
+	}
 	$("#goLiveDate").html(moment(oData.go_live).format('L'));
 	
 	if (oData.go_live == null) {
