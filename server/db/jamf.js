@@ -163,13 +163,15 @@ function postJamfAppIPA(req, res, next) {
               try {
                 db.none('update app_releases set file_metadata = $1 where release_id = $2', [req.query.system + ' upload on ' + new Date() + '\n\n' + JSON.stringify(ipaInfo), req.query.release_id]);
                 if (req.query.system === 'prod') {
-                  var expDate = 'IPA Info loaded, date not found';
+                  var expDate = '';
                   if (ipaInfo && ipaInfo.mobileProvision && ipaInfo.mobileProvision.ExpirationDate) {
                     expDate = ipaInfo.mobileProvision.ExpirationDate;
+                    console.log(expDate);
                   }
                   db.none('update apps set expiration_date = $1 where app_id = $2', [expDate, req.query.app_id]);
                 }
               } catch (dbUpdateErr) {
+                logger.winston.error(dbUpdateErr);
                 console.log(dbUpdateErr);
               }
 
