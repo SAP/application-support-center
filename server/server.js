@@ -94,6 +94,9 @@ if (global.asc.environment === 'dev' || global.asc.environment === 'test') {
   // Serve static files for UI website
   app.use('/admin', express.static('../adminui/webapp/'));
 
+  // Serve static DIST files for testing website
+  app.use('/admin/dist', express.static('../adminui/dist/'));
+
   // Serve static files for Landing page on root
   app.use('/', express.static('../router/webapp/'));
 
@@ -144,6 +147,7 @@ if (global.asc.environment === 'dev' || global.asc.environment === 'test') {
 
   logger.winston.info('- Landing UI:              ' + global.asc.server_url + ':' + global.asc.server_port + '/');
   logger.winston.info('- Admin UI:                ' + global.asc.server_url + ':' + global.asc.server_port + '/admin');
+  logger.winston.info('- DIST Admin UI:           ' + global.asc.server_url + ':' + global.asc.server_port + '/admin/dist');
   logger.winston.info('- Portal UI:               ' + global.asc.server_url + ':' + global.asc.server_port + '/portal');
   logger.winston.info('- Integration tests:       ' + global.asc.server_url + ':' + global.asc.server_port + '/admin/test/integration/opaTests.qunit.html\n\n');
 
