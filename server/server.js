@@ -21,6 +21,10 @@ global.asc.server_url = process.env.URL || 'http://localhost';
 global.asc.environment = process.env.npm_lifecycle_event;
 global.asc.prod_slack_webhook_url = process.env.prod_slack_webhook_url || '';
 global.asc.dev_slack_webhook_url = process.env.dev_slack_webhook_url || '';
+global.asc.smtp_host = process.env.smtp_host || '';
+global.asc.smtp_port = process.env.smtp_port || '';
+global.asc.smtp_user = process.env.smtp_user || '';
+global.asc.smtp_password = process.env.smtp_password || '';
 
 // SAP Specific Code
 global.asc.tracking_bearer_token = process.env.tracking_bearer_token;
@@ -44,6 +48,7 @@ const logger = require('./util/logger');
 const routes = require('./routes/index');
 const auth = require('./db/auth');
 const storage = require('./db/storage');
+const cron = require('./db/cron');
 
 // Express configuration options for files/json
 app.use(
@@ -135,6 +140,9 @@ app.use('/serverresources', express.static(global.asc.resources_dir), serveIndex
 
 // Inject app routes
 app.use('/api/v1/', routes);
+
+// Start cron job for cehcking provisioning profile
+cron.runJobCheck();
 
 const server = require('http').createServer(app);
 server.listen(global.asc.server_port);
