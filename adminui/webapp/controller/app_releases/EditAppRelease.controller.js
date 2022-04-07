@@ -178,7 +178,7 @@ sap.ui.define([
 				that.onSelectJamfSystem();
 			}, 5000);
 			this.getView().byId("addJamfDialog").close();
-			if (oData.expiration_date) {
+			if (this.getView().byId("idSelectReleaseJamfSystem").getSelectedKey() === 'prod' && oData.expiration_date) {
 				this._appDetail.expiration_date = oData.expiration_date;
 			}
 		}
