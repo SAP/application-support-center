@@ -133,6 +133,7 @@ function postJamfAppIPA(req, res, next) {
         // File uploaded to temp storage OK, lets push it to Jamf
         try {
           var sURL;
+          var expDate = '';
           if (req.query.system === 'prod') {
             sURL = 'https://' + global.asc.prod_jamf_username + ':' + global.asc.prod_jamf_password + '@' + global.asc.prod_jamf_endpoint + '/JSSResource/fileuploads/mobiledeviceapplicationsipa/id/' + req.params.jamf_app_id + '?FORCE_IPA_UPLOAD=true';
           } else if (req.query.system === 'test') {
@@ -163,7 +164,6 @@ function postJamfAppIPA(req, res, next) {
               try {
                 db.none('update app_releases set file_metadata = $1 where release_id = $2', [req.query.system + ' upload on ' + new Date() + '\n\n' + JSON.stringify(ipaInfo), req.query.release_id]);
                 if (req.query.system === 'prod') {
-                  var expDate = '';
                   if (ipaInfo && ipaInfo.mobileProvision && ipaInfo.mobileProvision.ExpirationDate) {
                     expDate = ipaInfo.mobileProvision.ExpirationDate;
                   }
@@ -176,7 +176,13 @@ function postJamfAppIPA(req, res, next) {
 
               try {
                 // Success
-                res.status(200).json(body);
+                var uploadResponse = {
+                  body: body
+                };
+                if (req.query.system === 'prod') {
+                  uploadResponse.expiration_date = expDate;
+                }
+                res.status(200).json(uploadResponse);
               } catch (bodyErr) {
                 logger.winston.error(bodyErr);
                 res.status(500, res, '{"error" : ' + bodyErr + '}');
