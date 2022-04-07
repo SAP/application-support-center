@@ -324,7 +324,7 @@ function getHtml(appId, appName, expirationDate, daysTillExpiration, names) {
                                 <table align="left" border="0" cellpadding="0" cellspacing="0" class="MsoNormalTable" style="background:#DEDEDE;border-collapse:collapse;margin-left:-2.25pt;margin-right:-2.25pt;margin-top:20px;">
                                   <tr>
                                     <td style="background:#F0AB00;padding:9pt 9.0pt 9pt 9.0pt;">
-                                      <p align="center" class="MsoNormal" style="text-align:center;line-height:12.75pt"><b><span class="body-text" style="padding:0in">A href="http://appsupport.services.sap/admin/" target="_blank">More Information</a></span></b></p>
+                                      <p align="center" class="MsoNormal" style="text-align:center;line-height:12.75pt"><b><span class="body-text" style="padding:0in"><a href="http://appsupport.services.sap/admin/" target="_blank">More Information</a></span></b></p>
                                     </td>
                                   </tr>
                                 </table>
