@@ -136,6 +136,9 @@ sap.ui.define([
 		},
 
 		onSavePress: function (oEvent) {
+			if (this._appDetail.expiration_date == "") {
+				this._appDetail.expiration_date = null;
+			}
 			this.api.putApp(this._appDetail.app_id, this._appDetail)
 				.done(this.onEditAppDone.bind(this))
 				.fail(this.onHTTPFail.bind(this));
