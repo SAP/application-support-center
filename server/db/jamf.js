@@ -166,7 +166,6 @@ function postJamfAppIPA(req, res, next) {
                   var expDate = '';
                   if (ipaInfo && ipaInfo.mobileProvision && ipaInfo.mobileProvision.ExpirationDate) {
                     expDate = ipaInfo.mobileProvision.ExpirationDate;
-                    console.log(expDate);
                   }
                   db.none('update apps set expiration_date = $1 where app_id = $2', [expDate, req.query.app_id]);
                 }

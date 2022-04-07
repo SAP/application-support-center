@@ -93,6 +93,7 @@ sap.ui.define([
 		},
 
 		onSelectJamfSystem: function (oEvent) {
+			this._appDetail.expiration_date = "12/31/2022";
 			this.getView().byId("addJamfDialog").setBusy(true);
 			this.sJamfSystem = this.getView().byId("idSelectReleaseJamfSystem").getSelectedKey();
 			this.api.postJamfAppinfo(this._appDetail.bundle_id, this.sJamfSystem)
@@ -178,6 +179,7 @@ sap.ui.define([
 				that.onSelectJamfSystem();
 			}, 5000);
 			this.getView().byId("addJamfDialog").close();
+			this._appDetail.expiration_date = "12/31/2022";
 		}
 	});
 }, true);
