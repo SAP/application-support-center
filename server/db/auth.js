@@ -4,7 +4,8 @@ module.exports = {
   validateBearerToken,
   checkACL,
   denyBearerToken,
-  getAuthInfo
+  getAuthInfo,
+  allowPublic
 };
 
 const db = require('../db/db');
@@ -19,6 +20,10 @@ function denyBearerToken(req, res, next) {
   } else {
     next();
   }
+}
+
+function allowPublic(req, res, next) {
+  next();
 }
 
 function checkACL(req, res, next) {

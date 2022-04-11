@@ -44,6 +44,8 @@ router.get('/apps/:app_id/usagedata', apps.getTrackingData);
 
 router.get('/apps/:app_id/token', auth.denyBearerToken, apps.getSecureTokenForApp);
 router.get('/apps/:app_id/token/refresh', auth.denyBearerToken, apps.replaceSecureTokenForApp);
+
+router.get('/apps/:app_id/appicon/:filename', auth.allowPublic, apps.getAppIcon);
 router.post('/apps/:app_id/appicon', apps.createAppIcon);
 
 // Routes: App with bulk data download

@@ -30,7 +30,7 @@ function getAllStats(req, res, next) {
 
 function getAllReleases(req, res, next) {
   logger.winston.info('Dashboard.getAllReleases');
-  db.any('select app_name, status, category, technology, version, release_date, app_id, bundle_id from apps inner join app_releases using (app_id) order by release_date desc limit 100')
+  db.any('select app_name, status, category, technology, version, release_date, app_id, bundle_id, expiration_date from apps inner join app_releases using (app_id) order by release_date desc limit 100')
     .then((data) => {
       res.status(200).json(data);
     })

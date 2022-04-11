@@ -12,7 +12,8 @@ module.exports = {
   updateAppSyncIcon,
   replaceSecureTokenForApp,
   getSingleAppBulkData,
-  sendNotifications
+  sendNotifications,
+  getAppIcon
 };
 
 const db = require('./db');
@@ -21,6 +22,21 @@ const mime = require('mime');
 const logger = require('../util/logger');
 const request = require('request');
 const fs = require('fs');
+
+function getAppIcon(req, res, next) {
+  logger.winston.info('Apps.getAppIcon');
+  try {
+    var filename = global.asc.resources_dir + '/app_icons/' + req.params.app_id + '.png';
+    if (global.asc.environment === 'dev' || global.asc.environment === 'test') {
+      res.sendFile(filename, { root: '.' });
+    } else {
+      res.sendFile(filename);
+    }
+  } catch (err) {
+    logger.winston.error(err);
+    res.status(400).json({ data: 'Error getting file' });
+  }
+}
 
 function getAllApps(req, res, next) {
   logger.winston.info('Apps.getAllApps');
@@ -189,7 +205,8 @@ function getSingleApp(req, res, next) {
 
 function updateApp(req, res, next) {
   logger.winston.info('Apps.updateApp');
-  db.any(`update apps set 
+  db.any(
+    `update apps set 
     app_name = $1,
     category = $2,
     status = $3,
@@ -207,23 +224,24 @@ function updateApp(req, res, next) {
     git_url = $14,
     expiration_date = $15
     where app_id = $12`,
-  [
-    req.body.app_name,
-    req.body.category,
-    req.body.status,
-    req.body.notes,
-    req.body.monitoring_url,
-    req.body.go_live,
-    req.body.retired,
-    req.body.usage_tracking_id,
-    req.body.technology,
-    req.body.jamf_id,
-    req.body.bundle_id,
-    req.params.app_id,
-    req.body.feedback_service_id,
-    req.body.git_url,
-    req.body.expiration_date
-  ])
+    [
+      req.body.app_name,
+      req.body.category,
+      req.body.status,
+      req.body.notes,
+      req.body.monitoring_url,
+      req.body.go_live,
+      req.body.retired,
+      req.body.usage_tracking_id,
+      req.body.technology,
+      req.body.jamf_id,
+      req.body.bundle_id,
+      req.params.app_id,
+      req.body.feedback_service_id,
+      req.body.git_url,
+      req.body.expiration_date
+    ]
+  )
     .then((data) => {
       res.status(200).json({ status: 'success', message: 'Updated', data: data });
     })

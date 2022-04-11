@@ -10,9 +10,9 @@ var cron = require('cron').CronJob;
 function runJobCheck() {
   var period;
   if (global.asc.environment === 'dev') {
-    period = '0 */1 * * * *';
+    period = '00 00 */1 * * *'; // Hourly
   } else {
-    period = '00 00 00 * * *';
+    period = '00 00 00 * * *'; // Mignight each day
   }
   const job = new cron(period, function () {
     const d = new Date();
@@ -29,7 +29,7 @@ function checkForExpiringApps() {
       inner join app_contacts on apps.app_id = app_contacts.app_id
   inner join contacts on app_contacts.contact_id = contacts.contact_id
   where expiration_date is not null
-    --and DATE_PART('day', expiration_date - now()) < 30
+  and DATE_PART('day', expiration_date - now()) < 30
   group by apps.app_id, app_name, expiration_date`)
     .then((data) => {
       data.forEach(record => {

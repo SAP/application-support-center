@@ -133,9 +133,12 @@ if (global.asc.environment === 'dev' || global.asc.environment === 'test') {
 
 // Serve static files for server resources
 global.asc.resources_dir = storage.getStorageDir() === '' ? './resources/' : storage.getStorageDir();
+
 // Check folders exist
 storage.checkStorageFoldersExist(global.asc.resources_dir);
+
 // This provides directory listing/browsing of uploaded IPA's and App Icons, remove serveIndex for security purposes if needed
+// app.use('/serverresources', express.static(global.asc.resources_dir));
 app.use('/serverresources', express.static(global.asc.resources_dir), serveIndex(global.asc.resources_dir, { icons: true }));
 
 // Inject app routes
