@@ -3,12 +3,40 @@ module.exports = {
   createNotification,
   updateNotitifcation,
   removeNotification,
-  sendEmail
+  sendEmail,
+  sendDebugEmail
 };
 
 const db = require('./db');
 const logger = require('../util/logger');
 const nodemailer = require('nodemailer');
+
+function sendDebugEmail(text) {
+  try {
+    var transporter = nodemailer.createTransport({
+      host: global.asc.smtp_host,
+      port: global.asc.smtp_port,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: global.asc.smtp_user,
+        pass: global.asc.smtp_password
+      },
+      tls: {
+        rejectUnauthorized: false
+      }
+    });
+
+    transporter.sendMail({
+      from: 'appservices@sap.com',
+      to: 'paul.aschmann@sap.com',
+      subject: 'Debug Email',
+      text: text
+    });
+    console.log('Mail sent');
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 function sendEmail(recipient, appId, appName, expirationDate, daysTillExpiration, names) {
   try {
