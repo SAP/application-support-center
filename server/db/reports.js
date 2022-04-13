@@ -41,6 +41,14 @@ function getReportData(req, res, next) {
       { columnName: 'last_name' },
       { columnName: 'email' }
     ];
+  } else if (req.query.report_id === 'app_releases') {
+    sSQL = `select to_char(release_date, 'MM/DD/YYYY') as release_date, app_name, technology, regexp_replace(description, E'<[^>]+>', '', 'gi') as description
+    from app_releases inner join apps using (app_id) order by release_date desc limit 100`;
+    aColNames = [{ columnName: 'release_date' },
+      { columnName: 'app_name' },
+      { columnName: 'technology' },
+      { columnName: 'description' }
+    ];
   }
 
   if (sSQL !== '') {
