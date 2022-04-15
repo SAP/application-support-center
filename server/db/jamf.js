@@ -167,9 +167,9 @@ function postJamfAppIPA(req, res, next) {
                 db.none('update app_releases set file_metadata = $1 where release_id = $2', [req.query.system + ' upload on ' + new Date() + '\n\n' + JSON.stringify(ipaInfo), req.query.release_id]);
                 if (ipaInfo && ipaInfo.mobileProvision && ipaInfo.mobileProvision.ExpirationDate) {
                   expDate = ipaInfo.mobileProvision.ExpirationDate;
-                  notifications.sendDebugEmail('New upload of ' + req.query.app_id + ' to ' + req.query.system + '. Prov Profile exp date: ' + expDate + ' - metadata ' + ipaInfo);
+                  notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: ' + expDate + ' - metadata ' + ipaInfo);
                 } else {
-                  notifications.sendDebugEmail('New upload of ' + req.query.app_id + ' to ' + req.query.system + '. Prov Profile exp date: Unknown - metadata ' + ipaInfo);
+                  notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: Unknown - metadata ' + ipaInfo);
                 }
                 if (req.query.system === 'prod') {
                   db.none('update apps set expiration_date = $1 where app_id = $2', [expDate, req.query.app_id]);
