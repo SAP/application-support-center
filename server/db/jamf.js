@@ -13,7 +13,7 @@ const AppInfoParser = require('app-info-parser');
 
 var multer = require('multer');
 var fs = require('fs');
-const exp = require('constants');
+// const exp = require('constants');
 
 function putJamfAppName(req, res, next) {
   logger.winston.info('Jamf.putJamfAppName');

@@ -162,8 +162,9 @@ sap.ui.define([
 
 		onGetJamfAppInfoFail: function (oData) {
 			try {
+				this.getView().byId("addJamfDialog").setBusy(false);
 				var response = JSON.parse(oData.responseText);
-				this.onToast(response.error);
+				this.onToast("Server Response: " + response.error);
 			} catch (err) {
 				this.onToast("IPA File not uploaded, please try again");
 			}
