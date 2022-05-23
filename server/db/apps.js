@@ -12,7 +12,6 @@ module.exports = {
   updateAppSyncIcon,
   replaceSecureTokenForApp,
   getSingleAppBulkData,
-  sendNotifications,
   getAppIcon
 };
 
@@ -20,7 +19,6 @@ const db = require('./db');
 const multer = require('multer');
 const mime = require('mime');
 const logger = require('../util/logger');
-const request = require('request');
 const fs = require('fs');
 
 function getAppIcon(req, res, next) {
@@ -60,72 +58,6 @@ function getAllApps(req, res, next) {
       logger.winston.error('getAllApps: ' + err);
       res.status(400).json({ data: err });
     });
-}
-
-function sendNotifications(releaseId, systemId) {
-  // Sends notification to external systems if configured in the .env file
-  var slackUrl = '';
-  if (global.asc.environment === 'dev') {
-    slackUrl = global.asc.dev_slack_webhook_url;
-  } else {
-    slackUrl = global.asc.prod_slack_webhook_url;
-  }
-  if (slackUrl !== '') {
-    db.one('select * from app_releases inner join apps on app_releases.app_id = apps.app_id where release_id = $1', releaseId)
-      .then((data) => {
-        var json = {
-          blocks: [
-            {
-              type: 'header',
-              text: {
-                type: 'plain_text',
-                text: 'New release pushed to Jamf (' + systemId + '): ' + data.app_name + ' (' + data.technology + ') ' + data.version,
-                emoji: true
-              }
-            },
-            {
-              type: 'divider'
-            },
-            {
-              type: 'section',
-              text: {
-                type: 'mrkdwn',
-                text: data.description.replace(/<[^>]*>?/gm, '')
-              },
-              accessory: {
-                type: 'button',
-                text: {
-                  type: 'plain_text',
-                  text: 'View',
-                  emoji: true
-                },
-                value: 'View',
-                url: 'https://appsupport.services.sap/portal/index.html?appid=' + data.app_id,
-                action_id: 'button-action'
-              }
-            }
-          ]
-        };
-        if (data) {
-          request({
-            method: 'POST',
-            uri: slackUrl,
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            json: json
-          }, (error, response, body) => {
-            if (error) {
-              logger.winston.error(error);
-            }
-            logger.winston.info('Successfully sent notification to Slack');
-          });
-        }
-      })
-      .catch((err) => {
-        logger.winston.error(err);
-      });
-  }
 }
 
 function getMyApps(req, res, next) {

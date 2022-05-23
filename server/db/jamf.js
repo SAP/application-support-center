@@ -157,12 +157,8 @@ function postJamfAppIPA(req, res, next) {
                 logger.winston.error(error);
                 res.status(500, '{"error" : ' + error + '}');
               }
-              try {
-                apps.sendNotifications(req.query.release_id, req.query.system);
-              } catch (err1) {
-                console.log('Unable to post to slack: ' + err1);
-              }
 
+              // Get IPA file info and add to app_releases
               try {
                 db.none('update app_releases set file_metadata = $1 where release_id = $2', [req.query.system + ' upload on ' + new Date() + '\n\n' + JSON.stringify(ipaInfo), req.query.release_id]);
                 if (ipaInfo && ipaInfo.mobileProvision && ipaInfo.mobileProvision.ExpirationDate) {
@@ -170,13 +166,19 @@ function postJamfAppIPA(req, res, next) {
                   if (req.query.system === 'prod') {
                     db.none('update apps set expiration_date = $1 where app_id = $2', [expDate, req.query.app_id]);
                   }
-                  notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: ' + expDate + ' - metadata ' + JSON.stringify(ipaInfo));
+                  // notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: ' + expDate + ' - metadata ' + JSON.stringify(ipaInfo));
                 } else {
-                  notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: Unknown - metadata ' + JSON.stringify(ipaInfo));
+                  // notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: Unknown - metadata ' + JSON.stringify(ipaInfo));
                 }
               } catch (dbUpdateErr) {
                 logger.winston.error(dbUpdateErr);
                 console.log(dbUpdateErr);
+              }
+
+              try {
+                notifications.sendNotifications(req.query.release_id, req.query.system, expDate);
+              } catch (err1) {
+                console.log('Unable to post to slack: ' + err1);
               }
 
               try {
