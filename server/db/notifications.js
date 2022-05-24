@@ -25,14 +25,14 @@ function sendNotifications(releaseId, systemId, expDate) {
     db.one('select * from app_releases inner join apps on app_releases.app_id = apps.app_id where release_id = $1', releaseId)
       .then((data) => {
         var desc = data.description.replace(/<[^>]*>?/gm, '');
-        desc += 'Provisioning Profile Expiration: ' + expDate;
+        desc += '\nProvisioning Profile Expiration: ' + expDate;
         var json = {
           blocks: [
             {
               type: 'header',
               text: {
                 type: 'plain_text',
-                text: 'New release pushed to Jamf (' + systemId + '): ' + data.app_name + ' (' + data.technology + ') ' + data.version,
+                text: data.app_name + ' (' + data.technology + ') ' + data.version + ' pushed to Jamf (' + systemId + ')',
                 emoji: true
               }
             },
