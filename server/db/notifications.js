@@ -25,7 +25,7 @@ function sendNotifications(releaseId, systemId, expDate) {
     db.one('select * from app_releases inner join apps on app_releases.app_id = apps.app_id where release_id = $1', releaseId)
       .then((data) => {
         var desc = data.description.replace(/<[^>]*>?/gm, '');
-        desc += "<br> Provisioning Profile Expiration: " + expDate;
+        desc += 'Provisioning Profile Expiration: ' + expDate;
         var json = {
           blocks: [
             {
