@@ -30,6 +30,7 @@ function checkForExpiringApps() {
   inner join contacts on app_contacts.contact_id = contacts.contact_id
   where expiration_date is not null
   and DATE_PART('day', expiration_date - now()) < 30
+  and apps.status = 'Productive'
   group by apps.app_id, app_name, expiration_date`)
     .then((data) => {
       data.forEach(record => {

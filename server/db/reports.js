@@ -15,6 +15,7 @@ function getReportData(req, res, next) {
     to_char(apps.created, 'MM/DD/YYYY') as created,
     to_char(apps.modified, 'MM/DD/YYYY') as modified,
     to_char(apps.retired, 'MM/DD/YYYY') as retired,
+    to_char(apps.expiration_date, 'MM/DD/YYYY') as profile_expiration,
     technology, bundle_id,
     (select STRING_AGG(keyword || ': ' || description, '; ') as app_keywords from app_keywords where app_keywords.app_id = apps.app_id)
     from apps`;
@@ -26,7 +27,7 @@ function getReportData(req, res, next) {
       { columnName: 'created' },
       { columnName: 'modified' },
       { columnName: 'retired' },
-      { columnName: 'modified' },
+      { columnName: 'profile_expiration' },
       { columnName: 'technology' },
       { columnName: 'bundle_id' },
       { columnName: 'app_keywords' }
