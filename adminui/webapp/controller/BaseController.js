@@ -244,6 +244,12 @@ sap.ui.define([
 				app_defaults[item.setting_name].push({ "key": item.setting_key, "value": item.setting_value });
 			});
 
+			// Add feedback days to options
+			app_defaults["app_feedback_repeat_on"] = [];
+			for (var i = 1; i <= 31; i++) {
+				app_defaults["app_feedback_repeat_on"].push({ "key": i, "value": i});
+			}
+
 			var oOptionsModel = new JSONModel(app_defaults);
 			this.getOwnerComponent().setModel(oOptionsModel, "options");
 		},

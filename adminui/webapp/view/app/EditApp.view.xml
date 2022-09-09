@@ -137,6 +137,76 @@
 						</blocks>
 					</ObjectPageSubSection>
 
+
+
+					<ObjectPageSubSection>
+						<blocks>
+							<form:SimpleForm id="idFormEditAppFeedback" editable="true" layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2">
+								<form:content>
+									<core:Title text="Configure Feedback" />						
+
+									<m:Label text="Status" />
+									<m:Select id="idSelectFeedbackStatus" selectedKey="{apps>feedback_status}" items="{
+													path: 'options>/app_feedback_status',
+													sorter: { path: 'value' }
+												}">
+										<core:Item key="{options>key}" text="{options>value}" />
+									</m:Select>
+
+									<m:Label text="Feedback Type" />
+									<m:Select id="idSelectFeedbackType" selectedKey="{apps>feedback_type}" items="{
+													path: 'options>/app_feedback_type',
+													sorter: { path: 'value' }
+												}">
+										<core:Item key="{options>key}" text="{options>value}" />
+									</m:Select>
+
+
+									<m:Label text="Information Type" labelFor="status"/>
+									<m:Select id="idSelectFeedbackInfoType" selectedKey="{apps>feedback_info_type}" items="{
+													path: 'options>/app_feedback_info_type',
+													sorter: { path: 'value' }
+												}">
+										<core:Item key="{options>key}" text="{options>value}" />
+									</m:Select>
+
+									<m:Label text="Start Date"/>
+									<m:DatePicker id="idDatePickerFeedbackStartDate" value="{apps>feedback_start_date}" displayFormat="MM/dd/yyyy" valueFormat="MM/dd/yyyy" />
+
+									<m:Label text=""/>
+										<m:RadioButtonGroup selectedIndex="{apps>feedback_no_end_date}" columns="2" select="onSetFeedbackEndDate">
+											<m:RadioButton text="No End Date" />
+											<m:RadioButton text="End Date" />
+										</m:RadioButtonGroup>
+									
+									<m:Label text="End Date"/>
+									<m:DatePicker id="idDatePickerFeedbackEndDate" enabled="{= ${apps>feedback_no_end_date} === 1 }" value="{apps>feedback_end_date}" displayFormat="MM/dd/yyyy" valueFormat="MM/dd/yyyy" />
+
+									<m:Label text="Repeat" />
+									<m:Select id="idSelectFeedbackRepeat" selectedKey="{apps>feedback_repeat_days}" items="{
+													path: 'options>/app_feedback_repeat',
+													sorter: { path: 'value' }
+												}">
+										<core:Item key="{options>key}" text="{options>value}" />
+									</m:Select>
+
+									<m:Label text="Day" />
+									<m:Select id="idSelectFeedbackDay" selectedKey="{apps>feedback_repeat_on}" items="{
+													path: 'options>/app_feedback_repeat_on',
+													sorter: { path: 'value' }
+												}">
+										<core:Item key="{options>key}" text="{options>value}" />
+									</m:Select>
+
+								</form:content>
+							</form:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+
+
+
+
+
 					<ObjectPageSubSection>
 						<l:VerticalLayout class="">
 							<m:OverflowToolbar>

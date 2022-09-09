@@ -17,6 +17,9 @@ sap.ui.define([
 
 			this._appDetail = this.getView().getModel('apps').getProperty("/" + this._app);
 
+			// Add a new property for the radio button
+			this._appDetail.feedback_no_end_date = this._appDetail.feedback_end_date == null ? 0 : 1;
+
 			if (this._appDetail.go_live && this._appDetail.go_live !== "") {
 				this.byId("idDatePickerGoLive").setDateValue(new Date(this._appDetail.go_live));
 			}
@@ -45,6 +48,12 @@ sap.ui.define([
 		},
 
 		// UI //
+
+		onSetFeedbackEndDate: function (oEvent) {
+			if (oEvent.getParameter("selectedIndex") == 0) {
+				this.getView().byId("idDatePickerFeedbackEndDate").setProperty("value", "");
+			}
+		},
 
 		onCancelPress: function () {
 			this.oRouter.navTo("viewapp", { app: this._app });

@@ -42,6 +42,7 @@ const xsenv = require('@sap/xsenv');
 const serveIndex = require('serve-index');
 const app = express();
 const cfenv = require('cfenv');
+const cors = require('cors');
 
 // ASC Modules
 const logger = require('./util/logger');
@@ -146,6 +147,9 @@ app.use('/api/v1/', routes);
 
 // Start cron job for cehcking provisioning profile
 cron.runJobCheck();
+
+// Enable cors
+app.use(cors());
 
 const server = require('http').createServer(app);
 server.listen(global.asc.server_port);

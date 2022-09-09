@@ -6,6 +6,13 @@
     },
     "authenticationMethod": "route",
     "routes": [
+        { 
+            "source": "^/sapit-employee-data", 
+            "target": "/", 
+            "csrfProtection": false, 
+            "destination": "sapit-employee-data", 
+            "authenticationType": "xsuaa" 
+        },
         {
             "source": "^/api/v1",
             "target": "/api/v1",

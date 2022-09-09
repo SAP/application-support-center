@@ -63,7 +63,10 @@ function getAllApps(req, res, next) {
 function getMyApps(req, res, next) {
   logger.winston.info('Apps.getMyApps');
 
-  db.any("select distinct apps.*, to_char(apps.go_live, 'MM/DD/YYYY') as go_live, to_char(apps.created, 'MM/DD/YYYY') as created, to_char(apps.modified, 'MM/DD/YYYY') as modified, to_char(apps.retired, 'MM/DD/YYYY') as retired from apps inner join app_contacts ac on apps.app_id = ac.app_id inner join contacts c on ac.contact_id = c.contact_id where c.external_id = $1", [req.query.externalId])
+  db.any(`select distinct apps.*, to_char(apps.go_live, 'MM/DD/YYYY') as go_live,
+    to_char(apps.created, 'MM/DD/YYYY') as created, to_char(apps.modified, 'MM/DD/YYYY') as modified, 
+    to_char(apps.retired, 'MM/DD/YYYY') as retired from apps inner join app_contacts ac on apps.app_id = ac.app_id 
+    inner join contacts c on ac.contact_id = c.contact_id where c.external_id = $1`, [req.query.externalId])
     .then((data) => {
       res.status(200).json(data);
     })
@@ -154,7 +157,14 @@ function updateApp(req, res, next) {
     content_id = now(),
     feedback_service_id = $13,
     git_url = $14,
-    expiration_date = $15
+    expiration_date = $15,
+    feedback_type = $16,
+    feedback_info_type = $17,
+    feedback_start_date = $18,
+    feedback_end_date = $19,
+    feedback_repeat_days = $20,
+    feedback_repeat_on = $21,
+    feedback_status = $22
     where app_id = $12`,
     [
       req.body.app_name,
@@ -162,8 +172,8 @@ function updateApp(req, res, next) {
       req.body.status,
       req.body.notes,
       req.body.monitoring_url,
-      req.body.go_live,
-      req.body.retired,
+      req.body.go_live || null,
+      req.body.retired || null,
       req.body.usage_tracking_id,
       req.body.technology,
       req.body.jamf_id,
@@ -171,7 +181,14 @@ function updateApp(req, res, next) {
       req.params.app_id,
       req.body.feedback_service_id,
       req.body.git_url,
-      req.body.expiration_date
+      req.body.expiration_date,
+      req.body.feedback_type,
+      req.body.feedback_info_type,
+      req.body.feedback_start_date || null,
+      req.body.feedback_end_date || null,
+      req.body.feedback_repeat_days,
+      req.body.feedback_repeat_on,
+      req.body.feedback_status === 'Active' ? 1 : 0
     ]
   )
     .then((data) => {

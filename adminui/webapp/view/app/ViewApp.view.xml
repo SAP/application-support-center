@@ -150,6 +150,41 @@
 				</subSections>
 			</ObjectPageSection>
 
+			<ObjectPageSection title="Configure Feedback" titleUppercase="false">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<form:SimpleForm id="idFormAppFeedback" editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" >
+								<form:content>
+									
+									<m:Label text="Feedback Type" />
+									<m:Text text="{ path: 'apps>feedback_type' }" />
+									
+									<m:Label text="Information Type" />
+									<m:Text text="{ path: 'apps>feedback_info_type' }" />
+										
+									<m:Label text="Start Date" />
+									<m:Text text="{ path: 'apps>feedback_start_date', formatter: '.formatter.momentShortDate' }" />
+
+									<m:Label text="End Date" />
+									<m:Text text="{ path: 'apps>feedback_end_date', formatter: '.formatter.momentShortDate' }" />
+									
+									<m:Label text="Repeat" />
+									<m:Text text="{apps>feedback_repeat_days}" />
+
+									<m:Label text="Day" />
+									<m:Text text="{apps>feedback_repeat_on}" />
+
+									<m:Label text="Status" />
+									<m:Text text="{apps>feedback_status}" />
+									
+								</form:content>
+							</form:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+
 			<ObjectPageSection title="Contacts ({=${app_contacts>/}.length})" titleUppercase="false">
 				<subSections>
 					<ObjectPageSubSection>
