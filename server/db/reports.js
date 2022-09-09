@@ -33,14 +33,15 @@ function getReportData(req, res, next) {
       { columnName: 'app_keywords' }
     ];
   } else if (req.query.report_id === 'app_contacts') {
-    sSQL = `select app_name, first_name, last_name, email 
+    sSQL = `select app_name, first_name, last_name, email, role
     from apps inner join app_contacts on apps.app_id = app_contacts.app_id 
     inner join contacts c on app_contacts.contact_id = c.contact_id
     order by app_name`;
     aColNames = [{ columnName: 'app_name' },
       { columnName: 'first_name' },
       { columnName: 'last_name' },
-      { columnName: 'email' }
+      { columnName: 'email' },
+      { columnName: 'role' }
     ];
   } else if (req.query.report_id === 'app_releases') {
     sSQL = `select to_char(release_date, 'MM/DD/YYYY') as date, app_name, technology, regexp_replace(description, E'<[^>]+>', '', 'gi') as description
