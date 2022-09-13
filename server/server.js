@@ -149,7 +149,9 @@ app.use('/api/v1/', routes);
 cron.runJobCheck();
 
 // Enable cors
-app.use(cors());
+app.use(cors({
+  origin: '*'
+}));
 
 const server = require('http').createServer(app);
 server.listen(global.asc.server_port);
