@@ -142,16 +142,14 @@ storage.checkStorageFoldersExist(global.asc.resources_dir);
 // app.use('/serverresources', express.static(global.asc.resources_dir));
 app.use('/serverresources', express.static(global.asc.resources_dir), serveIndex(global.asc.resources_dir, { icons: true }));
 
+// Enable cors
+app.options('*', cors()); // include before other routes
+
 // Inject app routes
 app.use('/api/v1/', routes);
 
 // Start cron job for cehcking provisioning profile
 cron.runJobCheck();
-
-// Enable cors
-app.use(cors({
-  origin: '*'
-}));
 
 const server = require('http').createServer(app);
 server.listen(global.asc.server_port);
