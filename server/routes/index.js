@@ -13,6 +13,8 @@ const reports = require('../db/reports');
 const jamf = require('../db/jamf');
 const notifications = require('../db/notifications');
 
+const cors = require('cors');
+
 const settings = require('../db/settings');
 const auth = require('../db/auth');
 
@@ -65,7 +67,7 @@ router.put('/apps/:app_id/keywords/:keyword_id', appKeywords.updateAppKeyword);
 router.delete('/apps/:app_id/keywords/:keyword_id', appKeywords.removeAppKeyword);
 
 // Routes: app releases
-router.get('/apps/:app_id/releases', auth.checkACL, appReleases.getAllAppReleases);
+router.get('/apps/:app_id/releases', cors(), auth.checkACL, appReleases.getAllAppReleases);
 router.get('/apps/:app_id/releases/:release_id', auth.checkACL, appReleases.getSingleAppRelease);
 router.post('/apps/:app_id/releases', appReleases.createAppRelease);
 router.put('/apps/:app_id/releases/:release_id', appReleases.updateAppRelease);

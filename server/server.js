@@ -143,7 +143,7 @@ storage.checkStorageFoldersExist(global.asc.resources_dir);
 app.use('/serverresources', express.static(global.asc.resources_dir), serveIndex(global.asc.resources_dir, { icons: true }));
 
 // Enable cors
-app.options('*', cors()); // include before other routes
+//app.get('*', ); // include before other routes
 
 // Inject app routes
 app.use('/api/v1/', routes);
