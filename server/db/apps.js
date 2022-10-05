@@ -20,6 +20,7 @@ const multer = require('multer');
 const mime = require('mime');
 const logger = require('../util/logger');
 const fs = require('fs');
+const request = require('request');
 
 function getAppIcon(req, res, next) {
   logger.winston.info('Apps.getAppIcon');

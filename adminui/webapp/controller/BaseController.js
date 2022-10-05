@@ -179,8 +179,7 @@ sap.ui.define([
 
 		onGetAppUsageData: function (app_id, tracking_id) {
 			this.api.getAppUsageData(app_id, tracking_id)
-					.done(this.onGetAppUsageDataDone.bind(this))
-					.fail(this.onHTTPFail.bind(this));
+					.done(this.onGetAppUsageDataDone.bind(this));
 		},
 
 		onGetAppHelp: function (app_id) {
