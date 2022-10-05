@@ -43,6 +43,8 @@ function getAllApps(req, res, next) {
    to_char(apps.created, 'MM/DD/YYYY') as created,
    to_char(apps.modified, 'MM/DD/YYYY') as modified,
    to_char(apps.retired, 'MM/DD/YYYY') as retired,
+   to_char(apps.feedback_start_date, 'MM/DD/YYYY') as feedback_start_date,
+   to_char(apps.feedback_end_date, 'MM/DD/YYYY') as feedback_end_date,
    (select COALESCE(STRING_AGG(keyword, ','), 'NONE_FOUND') as app_keywords from app_keywords where app_keywords.app_id = apps.app_id)
    from apps where 1 = 1 `;
   if (req.query.category) {
@@ -65,6 +67,8 @@ function getMyApps(req, res, next) {
 
   db.any(`select distinct apps.*, to_char(apps.go_live, 'MM/DD/YYYY') as go_live,
     to_char(apps.created, 'MM/DD/YYYY') as created, to_char(apps.modified, 'MM/DD/YYYY') as modified, 
+    to_char(apps.feedback_start_date, 'MM/DD/YYYY') as feedback_start_date,
+    to_char(apps.feedback_end_date, 'MM/DD/YYYY') as feedback_end_date,
     to_char(apps.retired, 'MM/DD/YYYY') as retired from apps inner join app_contacts ac on apps.app_id = ac.app_id 
     inner join contacts c on ac.contact_id = c.contact_id where c.external_id = $1`, [req.query.externalId])
     .then((data) => {

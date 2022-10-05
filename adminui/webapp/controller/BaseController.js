@@ -246,7 +246,7 @@ sap.ui.define([
 
 			// Add feedback days to options
 			app_defaults["app_feedback_repeat_on"] = [];
-			for (var i = 1; i <= 31; i++) {
+			for (var i = 1; i <= 28; i++) {
 				app_defaults["app_feedback_repeat_on"].push({ "key": i, "value": i});
 			}
 
