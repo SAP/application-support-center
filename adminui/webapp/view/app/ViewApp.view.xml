@@ -150,7 +150,7 @@
 				</subSections>
 			</ObjectPageSection>
 
-			<ObjectPageSection title="Configure Feedback" titleUppercase="false">
+			<ObjectPageSection title="Configure Feedback" titleUppercase="false" visible="{= ${apps>feedback_status} === 1 }">
 				<subSections>
 					<ObjectPageSubSection>
 						<blocks>
@@ -176,7 +176,7 @@
 									<m:Text text="{apps>feedback_repeat_on}" />
 
 									<m:Label text="Status" />
-									<m:Text text="{apps>feedback_status}" />
+									<m:Text text="{= ${apps>feedback_status} === 1 ? 'Active' : 'Inactive' }" />
 									
 								</form:content>
 							</form:SimpleForm>
