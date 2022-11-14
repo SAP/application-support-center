@@ -38,7 +38,7 @@ sap.ui.define([
 		// Service Requests //
 
 		onSavePress: function (oEvent) {
-			this.api.putContact(this.contactdetail.contact_id, this.contactdetail)
+			this.api.putContact(this.contactDetail.contact_id, this.contactDetail)
 				.done(this.onEditContactDone.bind(this))
 				.fail(this.onHTTPFail.bind(this));
 		},
