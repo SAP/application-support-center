@@ -129,7 +129,7 @@ function postJamfAppIPA(req, res, next) {
         console.log(parseErr);
       }
 
-      if (ipaInfo.CFBundleIdentifier !== req.query.bundle_id) {
+      if (ipaInfo.CFBundleIdentifier !== req.query.bundle_id && ipaInfo.WKCompanionAppBundleIdentifier !== req.query.bundle_id) {
         res.status(400).json({ error: 'The uploaded file bundle ID does not match the Jamf Bundle ID, are you sure the file you are uploading is correct? The file was not uploaded' });
       } else if (req.file !== undefined && req.file.path !== undefined) {
         // File uploaded to temp storage OK, lets push it to Jamf
