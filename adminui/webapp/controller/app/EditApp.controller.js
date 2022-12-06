@@ -19,6 +19,11 @@ sap.ui.define([
 
 			// Add a new property for the radio button
 			this._appDetail.feedback_no_end_date = this._appDetail.feedback_end_date == null ? 0 : 1;
+			if (this._appDetail.feedback_status === null || this._appDetail.feedback_status == 'Inactive' || this._appDetail.feedback_status == 0) {
+				this._appDetail.feedback_status = 'Inactive';
+			} else {
+				this._appDetail.feedback_status = 'Active';
+			}
 
 			if (this._appDetail.go_live && this._appDetail.go_live !== "") {
 				this.byId("idDatePickerGoLive").setDateValue(new Date(this._appDetail.go_live));
@@ -148,6 +153,12 @@ sap.ui.define([
 			if (this._appDetail.expiration_date == "") {
 				this._appDetail.expiration_date = null;
 			}
+			if (this._appDetail.feedback_status === null || this._appDetail.feedback_status == 'Inactive' || this._appDetail.feedback_status == 0) {
+				this._appDetail.feedback_status = 0;
+			} else {
+				this._appDetail.feedback_status = 1;
+			}
+
 			this.api.putApp(this._appDetail.app_id, this._appDetail)
 				.done(this.onEditAppDone.bind(this))
 				.fail(this.onHTTPFail.bind(this));

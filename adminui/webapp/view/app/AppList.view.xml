@@ -6,8 +6,7 @@
 
 	<m:Page
 		title="Applications"
-		floatingFooter="true"
-		showFooter="{= ${user>/role} === 'admin'}">
+		floatingFooter="true">
 			<m:Table id="idTableApps" inset="false" items="{
 						path: 'apps>/',
 						sorter: {
@@ -52,7 +51,7 @@
 			<m:OverflowToolbar>
 				<m:Button id="idButtonManageContacts" text="Manage Contacts" type="Transparent" press="onManageContactPress" />
 				<m:ToolbarSpacer/>
-				<m:Button id="idButtonAddNewApplication" text="Add New Application" type="Transparent" press="onAddAppPress" />
+				<m:Button id="idButtonAddNewApplication" text="Add New Application" type="Transparent" press="onAddAppPress" visible="{= ${user>/role} === 'admin'}"  />
 			</m:OverflowToolbar>
 		</m:footer>
 	</m:Page>

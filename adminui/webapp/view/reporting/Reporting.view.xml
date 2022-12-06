@@ -31,6 +31,7 @@
 								<core:Item key="all_apps" text="Get All Apps"/>
 								<core:Item key="app_contacts" text="Get App Contacts"/>
 								<core:Item key="app_releases" text="Get Last 100 App Releases"/>
+								<core:Item key="app_profile_expiration" text="Get Apps with Profiles Expiring in less than 60 Days"/>
 							</Select>
 							<Button text="Export to Excel" type="Transparent" press="onDataExport" />
 						</FlexBox>

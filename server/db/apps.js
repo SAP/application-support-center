@@ -145,6 +145,12 @@ function getSingleApp(req, res, next) {
 
 function updateApp(req, res, next) {
   logger.winston.info('Apps.updateApp');
+  var feedbackstatus = 0;
+
+  if (req.body.feedback_status === 'Active' || req.body.feedback_status === 1) {
+    feedbackstatus = 1;
+  }
+
   db.any(
     `update apps set 
     app_name = $1,
@@ -193,7 +199,7 @@ function updateApp(req, res, next) {
       req.body.feedback_end_date || null,
       req.body.feedback_repeat_days,
       req.body.feedback_repeat_on,
-      req.body.feedback_status === 'Active' ? 1 : 0
+      feedbackstatus
     ]
   )
     .then((data) => {

@@ -51,6 +51,25 @@ function getReportData(req, res, next) {
       { columnName: 'technology' },
       { columnName: 'description' }
     ];
+  } else if (req.query.report_id === 'app_profile_expiration') {
+    sSQL = `select app_id, app_name, category, status, to_char(apps.go_live, 'MM/DD/YYYY') as go_live,
+    to_char(apps.created, 'MM/DD/YYYY') as created,
+    to_char(apps.modified, 'MM/DD/YYYY') as modified,
+    to_char(apps.retired, 'MM/DD/YYYY') as retired,
+    to_char(apps.expiration_date, 'MM/DD/YYYY') as profile_expiration,
+    technology, bundle_id from apps where expiration_date < now() - INTERVAL '60 DAY'`;
+    aColNames = [
+      { columnName: 'app_name' },
+      { columnName: 'category' },
+      { columnName: 'status' },
+      { columnName: 'go_live' },
+      { columnName: 'created' },
+      { columnName: 'modified' },
+      { columnName: 'retired' },
+      { columnName: 'profile_expiration' },
+      { columnName: 'technology' },
+      { columnName: 'bundle_id' }
+    ];
   }
 
   if (sSQL !== '') {
