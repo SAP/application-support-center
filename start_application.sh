@@ -1,4 +1,3 @@
 #!/bin/bash
 #code .
-cd server
-npm run dev
+npm -w server run dev

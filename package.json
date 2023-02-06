@@ -1,0 +1,25 @@
+{
+  "name": "application-support-center",
+  "version": "1.0.0",
+  "description": "application support center is a application management tool for mobile and web applications. It provides an administration portal storing application details and a central knowledge base for help, release notes, and important announcements. These knowledge articles are available in your applications through the included SDK providing in-app help and support to your end-users.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SAP/application-support-center.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "APACHE-2.0",
+  "bugs": {
+    "url": "https://github.com/SAP/application-support-center/issues"
+  },
+  "homepage": "https://github.com/SAP/application-support-center#readme",
+  "workspaces":[
+    "server",
+    "router",
+    "adminui"
+  ]
+}
