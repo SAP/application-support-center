@@ -13,8 +13,8 @@ services:
       - POSTGRES_DB=asc
     volumes:
       - pg_data:/var/lib/postgresql/data
-  node:
-    image: asc:latest
+  asc:
+    image: ghcr.io/sap/application-support-center:main
     container_name: asc
     depends_on:
       - db

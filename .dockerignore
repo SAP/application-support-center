@@ -30,6 +30,7 @@ server/node_modules
 .reuse
 
 .git
+.github
 
 LICENSE
 LICENSES
@@ -37,5 +38,6 @@ LICENSES
 *.md
 manifest_template.yml
 docker-compose.yml
+docker/docker-compose.yml
 Dockerfile
 start_application.sh
