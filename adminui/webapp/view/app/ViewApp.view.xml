@@ -154,13 +154,13 @@
 				<subSections>
 					<ObjectPageSubSection>
 						<blocks>
-							<form:SimpleForm id="idFormAppFeedbackInactive" editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" visible="{= (${apps>feedback_status} !== 1 &amp;&amp; ${apps>feedback_status} !== 'Active') }">
+							<form:SimpleForm id="idFormAppFeedbackInactive" editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" visible="{= ${apps>feedback_status} !== 'Active' }">
 								<form:content>
 									<m:Label text="Status" />
 									<m:Text text="Not Active" />
 								</form:content>
 							</form:SimpleForm>
-							<form:SimpleForm id="idFormAppFeedback" editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" visible="{= ${apps>feedback_status} === 1 || ${apps>feedback_status} === 'Active'}">
+							<form:SimpleForm id="idFormAppFeedback" editable="true" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" visible="{= ${apps>feedback_status} === 'Active'}">
 								<form:content>
 									
 									<m:Label text="Feedback Type" />
@@ -182,7 +182,7 @@
 									<m:Text text="{apps>feedback_repeat_on}" />
 
 									<m:Label text="Status" />
-									<m:Text text="{= (${apps>feedback_status} === 1  || ${apps>feedback_status} === 'Active') ? 'Active' : 'Inactive' }" />
+									<m:Text text="{apps>feedback_status}" />
 									
 								</form:content>
 							</form:SimpleForm>

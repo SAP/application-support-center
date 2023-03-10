@@ -20,12 +20,6 @@ sap.ui.define([
 			// Add a new property for the radio button
 			this._appDetail.feedback_no_end_date = this._appDetail.feedback_end_date == null ? 0 : 1;
 
-			if (this._appDetail.feedback_status == 'Active' || this._appDetail.feedback_status == 1) {
-				this._appDetail.feedback_status = 'Active';
-			} else {
-				this._appDetail.feedback_status = 'Inactive';
-			}
-
 			if (this._appDetail.go_live && this._appDetail.go_live !== "") {
 				this.byId("idDatePickerGoLive").setDateValue(new Date(this._appDetail.go_live));
 			}
