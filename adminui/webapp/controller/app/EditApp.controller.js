@@ -25,6 +25,8 @@ sap.ui.define([
 				this._appDetail.feedback_status = 'Active';
 			}
 
+			console.log(this._appDetail.feedback_status)
+
 			if (this._appDetail.go_live && this._appDetail.go_live !== "") {
 				this.byId("idDatePickerGoLive").setDateValue(new Date(this._appDetail.go_live));
 			}
