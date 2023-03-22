@@ -59,7 +59,7 @@ sap.ui.define([
 			//this.getView().getModel('apps').updateBindings(true);
 			//this.getView().getModel('apps').getProperty("/" + this._app);
 			//this.getView().getModel('apps').getBinding().resetChanges();
-			
+
 			this.oRouter.navTo("viewapp", { app: this._app });
 		},
 		onAddHelpPress: function (oEvent) {

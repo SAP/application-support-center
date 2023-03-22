@@ -135,6 +135,7 @@ function getSingleApp(req, res, next) {
 
   db.one('select * from apps where app_id = $1', [req.params.app_id])
     .then((data) => {
+      data['feedback_status'] = data['feedback_status'] == 'Active' ? 1 : 0;
       res.status(200).json(data);
     })
     .catch((err) => {
