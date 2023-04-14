@@ -135,7 +135,8 @@ function getSingleApp(req, res, next) {
 
   db.one('select * from apps where app_id = $1', [req.params.app_id])
     .then((data) => {
-      data['feedback_status'] = data['feedback_status'] == 'Active' ? 1 : 0;
+      // We transform this one property because the feedback/ASC framework on iOS requires a Int, not string, which is how it is stored in the DB
+      data.feedback_status = data.feedback_status === 'Active' || data.feedback_status === '1' || data.feedback_status === 1 ? 1 : 0;
       res.status(200).json(data);
     })
     .catch((err) => {
@@ -148,7 +149,7 @@ function updateApp(req, res, next) {
   logger.winston.info('Apps.updateApp');
   var feedbackstatus = 0;
 
-  if (req.body.feedback_status === 'Active' || req.body.feedback_status === 1) {
+  if (req.body.feedback_status === 'Active' || req.body.feedback_status === 1 || req.body.feedback_status === '1') {
     feedbackstatus = 1;
   }
 
