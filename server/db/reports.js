@@ -70,6 +70,31 @@ function getReportData(req, res, next) {
       { columnName: 'technology' },
       { columnName: 'bundle_id' }
     ];
+  } else if (req.query.report_id === 'my_apps') {
+    sSQL = `select apps.app_id, app_name, category, status, to_char(apps.go_live, 'MM/DD/YYYY') as go_live,
+    to_char(apps.created, 'MM/DD/YYYY') as created,
+    to_char(apps.modified, 'MM/DD/YYYY') as modified,
+    to_char(apps.retired, 'MM/DD/YYYY') as retired,
+    to_char(apps.expiration_date, 'MM/DD/YYYY') as profile_expiration,
+    technology, bundle_id,
+    (select STRING_AGG(keyword || ': ' || description, '; ') as app_keywords from app_keywords where app_keywords.app_id = apps.app_id)
+    from apps 
+    inner join app_contacts on apps.app_id = app_contacts.app_id 
+    inner join contacts c on app_contacts.contact_id = c.contact_id
+    where c.external_id = '` + req.query.externalId + `'`;
+    aColNames = [{ columnName: 'app_id' },
+      { columnName: 'app_name' },
+      { columnName: 'category' },
+      { columnName: 'status' },
+      { columnName: 'go_live' },
+      { columnName: 'created' },
+      { columnName: 'modified' },
+      { columnName: 'retired' },
+      { columnName: 'profile_expiration' },
+      { columnName: 'technology' },
+      { columnName: 'bundle_id' },
+      { columnName: 'app_keywords' }
+    ];
   }
 
   if (sSQL !== '') {

@@ -89,7 +89,7 @@ function getLoggedInUser(req, res, next) {
   if (global.asc.environment === 'dev' || global.asc.environment === 'test') {
     // Server side roles: admin, app_owner, view_only
     res.json({
-      firstname: 'Dev', lastname: 'User', userId: 'G772663', email: 'dev.user@mycompany.com', role: 'admin'
+      firstname: 'Dev', lastname: 'User', userId: 'I847772', email: 'dev.user@mycompany.com', role: 'admin'
     });
   } else {
     var jwt = req.header('authorization');

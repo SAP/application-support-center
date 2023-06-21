@@ -8,7 +8,8 @@ sap.ui.define([
 
 		// UI //
 		onSelectReportChange: function (oEvent) {
-			this.api.getReportData(this.getView().byId("sReportName").getSelectedKey())
+			var oCurrentUser = this.getOwnerComponent().getModel("user");
+			this.api.getReportData(this.getView().byId("sReportName").getSelectedKey(), oCurrentUser.getData().userId)
 				.done(this.onGetReportDataDone.bind(this));
 		},
 

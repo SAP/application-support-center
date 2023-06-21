@@ -32,9 +32,9 @@ sap.ui.define([
 
 		// Reports
 
-		getReportData: function(sReportId) {
+		getReportData: function(sReportId, sUserId) {
 			return $.ajax({
-				url: serverUrl + "/api/v1/reports?report_id=" + sReportId,
+				url: serverUrl + "/api/v1/reports?report_id=" + sReportId + "&externalId=" + sUserId,
 				contentType: "application/json",
 				type: "GET"
 			});

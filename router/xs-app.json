@@ -6,27 +6,34 @@
     },
     "authenticationMethod": "route",
     "routes": [
+        { 
+            "source": "^/sapit-employee-data", 
+            "target": "/", 
+            "csrfProtection": false, 
+            "destination": "sapit-employee-data", 
+            "authenticationType": "xsuaa" 
+        },
         {
             "source": "^/api/v1",
             "target": "/api/v1",
-            "destination": "asc_apidest_d",
+            "destination": "asc_apidest_t",
             "csrfProtection": false,
             "authenticationType": "none"
         },{
             "source": "^/admin/(.*)$",
             "target": "$1",
-            "destination": "asc_adminuidest_d",
+            "destination": "asc_adminuidest_t",
             "scope": {
                 "GET": ["$XSAPPNAME.ViewAllApps", "$XSAPPNAME.ViewMyApps"]
             }
         },{
             "source": "^/portal/(.*)",
             "target": "$1",
-            "destination": "asc_portaluidest_d"
+            "destination": "asc_portaluidest_t"
         },{
             "source": "^/serverresources",
             "target": "/serverresources",
-            "destination": "asc_apidest_d",
+            "destination": "asc_apidest_t",
             "csrfProtection": false
         },{
             "source": "^/logged_out.html$",
