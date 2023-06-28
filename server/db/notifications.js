@@ -13,7 +13,7 @@ const logger = require('../util/logger');
 const nodemailer = require('nodemailer');
 const request = require('request');
 
-function sendNotifications(releaseId, systemId, expDate) {
+function sendNotifications(releaseId, systemId, expDate, user) {
   // Sends notification to external systems if configured in the .env file
   var slackUrl = '';
   if (global.asc.environment === 'dev') {
@@ -55,6 +55,17 @@ function sendNotifications(releaseId, systemId, expDate) {
                 value: 'View',
                 url: 'https://appsupport.services.sap/portal/index.html?appid=' + data.app_id,
                 action_id: 'button-action'
+              }
+            },
+            {
+              type: 'divider'
+            },
+            {
+              type: 'section',
+              text: {
+                type: 'plain_text',
+                text: 'Pushed by: ' + user,
+                emoji: true
               }
             }
           ]

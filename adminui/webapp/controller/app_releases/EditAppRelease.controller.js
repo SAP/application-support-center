@@ -118,6 +118,8 @@ sap.ui.define([
 		onAddJamfFileUploadPress: function (oEvent) {
 			var that = this;
 			this.getView().byId("addJamfDialog").setBusy(true);
+			var oCurrentUser = this.getOwnerComponent().getModel("user");
+			var sUser = oCurrentUser.getData().firstname + ' ' + oCurrentUser.getData().lastname;
 			//Hack to get the busy spinner showing
 			setTimeout( function() {
 				var oFileUploader = that.byId("idFileUploaderAppIPA");
@@ -130,7 +132,7 @@ sap.ui.define([
 				var release_id = that._app_release_detail.release_id;
 				var bundle_id = that.getView().byId("idTextReleaseBundleID").getText();
 
-				that.api.postJamfAppIPA(jamf_id, form, app_id, version, that.sJamfSystem, release_id, bundle_id)
+				that.api.postJamfAppIPA(jamf_id, form, app_id, version, that.sJamfSystem, release_id, bundle_id, sUser)
 					.done(that.onPostJamfAppIPA.bind(that))
 					.fail(that.onGetJamfAppInfoFail.bind(that));
 			}, 500);

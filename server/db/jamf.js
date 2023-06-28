@@ -149,48 +149,52 @@ function postJamfAppIPA(req, res, next) {
                 'Content-Type': 'multipart/form-data'
               },
               formData: {
-                file: fs.createReadStream(req.file.path),
-                filename: sFilename
+                file: fs.createReadStream(req.file.path)
               }
             }, (error, response, body) => {
-              if (error) {
-                logger.winston.error(error);
-                res.status(500, '{"error" : ' + error + '}');
-              }
-
-              // Get IPA file info and add to app_releases
-              try {
-                db.none('update app_releases set file_metadata = $1 where release_id = $2', [req.query.system + ' upload on ' + new Date() + '\n\n' + JSON.stringify(ipaInfo), req.query.release_id]);
-                if (ipaInfo && ipaInfo.mobileProvision && ipaInfo.mobileProvision.ExpirationDate) {
-                  expDate = ipaInfo.mobileProvision.ExpirationDate;
-                  if (req.query.system === 'prod') {
-                    db.none('update apps set expiration_date = $1 where app_id = $2', [expDate, req.query.app_id]);
-                  }
-                  // notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: ' + expDate + ' - metadata ' + JSON.stringify(ipaInfo));
-                } else {
-                  // notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: Unknown - metadata ' + JSON.stringify(ipaInfo));
-                }
-              } catch (dbUpdateErr) {
-                logger.winston.error(dbUpdateErr);
-                console.log(dbUpdateErr);
-              }
-
-              try {
-                notifications.sendNotifications(req.query.release_id, req.query.system, expDate);
-              } catch (err1) {
-                console.log('Unable to post to slack: ' + err1);
-              }
-
-              try {
+              if (error || body.indexOf('exception') > -1) {
+                // Error
+                // logger.winston.error(error);
+                // res.status(403, '{"error" : ' + response + '}');
+                res.status(500).json({ error: body });
+              } else {
                 // Success
-                var uploadResponse = {
-                  body: body,
-                  expiration_date: expDate
-                };
-                res.status(200).json(uploadResponse);
-              } catch (bodyErr) {
-                logger.winston.error(bodyErr);
-                res.status(500, res, '{"error" : ' + bodyErr + '}');
+
+                // Get IPA file info and add to app_releases
+                try {
+                  db.none('update app_releases set file_metadata = $1 where release_id = $2', [req.query.system + ' upload on ' + new Date() + '\n\n' + JSON.stringify(ipaInfo), req.query.release_id]);
+                  if (ipaInfo && ipaInfo.mobileProvision && ipaInfo.mobileProvision.ExpirationDate) {
+                    expDate = ipaInfo.mobileProvision.ExpirationDate;
+                    if (req.query.system === 'prod') {
+                      db.none('update apps set expiration_date = $1 where app_id = $2', [expDate, req.query.app_id]);
+                    }
+                    // notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: ' + expDate + ' - metadata ' + JSON.stringify(ipaInfo));
+                  } else {
+                    // notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: Unknown - metadata ' + JSON.stringify(ipaInfo));
+                  }
+                } catch (dbUpdateErr) {
+                  logger.winston.error(dbUpdateErr);
+                  console.log(dbUpdateErr);
+                }
+
+                try {
+                  console.log(req.query.user);
+                  notifications.sendNotifications(req.query.release_id, req.query.system, expDate, req.query.user);
+                } catch (err1) {
+                  console.log('Unable to post to slack: ' + err1);
+                }
+
+                try {
+                  // Success
+                  var uploadResponse = {
+                    body: response.body,
+                    expiration_date: expDate
+                  };
+                  res.status(200).json(uploadResponse);
+                } catch (bodyErr) {
+                  logger.winston.error(bodyErr);
+                  res.status(500).json({ error: bodyErr });
+                }
               }
             });
           } else {
