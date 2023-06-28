@@ -25,7 +25,7 @@ function sendNotifications(releaseId, systemId, expDate, user) {
     db.one('select * from app_releases inner join apps on app_releases.app_id = apps.app_id where release_id = $1', releaseId)
       .then((data) => {
         var desc = data.description.replace(/<[^>]*>?/gm, '');
-        desc += '\nProvisioning Profile Expiration: ' + expDate;
+        var profileExp = '\n :irt_expired: ' + expDate.toLocaleDateString();
         var json = {
           blocks: [
             {
@@ -63,9 +63,8 @@ function sendNotifications(releaseId, systemId, expDate, user) {
             {
               type: 'section',
               text: {
-                type: 'plain_text',
-                text: 'Pushed by: ' + user,
-                emoji: true
+                type: 'mrkdwn',
+                text: ':technologist: ' + user + '\n' + profileExp
               }
             }
           ]
