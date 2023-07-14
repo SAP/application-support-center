@@ -136,10 +136,19 @@ function postJamfAppIPA(req, res, next) {
         try {
           var sURL;
           var expDate = '';
+          var oData;
+
           if (req.query.system === 'prod') {
             sURL = 'https://' + global.asc.prod_jamf_username + ':' + global.asc.prod_jamf_password + '@' + global.asc.prod_jamf_endpoint + '/JSSResource/fileuploads/mobiledeviceapplicationsipa/id/' + req.params.jamf_app_id + '?FORCE_IPA_UPLOAD=true';
+            oData = {
+              file: fs.createReadStream(req.file.path)
+            };
           } else if (req.query.system === 'test') {
             sURL = 'https://' + global.asc.test_jamf_username + ':' + global.asc.test_jamf_password + '@' + global.asc.test_jamf_endpoint + '/JSSResource/fileuploads/mobiledeviceapplicationsipa/id/' + req.params.jamf_app_id + '?FORCE_IPA_UPLOAD=true';
+            oData = {
+              filename: sFilename,
+              file: fs.createReadStream(req.file.path)
+            };
           }
           if (sURL) {
             request({
@@ -148,9 +157,7 @@ function postJamfAppIPA(req, res, next) {
               headers: {
                 'Content-Type': 'multipart/form-data'
               },
-              formData: {
-                file: fs.createReadStream(req.file.path)
-              }
+              formData: oData
             }, (error, response, body) => {
               if (error || body.indexOf('exception') > -1) {
                 // Error
