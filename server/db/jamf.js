@@ -146,7 +146,7 @@ function postJamfAppIPA(req, res, next) {
           } else if (req.query.system === 'test') {
             sURL = 'https://' + global.asc.test_jamf_username + ':' + global.asc.test_jamf_password + '@' + global.asc.test_jamf_endpoint + '/JSSResource/fileuploads/mobiledeviceapplicationsipa/id/' + req.params.jamf_app_id + '?FORCE_IPA_UPLOAD=true';
             oData = {
-              filename: fs.createReadStream(req.file.path)
+              file: fs.createReadStream(req.file.path)
             };
             /*
             oData = {
