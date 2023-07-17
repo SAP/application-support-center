@@ -70,6 +70,9 @@
 						<m:Label text="Jamf App ID" />
 						<m:Text id="idTextReleaseJamfAppID" text=" " />
 
+						<m:Label text="Jamf App Name" />
+						<m:Text id="idTextReleaseJamfAppName" text=" " />
+
 						<m:Label text="Bundle ID" />
 						<m:Text id="idTextReleaseBundleID" text=" " />
 

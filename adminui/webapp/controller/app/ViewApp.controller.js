@@ -265,7 +265,7 @@ sap.ui.define([
 				this.getView().byId("idMessageJamfError").setVisible(false);
 
 				if (oData.mobile_device_application.general.name !== this._appDetail.app_name) {
-					//this.getView().byId("idMessageJamfNameMismatch").setVisible(true);
+					this.getView().byId("idMessageJamfNameMismatch").setVisible(true);
 				} else {
 					this.getView().byId("idMessageJamfNameMismatch").setVisible(false);
 				}

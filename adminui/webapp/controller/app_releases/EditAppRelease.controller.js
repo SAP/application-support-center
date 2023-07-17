@@ -144,11 +144,12 @@ sap.ui.define([
 		},
 
 		clearForm: function() {
-			this.getView().byId("addJamfDialog").setBusy(false);	
+			this.getView().byId("addJamfDialog").setBusy(false);
 			this.getView().byId("idTextReleaseJamfVersion").setText("");
 			this.getView().byId("idTextReleaseJamfFilename").setText("");
 			this.getView().byId("idTextReleaseBundleID").setText("");
 			this.getView().byId("idTextReleaseJamfAppID").setText("");
+			this.getView().byId("idTextReleaseJamfAppName").setText("");
 		},
 
 
@@ -159,6 +160,7 @@ sap.ui.define([
 				this.getView().byId("idTextReleaseJamfFilename").setText(oData.mobile_device_application.general.ipa.name);
 				this.getView().byId("idTextReleaseBundleID").setText(oData.mobile_device_application.general.bundle_id);
 				this.getView().byId("idTextReleaseJamfAppID").setText(oData.mobile_device_application.general.id);
+				this.getView().byId("idTextReleaseJamfAppName").setText(oData.mobile_device_application.general.name);
 			}
 		},
 

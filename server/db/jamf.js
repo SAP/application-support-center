@@ -19,9 +19,9 @@ function putJamfAppName(req, res, next) {
   logger.winston.info('Jamf.putJamfAppName');
   var sURL;
   if (req.query.system === 'prod') {
-    // sURL = 'https://' + global.asc.prod_jamf_username + ':' + global.asc.prod_jamf_password + '@' + global.asc.prod_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
+    sURL = 'https://' + global.asc.prod_jamf_username + ':' + global.asc.prod_jamf_password + '@' + global.asc.prod_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
   } else if (req.query.system === 'test') {
-    // sURL = 'https://' + global.asc.test_jamf_username + ':' + global.asc.test_jamf_password + '@' + global.asc.test_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
+    sURL = 'https://' + global.asc.test_jamf_username + ':' + global.asc.test_jamf_password + '@' + global.asc.test_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
   }
   if (sURL) {
     request({
@@ -146,9 +146,15 @@ function postJamfAppIPA(req, res, next) {
           } else if (req.query.system === 'test') {
             sURL = 'https://' + global.asc.test_jamf_username + ':' + global.asc.test_jamf_password + '@' + global.asc.test_jamf_endpoint + '/JSSResource/fileuploads/mobiledeviceapplicationsipa/id/' + req.params.jamf_app_id + '?FORCE_IPA_UPLOAD=true';
             oData = {
-              filename: sFilename,
-              file: fs.createReadStream(req.file.path)
+              filename: fs.createReadStream(req.file.path)
             };
+            /*
+            oData = {
+              filename: sFilename,
+              file: fs.createReadStream(req.file.path),
+              name: ipaInfo.CFBundleDisplayName
+            };
+            */
           }
           if (sURL) {
             request({
