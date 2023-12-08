@@ -37,6 +37,7 @@ sap.ui.define([
 				this.onGetAppKeywords(this._appDetail.app_id);
 				this.onGetAppAnnouncements(this._appDetail.app_id);
 				this.onGetAppContacts(this._appDetail.app_id, false);
+				this.onGetAppNews(this._appDetail.app_id);
 
 				//Create and set the selected_app model
 				var oModel = new sap.ui.model.json.JSONModel();
@@ -77,6 +78,9 @@ sap.ui.define([
 		onAddAnnouncementPress: function (oEvent) {
 			this.oRouter.navTo("addappannouncement", { app: this._app });
 		},
+		onAddNewsPress: function (oEvent) {
+			this.oRouter.navTo("addappnews", { app: this._app });
+		},
 
 
 		onEditHelpPress: function (oEvent) {
@@ -107,6 +111,11 @@ sap.ui.define([
 			var iPath = oEvent.getSource().getBindingContext("app_announcements").getPath();
 			var sID = iPath.split("/").slice(-1).pop();
 			this.oRouter.navTo("editappannouncement", { app: this._app, app_announcement: sID });
+		},
+		onEditNewsPress: function (oEvent) {
+			var iPath = oEvent.getSource().getBindingContext("app_news").getPath();
+			var sID = iPath.split("/").slice(-1).pop();
+			this.oRouter.navTo("editappnews", { app: this._app, app_news: sID });
 		},
 
 		onAvatarAppIconPress: function (oEvent) {
@@ -251,6 +260,24 @@ sap.ui.define([
 			}
 			oTable.removeSelections();
 		},
+		onRemoveNewsPress: function (oEvent) {
+			var oTable = this.getView().byId("idTableNews");
+			var aContexts = oTable.getSelectedContexts();
+			var aNewsItems = this.getView().oPropagatedProperties.oModels.app_news.getData();
+
+			for (var i = aContexts.length - 1; i >= 0; i--) {
+				var oNews = aContexts[i].getObject();
+				var iPath = aContexts[i].getPath().replace("/", "");
+				aNewsItems.splice(iPath, 1);
+
+				this.getView().oPropagatedProperties.oModels.app_news.setData(aNewsItems);
+
+				this.api.deleteAppNews(oNews.app_id, oNews.news_id)
+					.done(this.onRemoveNewsDone.bind(this))
+					.fail(this.onHTTPFail.bind(this));
+			}
+			oTable.removeSelections();
+		},
 
 		// Service Callbacks //
 
@@ -273,6 +300,10 @@ sap.ui.define([
 		},
 
 		onRemoveAnnouncementDone: function (oData) {
+			this.onToast("Success!");
+		},
+
+		onRemoveNewsDone: function (oData) {
 			this.onToast("Success!");
 		},
 

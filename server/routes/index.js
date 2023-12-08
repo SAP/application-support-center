@@ -5,6 +5,7 @@ const appHelp = require('../db/app_help');
 const appKeywords = require('../db/app_keywords');
 const appReleases = require('../db/app_releases');
 const appAnnouncements = require('../db/app_announcements');
+const appNews = require('../db/app_news');
 const contacts = require('../db/contacts');
 const appContacts = require('../db/app_contacts');
 const userSettings = require('../db/user_settings');
@@ -79,6 +80,13 @@ router.get('/apps/:app_id/announcements/:announcement_id', auth.checkACL, appAnn
 router.post('/apps/:app_id/announcements', appAnnouncements.createAppAnnouncement);
 router.put('/apps/:app_id/announcements/:announcement_id', appAnnouncements.updateAppAnnouncement);
 router.delete('/apps/:app_id/announcements/:announcement_id', appAnnouncements.removeAppAnnouncement);
+
+// Routes: app news
+router.get('/apps/:app_id/news', auth.checkACL, appNews.getAllAppNews);
+router.get('/apps/:app_id/news/:news_id', auth.checkACL, appNews.getSingleAppNews);
+router.post('/apps/:app_id/news', appNews.createAppNews);
+router.put('/apps/:app_id/news/:news_id', appNews.updateAppNews);
+router.delete('/apps/:app_id/news/:news_id', appNews.removeAppNews);
 
 // Routes: app contacts
 router.get('/apps/:app_id/contacts', auth.checkACL, appContacts.getAllAppContacts);

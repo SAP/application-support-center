@@ -219,6 +219,12 @@ sap.ui.define([
 					.fail(this.onHTTPFail.bind(this));
 		},
 
+		onGetAppNews: function (app_id) {
+			this.api.getAppNews(app_id)
+					.done(this.onGetAppNewsDone.bind(this))
+					.fail(this.onHTTPFail.bind(this));
+		},
+
 		// Service Responses
 
 		onGetAppsDone: function(oData) {
@@ -277,6 +283,11 @@ sap.ui.define([
 		onGetAppAnnouncementsDone: function (oAppAnnouncementsModel) {
 			var oModel = new JSONModel(oAppAnnouncementsModel);
 			this.getOwnerComponent().setModel(oModel, "app_announcements");
+		},
+
+		onGetAppNewsDone: function (oAppNewsModel) {
+			var oModel = new JSONModel(oAppNewsModel);
+			this.getOwnerComponent().setModel(oModel, "app_news");
 		},
 
 		onGetAppReleasesDone: function (oAppReleasesModel) {

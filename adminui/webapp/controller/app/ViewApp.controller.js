@@ -21,6 +21,7 @@ sap.ui.define([
 				this.onGetAppReleases(this._appDetail.app_id);
 				this.onGetAppKeywords(this._appDetail.app_id);
 				this.onGetAppAnnouncements(this._appDetail.app_id);
+				this.onGetAppNews(this._appDetail.app_id);
 				this.onGetAppContacts(this._appDetail.app_id, true);
 
 				if (this._appDetail.usage_tracking_id) {
@@ -138,6 +139,12 @@ sap.ui.define([
 			var iPath = oEvent.getSource().getBindingContext("app_announcements").getPath();
 			var sID = iPath.split("/").slice(-1).pop();
 			this.oRouter.navTo("viewappannouncement", { app: this._app, app_announcement: sID });
+		},
+		onNewsItemPress: function (oEvent) {
+			//this.setLayout("ThreeColumnsMidExpanded");
+			var iPath = oEvent.getSource().getBindingContext("app_news").getPath();
+			var sID = iPath.split("/").slice(-1).pop();
+			this.oRouter.navTo("viewappnews", { app: this._app, app_news: sID });
 		},
 
 		onOpenFeedbackServicePress: function (oEvent) {

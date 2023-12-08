@@ -346,6 +346,39 @@
 						"editappannouncement"
 					],
 					"layout": "ThreeColumnsMidExpanded"
+				},
+
+
+
+				{
+					"pattern": "apps/{app}/addappnews",
+					"name": "addappnews",
+					"target": [
+						"applist",
+						"editapp",
+						"addappnews"
+					],
+					"layout": "ThreeColumnsMidExpanded"
+				},
+				{
+					"pattern": "apps/{app}/news/{app_news}",
+					"name": "viewappnews",
+					"target": [
+						"applist",
+						"viewapp",
+						"viewappnews"
+					],
+					"layout": "ThreeColumnsMidExpanded"
+				},
+				{
+					"pattern": "apps/{app}/news/{app_news}/edit",
+					"name": "editappnews",
+					"target": [
+						"applist",
+						"editapp",
+						"editappnews"
+					],
+					"layout": "ThreeColumnsMidExpanded"
 				}
 			],
 			"targets": {
@@ -517,6 +550,23 @@
 				"editappannouncement": {
 					"viewPath": "asc.admin.view.app_announcements",
 					"viewName": "EditAppAnnouncement",
+					"controlAggregation": "endColumnPages"
+				},
+
+
+				"viewappnews": {
+					"viewPath": "asc.admin.view.app_news",
+					"viewName": "ViewAppNews",
+					"controlAggregation": "endColumnPages"
+				},
+				"addappnews": {
+					"viewPath": "asc.admin.view.app_news",
+					"viewName": "AddAppNews",
+					"controlAggregation": "endColumnPages"
+				},
+				"editappnews": {
+					"viewPath": "asc.admin.view.app_news",
+					"viewName": "EditAppNews",
 					"controlAggregation": "endColumnPages"
 				}
 			}

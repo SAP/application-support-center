@@ -389,6 +389,45 @@
 					</ObjectPageSubSection>
 
 
+
+					<ObjectPageSubSection>
+						<l:VerticalLayout class="">
+							<m:OverflowToolbar>
+								<m:Label text="News" class="sapUxAPObjectPageSectionTitle"/>
+								<m:ToolbarSpacer/>
+								<m:Button id="idButtonAddNews" text="Add News" type="Transparent" press="onAddNewsPress"/>
+								<m:Button id="idButtonRemoveNews" text="Remove" type="Transparent" press="onRemoveNewsPress" visible="{=${app_news>/}.length > 0}"/>
+							</m:OverflowToolbar>
+							<m:Table id="idTableNews" items="{path : 'app_news>/'}" mode="MultiSelect" growing="true" growingThreshold="10" growingScrollToLoad="false">
+								<m:columns>
+									<m:Column width="150px">
+										<m:Text text="App Version" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Title" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Sort Order" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Created On" />
+									</m:Column>
+								</m:columns>
+								<m:items>
+									<m:ColumnListItem type="Navigation" press="onEditNewsPress">
+										<m:cells>
+											<m:ObjectIdentifier text="{app_news>version}" />
+											<m:ObjectIdentifier text="{app_news>title}" />
+											<m:ObjectIdentifier text="{app_news>sort_order}" />
+											<m:ObjectIdentifier text="{ path: 'app_news>created', formatter: '.formatter.momentShortDate' }" />
+										</m:cells>
+									</m:ColumnListItem>
+								</m:items>
+							</m:Table>
+						</l:VerticalLayout>
+					</ObjectPageSubSection>
+
+
 				</subSections>
 			</ObjectPageSection>
 

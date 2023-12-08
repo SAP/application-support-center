@@ -390,6 +390,44 @@ sap.ui.define([
 		},
 
 
+		// App News
+
+		postNewAppNews: function (iAppId, oData) {
+			return $.ajax({
+				url: serverUrl + "/api/v1/apps/" + iAppId + "/news",
+				data: JSON.stringify(oData),
+				contentType: "application/json",
+				type: "POST"
+			});
+		},
+
+		getAppNews: function(iAppId) {
+			return $.ajax({
+				url: serverUrl + "/api/v1/apps/" + iAppId + "/news",
+				contentType: "application/json",
+				type: "GET"
+			});
+		},
+
+		putAppNews: function(iAppId, iNewsId, oData) {
+			return $.ajax({
+				url: serverUrl + "/api/v1/apps/" + iAppId + "/news/" + iNewsId,
+				data: JSON.stringify(oData),
+				contentType: "application/json",
+				type: "PUT"
+			});
+		},
+
+		deleteAppNews: function(iAppId, iNewsId) {
+			return $.ajax({
+				url: serverUrl + "/api/v1/apps/" + iAppId + "/news/" + iNewsId,
+				data: "",
+				contentType: "application/json",
+				type: "DELETE"
+			});
+		},
+
+
 		// Jamf Integration
 		postJamfAppinfo: function(sBundleId, system) {
 			return $.ajax({

@@ -356,6 +356,43 @@
 					</ObjectPageSubSection>
 				</subSections>
 			</ObjectPageSection>
+
+
+			<ObjectPageSection title="News ({=${app_news>/}.length})" titleUppercase="false">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<m:Table id="idTableNews" items="{path : 'app_news>/'}" growing="true" growingThreshold="10" growingScrollToLoad="false">
+								<m:columns>
+									<m:Column width="150px">
+										<m:Text text="App Version" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Title" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Sort Order" />
+									</m:Column>
+									<m:Column width="150px">
+										<m:Text text="Created On" />
+									</m:Column>
+								</m:columns>
+								<m:items>
+									<m:ColumnListItem type="Navigation" press="onNewsItemPress">
+										<m:cells>
+											<m:ObjectIdentifier text="{app_news>version}" />
+											<m:ObjectIdentifier text="{app_news>title}" />
+											<m:ObjectIdentifier text="{app_news>sort_order}" />
+											<m:ObjectIdentifier text="{ path: 'app_news>created', formatter: '.formatter.momentShortDate' }" />
+										</m:cells>
+									</m:ColumnListItem>
+								</m:items>
+							</m:Table>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+
 		</sections>
 	</ObjectPageLayout>
 
