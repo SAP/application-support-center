@@ -79,7 +79,7 @@ function sendNotifications(releaseId, systemId, expDate, user) {
           ]
         };
 
-        var text = data.app_name + ' (' + data.technology + ') ' + data.version + ' pushed to Jamf (' + systemId + ')\n\n' + desc + '\n\nDeployed By: ' + user + '\n\nProvision Profile Expires: ' + expDate.toLocaleDateString() + '\n\n[ASC Release Details](https://appsupport.services.sap/portal/index.html?appid=' + data.app_id + ')\n\n';
+        var text = data.app_name + ' (' + data.technology + ') ' + data.version + ' pushed to Jamf (' + systemId + ')\n\n' + desc + '\n\n\n\nDeployed By: ' + user + '\n\nProvisioning Profile Expires: ' + expDate.toLocaleDateString() + '\n\n[ASC Release Details](https://appsupport.services.sap/portal/index.html?appid=' + data.app_id + ')\n\n';
         var teamsJson = {
           type: 'message',
           summary: 'summary',
