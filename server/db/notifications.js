@@ -5,7 +5,8 @@ module.exports = {
   removeNotification,
   sendEmail,
   sendDebugEmail,
-  sendNotifications
+  sendNotifications,
+  sendTestNotification
 };
 
 const db = require('./db');
@@ -13,20 +14,28 @@ const logger = require('../util/logger');
 const nodemailer = require('nodemailer');
 const request = require('request');
 
+function sendTestNotification(req, res, next) {
+  sendNotifications(req.body.release_id, req.body.system, new Date(), req.body.user);
+}
+
 function sendNotifications(releaseId, systemId, expDate, user) {
   // Sends notification to external systems if configured in the .env file
   var slackUrl = '';
+  var teamsUrl = '';
+
   if (global.asc.environment === 'dev') {
     slackUrl = global.asc.dev_slack_webhook_url;
+    teamsUrl = global.asc.dev_teams_webhook_url;
   } else {
     slackUrl = global.asc.prod_slack_webhook_url;
+    teamsUrl = global.asc.prod_teams_webhook_url;
   }
   if (slackUrl !== '') {
     db.one('select * from app_releases inner join apps on app_releases.app_id = apps.app_id where release_id = $1', releaseId)
       .then((data) => {
         var desc = data.description.replace(/<[^>]*>?/gm, '');
         var profileExp = '\n :irt_expired: ' + expDate.toLocaleDateString();
-        var json = {
+        var slackJson = {
           blocks: [
             {
               type: 'header',
@@ -69,20 +78,64 @@ function sendNotifications(releaseId, systemId, expDate, user) {
             }
           ]
         };
-        if (data) {
-          request({
-            method: 'POST',
-            uri: slackUrl,
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            json: json
-          }, (error) => {
-            if (error) {
-              logger.winston.error(error);
+
+        var text = data.app_name + ' (' + data.technology + ') ' + data.version + ' pushed to Jamf (' + systemId + ')\n\n' + desc + '\n\nDeployed By: ' + user + '\n\nProvision Profile Expires: ' + expDate.toLocaleDateString() + '\n\n[ASC Release Details](https://appsupport.services.sap/portal/index.html?appid=' + data.app_id + ')\n\n';
+        var teamsJson = {
+          type: 'message',
+          summary: 'summary',
+          attachments: [
+            {
+              contentType: 'application/vnd.microsoft.card.adaptive',
+              contentUrl: null,
+              content: {
+                type: 'AdaptiveCard',
+                body: [
+                  {
+                    type: 'TextBlock',
+                    text: text
+                  }
+                ],
+                msteams: {
+                  width: 'Full'
+                },
+                $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
+                version: '1.3'
+              }
             }
-            logger.winston.info('Successfully sent notification to Slack');
-          });
+          ]
+        };
+
+        if (data) {
+          if (slackUrl !== '') {
+            request({
+              method: 'POST',
+              uri: slackUrl,
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              json: slackJson
+            }, (error) => {
+              if (error) {
+                logger.winston.error(error);
+              }
+              logger.winston.info('Successfully sent notification to Slack');
+            });
+          }
+          if (teamsUrl !== '') {
+            request({
+              method: 'POST',
+              uri: teamsUrl,
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              json: teamsJson
+            }, (error) => {
+              if (error) {
+                logger.winston.error(error);
+              }
+              logger.winston.info('Successfully sent notification to Teams');
+            });
+          }
         }
       })
       .catch((err) => {
@@ -415,7 +468,7 @@ function getHtml(appId, appName, expirationDate, daysTillExpiration, names) {
                                   <div>
                                     <p class="MsoNormal" style="margin-top:18pt;"><span class="body-text">Hi ` + names + `</span></p>
                                     <!-- EDIT BELOW -->
-                                    <p class="MsoNormal" style="margin-top:12.0pt"><b><span style="font-size:15.0pt">The provisioning profile of ` + appName + ` will expire in ` + daysTillExpiration + ` days (` + expirationDate + `).</span></b></p>
+                                    <p class="MsoNormal" style="margin-top:12.0pt"><b><span style="font-size:15.0pt">The provisioning profile of ` + appName + ' will expire in ' + daysTillExpiration + ' days (' + expirationDate + `).</span></b></p>
                                     <p><span class="body-text">Please check the status of the date in ASC, and if needed, upload a new version before the expiration date.</span></p>
                                     <!-- ------------------- -->
                                     <p><span class="body-text">Kind regards,</span></p>

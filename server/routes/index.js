@@ -120,5 +120,6 @@ router.get('/notifications', auth.denyBearerToken, notifications.getAllNotificat
 router.post('/notifications', notifications.createNotification);
 router.put('/notifications/:notification_id', notifications.updateNotitifcation);
 router.delete('/notifications/:notification_id', notifications.removeNotification);
+router.post('/notifications/test', notifications.sendTestNotification);
 
 module.exports = router;

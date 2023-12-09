@@ -1139,9 +1139,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /notifications/test:
+    post:
+      summary: Create a test notification
+      tags:
+        - Notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationTest'  
   /dashboard:
     get:
-      summary: Get all relevant stats for dashboard screen
+      summary: Get all relevant stats for dashboard screen 
       tags:
         - Dashboard
       responses:
@@ -1422,6 +1433,24 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Notification"
+
+    NotificationTest:
+      type: object
+      required:
+        - release_id
+        - system
+        - exp_date
+        - user
+      properties:
+        release_id:
+          type: integer
+        system:
+          type: string
+        exp_date:
+          type: string
+          format: date-time
+        user:
+          type: string
 
     #Defaults
     Standard:
