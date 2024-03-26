@@ -1,45 +1,68 @@
 module.exports = {
   postJamfAppinfo,
   postJamfAppIPA,
-  putJamfAppName
+  putJamfAppName,
+  postJamfAuthToken
 };
 
 const logger = require('../util/logger');
 const request = require('request');
-const apps = require('./apps');
 const db = require('./db');
 const notifications = require('./notifications');
 const AppInfoParser = require('app-info-parser');
-
+const axios = require('axios');
 var multer = require('multer');
 var fs = require('fs');
-// const exp = require('constants');
 
-function putJamfAppName(req, res, next) {
+async function postJamfAuthToken(system) {
+  logger.winston.info('Jamf.postJamfAuthToken');
+  var sURL;
+  if (system === 'prod') {
+    sURL = 'https://' + global.asc.prod_jamf_username + ':' + global.asc.prod_jamf_password + '@' + global.asc.prod_jamf_endpoint + '/api/v1/auth/token';
+  } else if (system === 'test') {
+    sURL = 'https://' + global.asc.test_jamf_endpoint + '/api/v1/auth/token';
+  }
+  if (sURL) {
+    try {
+      const response = await axios(sURL, {
+        method: 'POST',
+        timeout: 2000,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Basic ${btoa(`${global.asc.test_jamf_username}:${global.asc.test_jamf_password}`)}`
+        }
+      });
+      const data = await response.data;
+      return data.token;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+
+async function putJamfAppName(req, res, next) {
   logger.winston.info('Jamf.putJamfAppName');
   var sURL;
   if (req.query.system === 'prod') {
-    sURL = 'https://' + global.asc.prod_jamf_username + ':' + global.asc.prod_jamf_password + '@' + global.asc.prod_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
+    sURL = 'https://' + global.asc.prod_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
   } else if (req.query.system === 'test') {
-    sURL = 'https://' + global.asc.test_jamf_username + ':' + global.asc.test_jamf_password + '@' + global.asc.test_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
+    sURL = 'https://' + global.asc.test_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
   }
+  const jamfAuthToken = await postJamfAuthToken(req.query.system);
+
   if (sURL) {
-    request({
+    await axios(sURL, {
       method: 'PUT',
-      uri: sURL,
       timeout: 2000,
+      Authorization: 'Bearer ' + jamfAuthToken,
       body: '<mobile_device_application><general><name>' + req.body.app_name + '</name></general></mobile_device_application>'
-    }, (error, response, body) => {
-      if (error) {
-        logger.winston.error(error);
-        res.status(500).json('{"error" : ' + error + '}');
-      } else {
-        try {
-          res.status(200).json({ data: body });
-        } catch (err) {
-          logger.winston.error(err);
-          res.status(500).json('{"error" : ' + err + '}');
-        }
+    }).then(function (response) {
+      try {
+        res.status(200).json(response.data);
+      } catch (err) {
+        logger.winston.error(err);
+        res.status(500).json('{"error" : ' + err + '}');
       }
     });
   } else {
@@ -47,44 +70,43 @@ function putJamfAppName(req, res, next) {
   }
 }
 
-function postJamfAppinfo(req, res, next) {
+async function postJamfAppinfo(req, res, next) {
   logger.winston.info('Jamf.postJamfAppinfo');
   var sURL;
   if (req.query.system === 'prod') {
-    sURL = 'https://' + global.asc.prod_jamf_username + ':' + global.asc.prod_jamf_password + '@' + global.asc.prod_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
+    sURL = 'https://' + global.asc.prod_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
   } else if (req.query.system === 'test') {
-    sURL = 'https://' + global.asc.test_jamf_username + ':' + global.asc.test_jamf_password + '@' + global.asc.test_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
+    sURL = 'https://' + global.asc.test_jamf_endpoint + '/JSSResource/mobiledeviceapplications/bundleid/' + req.params.bundle_id;
   }
+
+  const jamfAuthToken = await postJamfAuthToken(req.query.system);
+
   if (sURL) {
-    request({
-      method: 'GET',
-      uri: sURL,
-      timeout: 2000,
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      }
-    }, (error, response, body) => {
-      if (error) {
-        logger.winston.error(error);
-        res.status(500).json('{"error" : ' + error + '}');
-      } else {
-        try {
-          var data = JSON.parse(body);
-          res.status(200).json(data);
-        } catch (err) {
-          logger.winston.error('Error:' + err, 'Body:' + body);
-          res.status(500).json({ error: ' + err + ' });
+    try {
+      await axios(sURL, {
+        method: 'GET',
+        timeout: 2000,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + jamfAuthToken
         }
-      }
-    });
-  } else {
-    res.status(500).json('{"error" : "No system specified" }');
+      }).then(function (response) {
+        try {
+          res.status(200).json(response.data);
+        } catch (err) {
+          logger.winston.error('Error:' + err, 'Body:' + response);
+          res.status(500).json({ error: err });
+        }
+      });
+    } catch (err) {
+      res.status(500).json({ error: err });
+    }
   }
 }
 
 // eslint-disable-next-line consistent-return
-function postJamfAppIPA(req, res, next) {
+async function postJamfAppIPA(req, res, next) {
   logger.winston.info('Jamf.postJamfAppIPA');
 
   // 1: Upload the IPA to temporary storage
@@ -106,6 +128,8 @@ function postJamfAppIPA(req, res, next) {
     var upload = multer({
       storage: storage
     }).single('file');
+
+    const jamfAuthToken = await postJamfAuthToken(req.query.system);
 
     // eslint-disable-next-line consistent-return
     upload(req, res, async (err) => {
@@ -139,75 +163,58 @@ function postJamfAppIPA(req, res, next) {
           var oData;
 
           if (req.query.system === 'prod') {
-            sURL = 'https://' + global.asc.prod_jamf_username + ':' + global.asc.prod_jamf_password + '@' + global.asc.prod_jamf_endpoint + '/JSSResource/fileuploads/mobiledeviceapplicationsipa/id/' + req.params.jamf_app_id + '?FORCE_IPA_UPLOAD=true';
+            sURL = 'https://' + global.asc.prod_jamf_endpoint + '/JSSResource/fileuploads/mobiledeviceapplicationsipa/id/' + req.params.jamf_app_id + '?FORCE_IPA_UPLOAD=true';
             oData = {
               file: fs.createReadStream(req.file.path)
             };
           } else if (req.query.system === 'test') {
-            sURL = 'https://' + global.asc.test_jamf_username + ':' + global.asc.test_jamf_password + '@' + global.asc.test_jamf_endpoint + '/JSSResource/fileuploads/mobiledeviceapplicationsipa/id/' + req.params.jamf_app_id + '?FORCE_IPA_UPLOAD=true';
+            sURL = 'https://' + global.asc.test_jamf_endpoint + '/JSSResource/fileuploads/mobiledeviceapplicationsipa/id/' + req.params.jamf_app_id + '?FORCE_IPA_UPLOAD=true';
             oData = {
               file: fs.createReadStream(req.file.path)
             };
-            /*
-            oData = {
-              filename: sFilename,
-              file: fs.createReadStream(req.file.path),
-              name: ipaInfo.CFBundleDisplayName
-            };
-            */
           }
           if (sURL) {
-            request({
+            await axios(sURL, {
               method: 'POST',
-              uri: sURL,
               headers: {
+                Authorization: 'Bearer ' + jamfAuthToken,
                 'Content-Type': 'multipart/form-data'
               },
-              formData: oData
-            }, (error, response, body) => {
-              if (error || body.indexOf('exception') > -1) {
-                // Error
-                // logger.winston.error(error);
-                // res.status(403, '{"error" : ' + response + '}');
-                res.status(500).json({ error: body });
-              } else {
-                // Success
+              data: oData
+            }).then(function (response) {
+              // Success
 
-                // Get IPA file info and add to app_releases
-                try {
-                  db.none('update app_releases set file_metadata = $1 where release_id = $2', [req.query.system + ' upload on ' + new Date() + '\n\n' + JSON.stringify(ipaInfo), req.query.release_id]);
-                  if (ipaInfo && ipaInfo.mobileProvision && ipaInfo.mobileProvision.ExpirationDate) {
-                    expDate = ipaInfo.mobileProvision.ExpirationDate;
-                    if (req.query.system === 'prod') {
-                      db.none('update apps set expiration_date = $1 where app_id = $2', [expDate, req.query.app_id]);
-                    }
-                    // notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: ' + expDate + ' - metadata ' + JSON.stringify(ipaInfo));
-                  } else {
-                    // notifications.sendDebugEmail('New upload to ' + req.query.system + '. Prov Profile exp date: Unknown - metadata ' + JSON.stringify(ipaInfo));
+              // Get IPA file info and add to app_releases
+              try {
+                db.none('update app_releases set file_metadata = $1 where release_id = $2', [req.query.system + ' upload on ' + new Date() + '\n\n' + JSON.stringify(ipaInfo), req.query.release_id]);
+                if (ipaInfo && ipaInfo.mobileProvision && ipaInfo.mobileProvision.ExpirationDate) {
+                  expDate = ipaInfo.mobileProvision.ExpirationDate;
+                  if (req.query.system === 'prod') {
+                    db.none('update apps set expiration_date = $1 where app_id = $2', [expDate, req.query.app_id]);
                   }
-                } catch (dbUpdateErr) {
-                  logger.winston.error(dbUpdateErr);
-                  console.log(dbUpdateErr);
                 }
+              } catch (dbUpdateErr) {
+                logger.winston.error(dbUpdateErr);
+                console.log(dbUpdateErr);
+              }
 
-                try {
-                  console.log(req.query.user);
-                  notifications.sendNotifications(req.query.release_id, req.query.system, expDate, req.query.user);
-                } catch (err1) {
-                  console.log('Unable to post to slack: ' + err1);
-                }
+              try {
+                console.log(req.query.user);
+                notifications.sendNotifications(req.query.release_id, req.query.system, expDate, req.query.user);
+              } catch (err1) {
+                console.log('Unable to post to slack: ' + err1);
+              }
 
-                try {
-                  // Success
-                  var uploadResponse = {
-                    body: response.body,
-                    expiration_date: expDate
-                  };
-                  res.status(200).json(uploadResponse);
-                } catch (bodyErr) {
-                  logger.winston.error(bodyErr);
-                  res.status(500).json({ error: bodyErr });
-                }
+              try {
+                // Success
+                var uploadResponse = {
+                  body: response.body,
+                  expiration_date: expDate
+                };
+                res.status(200).json(uploadResponse);
+              } catch (bodyErr) {
+                logger.winston.error(bodyErr);
+                res.status(500).json({ error: bodyErr });
               }
             });
           } else {
