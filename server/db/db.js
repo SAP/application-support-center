@@ -32,8 +32,8 @@ if (global.asc.environment === 'dev' || global.asc.environment === 'test') {
   };
 
   pgOptions.ssl = {
-    ca: params.sslrootcert,
-    cert: params.sslcert
+    require: params.sslrootcert,
+    rejectUnauthorized: false
   };
 }
 
