@@ -25,8 +25,8 @@ create table apps
 	feedback_type varchar,
 	feedback_info_type varchar,
 	feedback_repeat_days varchar,
-  feedback_repeat_on varchar,
-  feedback_status varchar
+	feedback_repeat_on varchar,
+	feedback_status varchar
 );
 
 create unique index apps_app_id_uindex
