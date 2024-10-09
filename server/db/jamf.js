@@ -9,7 +9,7 @@ const logger = require('../util/logger');
 const request = require('request');
 const db = require('./db');
 const notifications = require('./notifications');
-const AppInfoParser = require('app-info-parser');
+const PkgReader = require('reiko-parser');
 const axios = require('axios');
 var multer = require('multer');
 var fs = require('fs');
@@ -142,10 +142,17 @@ async function postJamfAppIPA(req, res, next) {
 
       try {
         // Lets inspect the uploaded IPA, we will check the bundle ID matches the ASC Bundle ID, and also pull the info.plist data
-        const parser = new AppInfoParser(req.file.path);
-        ipaInfo = await parser.parse();
+        ipaInfo = await new Promise((resolve, reject) => {
+          const reader = new PkgReader(req.file.path, 'ipa', { withIcon: false });
+          reader.parse((error, pkgInfo) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(pkgInfo);
+            }
+          });
+        });
 
-        // Remove to reduce unneccesary data being saved to DB
         ipaInfo.mobileProvision.DeveloperCertificates = '(Removed for storage by ASC)';
         ipaInfo.mobileProvision['DER-Encoded-Profile'] = '(Removed for storage by ASC)';
         ipaInfo.icon = '';

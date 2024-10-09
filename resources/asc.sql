@@ -19,7 +19,14 @@ create table apps
 	bundle_id varchar,
 	feedback_service_id varchar,
 	git_url varchar,
-	expiration_date timestamp
+	expiration_date timestamp,
+	feedback_start_date timestamp,
+	feedback_end_date timestamp,
+	feedback_type varchar,
+	feedback_info_type varchar,
+	feedback_repeat_days varchar,
+	feedback_repeat_on varchar,
+	feedback_status varchar
 );
 
 create unique index apps_app_id_uindex
