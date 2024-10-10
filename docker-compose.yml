@@ -1,0 +1,36 @@
+---
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14.6-alpine3.17
+    container_name: db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_USER=asc
+      - POSTGRES_DB=asc
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+  node:
+    image: node:18.14-alpine3.17
+    container_name: node
+    user: node
+    depends_on:
+      - db
+    ports:
+      - 5001:5001
+    volumes:
+      - .:/var/www
+    working_dir: /var/www
+    environment:
+      - jwtsecret=Secret
+      - loglevel=debug
+      - db_dev_connection=postgres://asc:pass@db:5432/asc
+      - db_schema=asc
+      - static_access_token=xxxx yyyy
+    command: npm -w server run dev
+
+volumes:
+  pg_data: {}
