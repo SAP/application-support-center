@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@ui5/cli": "^2.6.6",
+    "@ui5/cli": "^3.0.4",
     "eslint": "^7.6.0"
   }
 }
